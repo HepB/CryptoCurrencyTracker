@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">CryptoTracker</string>
+    <string name="app_name">Crypto Tracker</string>
+    <string name="price_usd">Price USD: </string>
+    <string name="price_btc">Price BTC: </string>
+    <string name="day_volume_usd">24h USD volume: </string>
+    <string name="market_cap_usd">Market cap </string>
 </resources>

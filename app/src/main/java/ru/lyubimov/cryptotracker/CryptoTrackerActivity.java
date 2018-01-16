@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 public class CryptoTrackerActivity extends SingleFragmentActivity {
 
-
     @Override
     protected Fragment createFragment() {
         return CryptoCurrenciesFragment.newInstance();
