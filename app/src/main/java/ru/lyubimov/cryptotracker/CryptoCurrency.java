@@ -12,17 +12,17 @@ public class CryptoCurrency {
     private String mId;
     private String mName;
     private String mSymbol;
-    private int mRank;
-    private double mPriceUsd;
-    private double mPriceBtc;
-    private double mDayVolumeUsd;
-    private double mMarketCapUsd;
-    private double mAvailableSupply;
-    private double mTotalSupply;
-    private double mHourPercentChange;
-    private double mDayPercentChange;
-    private double mWeekPercentChange;
-    private long mLastUpdated;
+    private String mRank;
+    private String mPriceCur;
+    private String mPriceBtc;
+    private String mDayVolumeCur;
+    private String mMarketCapCur;
+    private String mAvailableSupply;
+    private String mTotalSupply;
+    private String mHourPercentChange;
+    private String mDayPercentChange;
+    private String mWeekPercentChange;
+    private String mLastUpdated;
 
     public String getId() {
         return mId;
@@ -45,100 +45,101 @@ public class CryptoCurrency {
         this.mSymbol = symbol;
     }
 
-    public int getRank() {
+    public String getRank() {
         return mRank;
     }
-    public void setRank(int rank) {
+    public void setRank(String rank) {
         this.mRank = rank;
     }
 
-    public double getPriceUsd() {
-        return mPriceUsd;
+    public String getPriceCur() {
+        return mPriceCur;
     }
-    public void setPriceUsd(double priceUsd) {
-        this.mPriceUsd = priceUsd;
+    public void setPriceCur(String priceCur) {
+        this.mPriceCur = priceCur;
     }
 
-    public double getPriceBtc() {
+    public String getPriceBtc() {
         return mPriceBtc;
     }
-    public void setPriceBtc(double priceBtc) {
+    public void setPriceBtc(String priceBtc) {
         this.mPriceBtc = priceBtc;
     }
 
-    public double getDayVolumeUsd() {
-        return mDayVolumeUsd;
+    public String getDayVolumeCur() {
+        return mDayVolumeCur;
     }
-    public void setDayVolumeUsd(double dayVolumeUsd) {
-        this.mDayVolumeUsd = dayVolumeUsd;
-    }
-
-    public double getMarketCapUsd() {
-        return mMarketCapUsd;
-    }
-    public void setMarketCapUsd(double marketCapUsd) {
-        this.mMarketCapUsd = marketCapUsd;
+    public void setDayVolumeCur(String dayVolumeCur) {
+        this.mDayVolumeCur = dayVolumeCur;
     }
 
-    public double getAvailableSupply() {
+    public String getMarketCapCur() {
+        return mMarketCapCur;
+    }
+    public void setMarketCapCur(String marketCapCur) {
+        this.mMarketCapCur = marketCapCur;
+    }
+
+    public String getAvailableSupply() {
         return mAvailableSupply;
     }
-    public void setAvailableSupply(double availableSupply) {
+    public void setAvailableSupply(String availableSupply) {
         this.mAvailableSupply = availableSupply;
     }
 
-    public double getTotalSupply() {
+    public String getTotalSupply() {
         return mTotalSupply;
     }
-    public void setTotalSupply(double totalSupply) {
+    public void setTotalSupply(String totalSupply) {
         this.mTotalSupply = totalSupply;
     }
 
-    public double getHourPercentChange() {
+    public String getHourPercentChange() {
         return mHourPercentChange;
     }
-    public void setHourPercentChange(double hourPercentChange) {
+    public void setHourPercentChange(String hourPercentChange) {
         this.mHourPercentChange = hourPercentChange;
     }
 
-    public double getDayPercentChange() {
+    public String getDayPercentChange() {
         return mDayPercentChange;
     }
-    public void setDayPercentChange(double dayPercentChange) {
+    public void setDayPercentChange(String dayPercentChange) {
         this.mDayPercentChange = dayPercentChange;
     }
 
-    public double getWeekPercentChange() {
+    public String getWeekPercentChange() {
         return mWeekPercentChange;
     }
-    public void setWeekPercentChange(double weekPercentChange) {
+    public void setWeekPercentChange(String weekPercentChange) {
         this.mWeekPercentChange = weekPercentChange;
     }
 
-    public long getLastUpdated() {
+    public String getLastUpdated() {
         return mLastUpdated;
     }
-    public void setLastUpdated(long lastUpdated) {
+    public void setLastUpdated(String lastUpdated) {
         this.mLastUpdated = lastUpdated;
     }
 
+    //TODO не забыть переделать на различные запросы, с возможностью выбора конкретной валюты помимо USD
     public static CryptoCurrency createCryptoCurrencyByJSON(JSONObject cryptoCurrencyJsonObject) throws JSONException {
         CryptoCurrency cryptoCurrency = new CryptoCurrency();
 
-        cryptoCurrency.setId(cryptoCurrencyJsonObject.getString("mId"));
-        cryptoCurrency.setName(cryptoCurrencyJsonObject.getString("mName"));
-        cryptoCurrency.setSymbol(cryptoCurrencyJsonObject.getString("mSymbol"));
-        cryptoCurrency.setRank(cryptoCurrencyJsonObject.getInt("mRank"));
-        cryptoCurrency.setPriceUsd(cryptoCurrencyJsonObject.getDouble("price_usd"));
-        cryptoCurrency.setPriceBtc(cryptoCurrencyJsonObject.getDouble("price_btc"));
-        cryptoCurrency.setDayVolumeUsd(cryptoCurrencyJsonObject.getDouble("24h_volume_usd"));
-        cryptoCurrency.setMarketCapUsd(cryptoCurrencyJsonObject.getDouble("market_cap_usd"));
-        cryptoCurrency.setAvailableSupply(cryptoCurrencyJsonObject.getDouble("available_supply"));
-        cryptoCurrency.setTotalSupply(cryptoCurrencyJsonObject.getDouble("total_supply"));
-        cryptoCurrency.setHourPercentChange(cryptoCurrencyJsonObject.getDouble("percent_change_1h"));
-        cryptoCurrency.setDayPercentChange(cryptoCurrencyJsonObject.getDouble("percent_change_24h"));
-        cryptoCurrency.setWeekPercentChange(cryptoCurrencyJsonObject.getDouble("percent_change_7d"));
-        cryptoCurrency.setLastUpdated(cryptoCurrencyJsonObject.getLong("last_updated"));
+        cryptoCurrency.setId(cryptoCurrencyJsonObject.getString("id"));
+        cryptoCurrency.setName(cryptoCurrencyJsonObject.getString("name"));
+        cryptoCurrency.setSymbol(cryptoCurrencyJsonObject.getString("symbol"));
+        cryptoCurrency.setRank(cryptoCurrencyJsonObject.getString("rank"));
+        cryptoCurrency.setPriceCur(cryptoCurrencyJsonObject.getString("price_usd"));
+        cryptoCurrency.setPriceBtc(cryptoCurrencyJsonObject.getString("price_btc"));
+        cryptoCurrency.setDayVolumeCur(cryptoCurrencyJsonObject.getString("24h_volume_usd"));
+        cryptoCurrency.setMarketCapCur(cryptoCurrencyJsonObject.getString("market_cap_usd"));
+        cryptoCurrency.setAvailableSupply(cryptoCurrencyJsonObject.getString("available_supply"));
+        cryptoCurrency.setTotalSupply(cryptoCurrencyJsonObject.getString("total_supply"));
+        cryptoCurrency.setHourPercentChange(cryptoCurrencyJsonObject.getString("percent_change_1h"));
+        cryptoCurrency.setDayPercentChange(cryptoCurrencyJsonObject.getString("percent_change_24h"));
+        cryptoCurrency.setWeekPercentChange(cryptoCurrencyJsonObject.getString("percent_change_7d"));
+        cryptoCurrency.setLastUpdated(cryptoCurrencyJsonObject.getString("last_updated"));
 
         return cryptoCurrency;
     }

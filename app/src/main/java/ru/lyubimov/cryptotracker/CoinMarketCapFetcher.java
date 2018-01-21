@@ -91,8 +91,7 @@ public class CoinMarketCapFetcher {
         List<CryptoCurrency> items = new ArrayList<>();
         try {
             String jsonString = getUrlString(url);
-            Log.i(TAG, "Received json: " + jsonString);
-            JSONObject jsonBody = new JSONObject(jsonString);
+            JSONArray jsonBody = new JSONArray(jsonString);
             parseItems(items, jsonBody);
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
@@ -102,11 +101,10 @@ public class CoinMarketCapFetcher {
         return items;
     }
 
-    private void parseItems(List<CryptoCurrency> items, JSONObject jsonBody) throws IOException, JSONException{
-        JSONArray cryptoCurrencyJSONArray = jsonBody.names();
+    private void parseItems(List<CryptoCurrency> items, JSONArray jsonArray) throws IOException, JSONException{
 
-        for (int i = 0; i < cryptoCurrencyJSONArray.length(); i++) {
-            JSONObject cryptoCurrencyJsonObject = cryptoCurrencyJSONArray.getJSONObject(i);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject cryptoCurrencyJsonObject = jsonArray.getJSONObject(i);
             CryptoCurrency cryptoCurrency = CryptoCurrency.createCryptoCurrencyByJSON(cryptoCurrencyJsonObject);
             items.add(cryptoCurrency);
         }

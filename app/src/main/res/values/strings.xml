@@ -2,6 +2,10 @@
     <string name="app_name">Crypto Tracker</string>
     <string name="price_usd">Price USD: </string>
     <string name="price_btc">Price BTC: </string>
-    <string name="day_volume_usd">24h USD volume: </string>
+    <string name="day_volume_usd">24h USD vol: </string>
     <string name="market_cap_usd">Market cap </string>
+    <string name="cryptocurrency_icon">Cryptocurrency icon</string>
+    <string name="one_hour_title">1h:</string>
+    <string name="one_day_title">1d:</string>
+    <string name="one_week_title">1w:</string>
 </resources>
