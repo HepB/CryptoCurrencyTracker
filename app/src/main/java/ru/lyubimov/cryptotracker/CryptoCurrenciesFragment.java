@@ -1,6 +1,7 @@
 package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -55,6 +56,7 @@ public class CryptoCurrenciesFragment extends Fragment {
         updateItems();
     }
 
+    //TODO: убрать костыль с orientation
     private class CryptoCurrencyHolder extends RecyclerView.ViewHolder {
         CryptoCurrency mCryptoCurrency;
 
@@ -66,6 +68,9 @@ public class CryptoCurrenciesFragment extends Fragment {
         TextView mOneHourChange;
         TextView mOneDayChange;
         TextView mOneWeekChange;
+        TextView mMarketCapVol;
+        TextView mAvailableSupplyVol;
+        TextView mTotalSupplyVol;
 
         public CryptoCurrencyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_ccurrency, parent, false));
@@ -77,10 +82,16 @@ public class CryptoCurrenciesFragment extends Fragment {
             mOneHourChange = itemView.findViewById(R.id.hour_change_volume);
             mOneDayChange = itemView.findViewById(R.id.day_change_volume);
             mOneWeekChange = itemView.findViewById(R.id.week_change_volume);
+            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mMarketCapVol = itemView.findViewById(R.id.market_cap_vol);
+                mAvailableSupplyVol = itemView.findViewById(R.id.available_supply_vol);
+                mTotalSupplyVol = itemView.findViewById(R.id.total_supply_vol);
+            }
         }
 
         @SuppressLint("SetTextI18n")
         public void bind(CryptoCurrency cryptoCurrency) {
+            getActivity().getRequestedOrientation();
             mCryptoCurrency = cryptoCurrency;
             mCurIco.setImageDrawable(mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol()));
             mCurName.setText(mCryptoCurrency.getName().toUpperCase());
@@ -90,6 +101,12 @@ public class CryptoCurrenciesFragment extends Fragment {
             mOneHourChange.setText(mCryptoCurrency.getHourPercentChange());
             mOneDayChange.setText(mCryptoCurrency.getDayPercentChange());
             mOneWeekChange.setText(mCryptoCurrency.getWeekPercentChange());
+            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mMarketCapVol.setText(mCryptoCurrency.getMarketCapCur());
+                mAvailableSupplyVol.setText(mCryptoCurrency.getAvailableSupply());
+                mTotalSupplyVol.setText(mCryptoCurrency.getTotalSupply());
+            }
+
         }
     }
 
