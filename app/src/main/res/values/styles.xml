@@ -6,7 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ValueParamText">
         <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="TitleParamText">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+    
+    <style name="TitleText">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

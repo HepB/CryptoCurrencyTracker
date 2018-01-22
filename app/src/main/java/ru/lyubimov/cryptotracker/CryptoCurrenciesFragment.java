@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -56,6 +58,12 @@ public class CryptoCurrenciesFragment extends Fragment {
         updateItems();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crypto_tracker, menu);
+    }
+
     //TODO: убрать костыль с orientation
     private class CryptoCurrencyHolder extends RecyclerView.ViewHolder {
         CryptoCurrency mCryptoCurrency;
@@ -91,22 +99,38 @@ public class CryptoCurrenciesFragment extends Fragment {
 
         @SuppressLint("SetTextI18n")
         public void bind(CryptoCurrency cryptoCurrency) {
-            getActivity().getRequestedOrientation();
             mCryptoCurrency = cryptoCurrency;
+
             mCurIco.setImageDrawable(mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol()));
             mCurName.setText(mCryptoCurrency.getName().toUpperCase());
+
             mCurCost.setText(mCryptoCurrency.getPriceCur());
             mBtcCost.setText(mCryptoCurrency.getPriceBtc());
             mCurVolume.setText(mCryptoCurrency.getDayVolumeCur());
-            mOneHourChange.setText(mCryptoCurrency.getHourPercentChange());
-            mOneDayChange.setText(mCryptoCurrency.getDayPercentChange());
-            mOneWeekChange.setText(mCryptoCurrency.getWeekPercentChange());
+
+            setupChangeView(mOneHourChange, mCryptoCurrency.getHourPercentChange());
+            setupChangeView(mOneDayChange, mCryptoCurrency.getDayPercentChange());
+            setupChangeView(mOneWeekChange, mCryptoCurrency.getWeekPercentChange());
+
             if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 mMarketCapVol.setText(mCryptoCurrency.getMarketCapCur());
                 mAvailableSupplyVol.setText(mCryptoCurrency.getAvailableSupply());
                 mTotalSupplyVol.setText(mCryptoCurrency.getTotalSupply());
             }
+        }
 
+        private void setupChangeView(TextView textView, String param) {
+            Double numParam = Double.valueOf(param);
+            String textToView = null;
+            if(numParam >= 0) {
+                textView.setTextColor(getResources().getColor(R.color.colorGreen));
+                textToView = "+" + param + "%";
+                textView.setText(textToView);
+            } else {
+                textView.setTextColor(getResources().getColor(R.color.colorRed));
+                textToView = param + "%";
+                textView.setText(textToView);
+            }
         }
     }
 
@@ -127,7 +151,6 @@ public class CryptoCurrenciesFragment extends Fragment {
         public void onBindViewHolder(CryptoCurrencyHolder holder, int position) {
             CryptoCurrency cryptoCurrency = mCryptoCurrencies.get(position);
             holder.bind(cryptoCurrency);
-
         }
 
         @Override
@@ -146,7 +169,6 @@ public class CryptoCurrenciesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<CryptoCurrency> aCryptoCurrencies) {
-            //super.onPostExecute(aCryptoCurrencies);
             mCryptoCurrencies = aCryptoCurrencies;
             setupAdapter();
         }
