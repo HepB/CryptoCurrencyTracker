@@ -8,29 +8,34 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Alex on 15.01.2018.
  */
 
-public class CryptoCurrenciesFragment extends Fragment {
-    private static final String TAG = "CryptoCurrenciesFragment";
+public class CryptoCurListFragment extends Fragment {
+    private static final String TAG = "CryptoCurListFragment";
 
     private RecyclerView mRecyclerView;
-    List<CryptoCurrency> mCryptoCurrencies;
-    AssetFetcher mAssetFetcher;
+    private CryptoCurrencyAdapter mCryptoCurrencyAdapter;
+    private List<CryptoCurrency> mCryptoCurrencies;
+    private AssetFetcher mAssetFetcher;
 
-    public static CryptoCurrenciesFragment newInstance() {
-        return new CryptoCurrenciesFragment();
+    public static CryptoCurListFragment newInstance() {
+        return new CryptoCurListFragment();
     }
 
     @Override
@@ -62,6 +67,31 @@ public class CryptoCurrenciesFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crypto_tracker, menu);
+
+        MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
+        final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mCryptoCurrencyAdapter.filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mCryptoCurrencyAdapter.filter(newText);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_sort_by_rank:
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //TODO: убрать костыль с orientation
@@ -119,26 +149,35 @@ public class CryptoCurrenciesFragment extends Fragment {
             }
         }
 
+        //TODO: убрать логику из catch
         private void setupChangeView(TextView textView, String param) {
-            Double numParam = Double.valueOf(param);
-            String textToView = null;
-            if(numParam >= 0) {
-                textView.setTextColor(getResources().getColor(R.color.colorGreen));
-                textToView = "+" + param + "%";
-                textView.setText(textToView);
-            } else {
-                textView.setTextColor(getResources().getColor(R.color.colorRed));
-                textToView = param + "%";
-                textView.setText(textToView);
+            try {
+                Double numParam = Double.valueOf(param);
+                String textToView;
+                if(numParam >= 0) {
+                    textView.setTextColor(getResources().getColor(R.color.colorGreen));
+                    textToView = "+" + param + "%";
+                    textView.setText(textToView);
+                } else {
+                    textView.setTextColor(getResources().getColor(R.color.colorRed));
+                    textToView = param + "%";
+                    textView.setText(textToView);
+                }
+            } catch (NumberFormatException | NullPointerException ex) {
+                Log.e(TAG, ex.getLocalizedMessage());
+                textView.setText("-");
             }
         }
     }
 
     private class CryptoCurrencyAdapter extends RecyclerView.Adapter<CryptoCurrencyHolder> {
-        List<CryptoCurrency> mCryptoCurrencies;
+        private List<CryptoCurrency> mCryptoCurrencies;
+        private List<CryptoCurrency> mCryptoCurrenciesCopy;
 
         public CryptoCurrencyAdapter(List<CryptoCurrency> cryptoCurrencies) {
             mCryptoCurrencies = cryptoCurrencies;
+            mCryptoCurrenciesCopy = new ArrayList<>();
+            mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
         }
 
         @Override
@@ -156,6 +195,20 @@ public class CryptoCurrenciesFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mCryptoCurrencies.size();
+        }
+
+        public void filter(String text) {
+            mCryptoCurrencies.clear();
+            if(text.isEmpty()){
+                mCryptoCurrencies.addAll(mCryptoCurrenciesCopy);
+            } else{
+                for(CryptoCurrency item: mCryptoCurrenciesCopy){
+                    if(item.getName().toLowerCase().contains(text.toLowerCase()) || item.getSymbol().toLowerCase().contains(text.toLowerCase())){
+                        mCryptoCurrencies.add(item);
+                    }
+                }
+            }
+            notifyDataSetChanged();
         }
     }
 
@@ -176,7 +229,8 @@ public class CryptoCurrenciesFragment extends Fragment {
 
     private void setupAdapter() {
         if (isAdded()) {
-            mRecyclerView.setAdapter(new CryptoCurrencyAdapter(mCryptoCurrencies));
+            mCryptoCurrencyAdapter = new CryptoCurrencyAdapter(mCryptoCurrencies);
+            mRecyclerView.setAdapter(mCryptoCurrencyAdapter);
         }
     }
 
