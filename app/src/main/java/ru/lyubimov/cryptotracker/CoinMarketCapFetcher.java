@@ -105,7 +105,7 @@ public class CoinMarketCapFetcher {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject cryptoCurrencyJsonObject = jsonArray.getJSONObject(i);
-            CryptoCurrency cryptoCurrency = CryptoCurrency.createCryptoCurrencyByJSON(cryptoCurrencyJsonObject);
+            CryptoCurrency cryptoCurrency = CryptoCurrency.createCryptoCurrencyByDefaultJSON(cryptoCurrencyJsonObject);
             items.add(cryptoCurrency);
         }
     }

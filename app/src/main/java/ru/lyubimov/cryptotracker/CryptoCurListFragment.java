@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -80,7 +82,7 @@ public class CryptoCurListFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCryptoCurrencyAdapter.filter(newText);
-                return true;
+                return false;
             }
         });
     }
@@ -89,9 +91,23 @@ public class CryptoCurListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_sort_by_rank:
-
+                mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRank());
+                return true;
+            case R.id.menu_item_sort_by_volume:
+                mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByVolume());
+                return true;
+            case R.id.menu_item_sort_by_cost:
+                mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByCost());
+                return true;
+            case R.id.menu_item_sort_by_rise:
+                mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRise());
+                return true;
+            case R.id.menu_item_sort_by_fall:
+                mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByFallingDown());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     //TODO: убрать костыль с orientation
@@ -149,7 +165,6 @@ public class CryptoCurListFragment extends Fragment {
             }
         }
 
-        //TODO: убрать логику из catch
         private void setupChangeView(TextView textView, String param) {
             try {
                 Double numParam = Double.valueOf(param);
@@ -163,9 +178,10 @@ public class CryptoCurListFragment extends Fragment {
                     textToView = param + "%";
                     textView.setText(textToView);
                 }
-            } catch (NumberFormatException | NullPointerException ex) {
+            } catch (NullPointerException | NumberFormatException ex){
                 Log.e(TAG, ex.getLocalizedMessage());
                 textView.setText("-");
+                textView.setTextColor(getResources().getColor(R.color.colorBlack));
             }
         }
     }
@@ -208,6 +224,11 @@ public class CryptoCurListFragment extends Fragment {
                     }
                 }
             }
+            notifyDataSetChanged();
+        }
+
+        public void sortItems(Comparator<CryptoCurrency> comparator) {
+            Collections.sort(mCryptoCurrencies, comparator);
             notifyDataSetChanged();
         }
     }

@@ -17,7 +17,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/menu_item_sort_by_cost"
-        android:title="@string/sort_by_volume"
+        android:title="@string/sort_by_cost"
         app:showAsAction="never"/>
 
     <item android:id="@+id/menu_item_sort_by_rise"
