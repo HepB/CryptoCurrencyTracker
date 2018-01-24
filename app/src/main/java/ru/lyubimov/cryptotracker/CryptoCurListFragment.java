@@ -94,6 +94,7 @@ public class CryptoCurListFragment extends Fragment {
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRank());
                 return true;
             case R.id.menu_item_sort_by_volume:
+                mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRank());//кошмарный костыль от "Comparison method violates its general contract!"
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByVolume());
                 return true;
             case R.id.menu_item_sort_by_cost:
@@ -124,7 +125,7 @@ public class CryptoCurListFragment extends Fragment {
         TextView mOneWeekChange;
         TextView mMarketCapVol;
         TextView mAvailableSupplyVol;
-        TextView mTotalSupplyVol;
+        TextView mMaxSupplyVol;
 
         public CryptoCurrencyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_ccurrency, parent, false));
@@ -139,7 +140,7 @@ public class CryptoCurListFragment extends Fragment {
             if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 mMarketCapVol = itemView.findViewById(R.id.market_cap_vol);
                 mAvailableSupplyVol = itemView.findViewById(R.id.available_supply_vol);
-                mTotalSupplyVol = itemView.findViewById(R.id.total_supply_vol);
+                mMaxSupplyVol = itemView.findViewById(R.id.total_supply_vol);
             }
         }
 
@@ -161,7 +162,7 @@ public class CryptoCurListFragment extends Fragment {
             if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 mMarketCapVol.setText(mCryptoCurrency.getMarketCapCur());
                 mAvailableSupplyVol.setText(mCryptoCurrency.getAvailableSupply());
-                mTotalSupplyVol.setText(mCryptoCurrency.getTotalSupply());
+                mMaxSupplyVol.setText(mCryptoCurrency.getMaxSupply());
             }
         }
 

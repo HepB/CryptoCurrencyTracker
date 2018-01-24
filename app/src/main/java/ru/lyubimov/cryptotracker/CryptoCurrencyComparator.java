@@ -8,6 +8,8 @@ import java.util.Comparator;
 
 public class CryptoCurrencyComparator {
 
+    private static final String TAG = "CryptoCurrencyComp";
+
     public static Comparator<CryptoCurrency> compareByRank(){
         return new Comparator<CryptoCurrency>() {
             @Override
@@ -15,10 +17,10 @@ public class CryptoCurrencyComparator {
                 String sRangA = a.getRank();
                 String sRangB = b.getRank();
 
-                if(sRangA == null) {
+                if(sRangA.isEmpty()) {
                     return 1;
                 }
-                if(sRangB == null) {
+                if(sRangB.isEmpty()) {
                     return -1;
                 }
                 return Integer.compare(Integer.valueOf(sRangA), Integer.valueOf(sRangB));
@@ -33,10 +35,9 @@ public class CryptoCurrencyComparator {
                 String sVolumeA = a.getDayVolumeCur();
                 String sVolumeB = b.getDayVolumeCur();
 
-                if(sVolumeA == null) {
-                    return 1;
-                }
-                if(sVolumeB == null) {
+                if(sVolumeA.isEmpty()) {
+                    return -1;
+                } else if(sVolumeB.isEmpty()) {
                     return -1;
                 }
                 return Double.compare(Double.valueOf(sVolumeB), Double.valueOf(sVolumeA));
@@ -51,10 +52,10 @@ public class CryptoCurrencyComparator {
                 String sCostA = a.getPriceCur();
                 String sCostB = b.getPriceCur();
 
-                if(sCostA == null) {
+                if(sCostA.isEmpty()) {
                     return 1;
                 }
-                if(sCostB == null) {
+                if(sCostB.isEmpty()) {
                     return -1;
                 }
                 return Double.compare(Double.valueOf(sCostB), Double.valueOf(sCostA));
@@ -69,10 +70,10 @@ public class CryptoCurrencyComparator {
                 String sHourChangeA = a.getHourPercentChange();
                 String sHourChangeB = b.getHourPercentChange();
 
-                if(sHourChangeA == null) {
+                if(sHourChangeA.isEmpty()) {
                     return 1;
                 }
-                if(sHourChangeB == null) {
+                if(sHourChangeB.isEmpty()) {
                     return -1;
                 }
                 return Double.compare(Double.valueOf(sHourChangeB), Double.valueOf(sHourChangeA));
@@ -87,10 +88,10 @@ public class CryptoCurrencyComparator {
                 String sHourChangeA = a.getHourPercentChange();
                 String sHourChangeB = b.getHourPercentChange();
 
-                if(sHourChangeA == null) {
+                if(sHourChangeA.isEmpty()) {
                     return 1;
                 }
-                if(sHourChangeB == null) {
+                if(sHourChangeB.isEmpty()) {
                     return -1;
                 }
                 return Double.compare(Double.valueOf(sHourChangeA), Double.valueOf(sHourChangeB));

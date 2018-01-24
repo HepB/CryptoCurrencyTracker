@@ -8,7 +8,7 @@
 
     <string name="market_cap_usd">Market cap: </string>
     <string name="available_supply">Available supply:</string>
-    <string name="total_supply">Total supply</string>
+    <string name="max_supply">Max supply:</string>
 
     <string name="one_hour_title">1h:</string>
     <string name="one_day_title">1d:</string>

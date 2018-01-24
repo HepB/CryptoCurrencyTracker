@@ -21,6 +21,7 @@ public class CryptoCurrency {
     private String mMarketCapCur;
     private String mAvailableSupply;
     private String mTotalSupply;
+    private String mMaxSupply;
     private String mHourPercentChange;
     private String mDayPercentChange;
     private String mWeekPercentChange;
@@ -96,6 +97,13 @@ public class CryptoCurrency {
         this.mTotalSupply = totalSupply;
     }
 
+    public String getMaxSupply() {
+        return mMaxSupply;
+    }
+    public void setMaxSupply(String maxSupply) {
+        mMaxSupply = maxSupply;
+    }
+
     public String getHourPercentChange() {
         return mHourPercentChange;
     }
@@ -129,46 +137,49 @@ public class CryptoCurrency {
         CryptoCurrency cryptoCurrency = new CryptoCurrency();
 
         String id = cryptoCurrencyJsonObject.getString("id");
-        cryptoCurrency.setId(id.equalsIgnoreCase(NULL) ? null : id);
+        cryptoCurrency.setId(id.equalsIgnoreCase(NULL) ? "" : id);
 
         String name = cryptoCurrencyJsonObject.getString("name");
-        cryptoCurrency.setName(name.equalsIgnoreCase(NULL) ? null : name);
+        cryptoCurrency.setName(name.equalsIgnoreCase(NULL) ? "" : name);
 
         String symbol = cryptoCurrencyJsonObject.getString("symbol");
-        cryptoCurrency.setSymbol(symbol.equalsIgnoreCase(NULL) ? null : symbol);
+        cryptoCurrency.setSymbol(symbol.equalsIgnoreCase(NULL) ? "" : symbol);
 
         String rank = cryptoCurrencyJsonObject.getString("rank");
-        cryptoCurrency.setRank(rank.equalsIgnoreCase(NULL) ? null : rank);
+        cryptoCurrency.setRank(rank.equalsIgnoreCase(NULL) ? "" : rank);
 
         String priceUsd = cryptoCurrencyJsonObject.getString("price_usd");
-        cryptoCurrency.setPriceCur(priceUsd.equalsIgnoreCase(NULL) ? null : priceUsd);
+        cryptoCurrency.setPriceCur(priceUsd.equalsIgnoreCase(NULL) ? "" : priceUsd);
 
         String priceBtc = cryptoCurrencyJsonObject.getString("price_btc");
-        cryptoCurrency.setPriceBtc(priceBtc.equalsIgnoreCase(NULL) ? null : priceBtc);
+        cryptoCurrency.setPriceBtc(priceBtc.equalsIgnoreCase(NULL) ? "" : priceBtc);
 
         String dayVolumeUsd = cryptoCurrencyJsonObject.getString("24h_volume_usd");
-        cryptoCurrency.setDayVolumeCur(dayVolumeUsd.equalsIgnoreCase(NULL) ? null : dayVolumeUsd);
+        cryptoCurrency.setDayVolumeCur(dayVolumeUsd.equalsIgnoreCase(NULL) ? "" : dayVolumeUsd);
 
         String marketCapCur = cryptoCurrencyJsonObject.getString("market_cap_usd");
-        cryptoCurrency.setMarketCapCur(marketCapCur.equalsIgnoreCase(NULL) ? null : marketCapCur);
+        cryptoCurrency.setMarketCapCur(marketCapCur.equalsIgnoreCase(NULL) ? "" : marketCapCur);
 
         String availableSupply = cryptoCurrencyJsonObject.getString("available_supply");
-        cryptoCurrency.setAvailableSupply(availableSupply.equalsIgnoreCase(NULL) ? null : availableSupply);
+        cryptoCurrency.setAvailableSupply(availableSupply.equalsIgnoreCase(NULL) ? "" : availableSupply);
 
         String totalSupply = cryptoCurrencyJsonObject.getString("total_supply");
-        cryptoCurrency.setTotalSupply(totalSupply.equalsIgnoreCase(NULL) ? null : totalSupply);
+        cryptoCurrency.setTotalSupply(totalSupply.equalsIgnoreCase(NULL) ? "" : totalSupply);
+
+        String maxSupply = cryptoCurrencyJsonObject.getString("max_supply");
+        cryptoCurrency.setMaxSupply(maxSupply.equalsIgnoreCase(NULL) ? "" : maxSupply);
 
         String hourPerChange = cryptoCurrencyJsonObject.getString("percent_change_1h");
-        cryptoCurrency.setHourPercentChange(hourPerChange.equalsIgnoreCase(NULL) ? null : hourPerChange);
+        cryptoCurrency.setHourPercentChange(hourPerChange.equalsIgnoreCase(NULL) ? "" : hourPerChange);
 
         String dayPercentChange = cryptoCurrencyJsonObject.getString("percent_change_24h");
-        cryptoCurrency.setDayPercentChange(dayPercentChange.equalsIgnoreCase(NULL) ? null : dayPercentChange);
+        cryptoCurrency.setDayPercentChange(dayPercentChange.equalsIgnoreCase(NULL) ? "" : dayPercentChange);
 
         String weekPerChange = cryptoCurrencyJsonObject.getString("percent_change_7d");
-        cryptoCurrency.setWeekPercentChange(weekPerChange.equalsIgnoreCase(NULL) ? null : weekPerChange);
+        cryptoCurrency.setWeekPercentChange(weekPerChange.equalsIgnoreCase(NULL) ? "" : weekPerChange);
 
         String lastUpdated = cryptoCurrencyJsonObject.getString("last_updated");
-        cryptoCurrency.setLastUpdated(lastUpdated.equalsIgnoreCase(NULL) ? null : lastUpdated);
+        cryptoCurrency.setLastUpdated(lastUpdated.equalsIgnoreCase(NULL) ? "" : lastUpdated);
 
         return cryptoCurrency;
     }
