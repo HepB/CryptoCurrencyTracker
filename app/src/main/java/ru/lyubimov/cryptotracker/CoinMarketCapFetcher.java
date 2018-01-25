@@ -1,16 +1,17 @@
 package ru.lyubimov.cryptotracker;
 
+import android.app.ListFragment;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
-
-import org.json.JSONException;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -101,8 +102,9 @@ public class CoinMarketCapFetcher {
 
     private void parseItems(List<CryptoCurrency> items, String jsonSting) {
         Gson gson = new Gson();
-        CryptoCurrency[] cryptoCurrencies = gson.fromJson(jsonSting, CryptoCurrency[].class);
-        items.addAll(Arrays.asList(cryptoCurrencies));
+        Type collectionType = new TypeToken<List<CryptoCurrency>>(){}.getType();
+        List<CryptoCurrency> cryptoCurrencies = gson.fromJson(jsonSting, collectionType);
+        items.addAll(cryptoCurrencies);
     }
 
 }

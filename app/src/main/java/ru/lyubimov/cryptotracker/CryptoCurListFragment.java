@@ -166,7 +166,7 @@ public class CryptoCurListFragment extends Fragment {
         }
 
         private void setupChangeView(TextView textView, String param) {
-            try {
+            if(param != null) {
                 Double numParam = Double.valueOf(param);
                 String textToView;
                 if(numParam >= 0) {
@@ -178,8 +178,7 @@ public class CryptoCurListFragment extends Fragment {
                     textToView = param + "%";
                     textView.setText(textToView);
                 }
-            } catch (NullPointerException | NumberFormatException ex){
-                Log.e(TAG, ex.getLocalizedMessage());
+            } else {
                 textView.setText("-");
                 textView.setTextColor(getResources().getColor(R.color.colorBlack));
             }
