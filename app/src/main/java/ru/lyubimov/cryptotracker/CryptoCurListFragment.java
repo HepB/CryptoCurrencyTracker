@@ -94,7 +94,6 @@ public class CryptoCurListFragment extends Fragment {
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRank());
                 return true;
             case R.id.menu_item_sort_by_volume:
-                mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRank());//кошмарный костыль от "Comparison method violates its general contract!"
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByVolume());
                 return true;
             case R.id.menu_item_sort_by_cost:
