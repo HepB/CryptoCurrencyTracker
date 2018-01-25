@@ -4,9 +4,9 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.json.JSONArray;
+import com.google.gson.Gson;
+
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -91,23 +92,17 @@ public class CoinMarketCapFetcher {
         List<CryptoCurrency> items = new ArrayList<>();
         try {
             String jsonString = getUrlString(url);
-            JSONArray jsonBody = new JSONArray(jsonString);
-            parseItems(items, jsonBody);
+            parseItems(items, jsonString);
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
-        } catch (JSONException je) {
-            Log.e(TAG, "Failed to parse JSON", je);
         }
         return items;
     }
 
-    private void parseItems(List<CryptoCurrency> items, JSONArray jsonArray) throws IOException, JSONException{
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject cryptoCurrencyJsonObject = jsonArray.getJSONObject(i);
-            CryptoCurrency cryptoCurrency = CryptoCurrency.createCryptoCurrencyByDefaultJSON(cryptoCurrencyJsonObject);
-            items.add(cryptoCurrency);
-        }
+    private void parseItems(List<CryptoCurrency> items, String jsonSting) {
+        Gson gson = new Gson();
+        CryptoCurrency[] cryptoCurrencies = gson.fromJson(jsonSting, CryptoCurrency[].class);
+        items.addAll(Arrays.asList(cryptoCurrencies));
     }
 
 }

@@ -16,13 +16,6 @@ public class CryptoCurrencyComparator {
             public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sRangA = a.getRank();
                 String sRangB = b.getRank();
-
-                if(sRangA.isEmpty()) {
-                    return 1;
-                }
-                if(sRangB.isEmpty()) {
-                    return -1;
-                }
                 return Integer.compare(Integer.valueOf(sRangA), Integer.valueOf(sRangB));
             }
         };
@@ -35,12 +28,15 @@ public class CryptoCurrencyComparator {
                 String sVolumeA = a.getDayVolumeCur();
                 String sVolumeB = b.getDayVolumeCur();
 
-                if(sVolumeA.isEmpty()) {
+                if(sVolumeA.isEmpty() && !sVolumeB.isEmpty()) {
+                    return 1;
+                } else if(!sVolumeA.isEmpty() && sVolumeB.isEmpty()) {
                     return -1;
-                } else if(sVolumeB.isEmpty()) {
-                    return -1;
+                } else if (sVolumeA.isEmpty() && sVolumeB.isEmpty()) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sVolumeB), Double.valueOf(sVolumeA));
                 }
-                return Double.compare(Double.valueOf(sVolumeB), Double.valueOf(sVolumeA));
             }
         };
     }
@@ -52,13 +48,15 @@ public class CryptoCurrencyComparator {
                 String sCostA = a.getPriceCur();
                 String sCostB = b.getPriceCur();
 
-                if(sCostA.isEmpty()) {
+                if(sCostA.isEmpty() && !sCostB.isEmpty()) {
                     return 1;
-                }
-                if(sCostB.isEmpty()) {
+                } else if(!sCostA.isEmpty() && sCostB.isEmpty()) {
                     return -1;
+                } else if (sCostA.isEmpty() && sCostB.isEmpty()) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sCostB), Double.valueOf(sCostA));
                 }
-                return Double.compare(Double.valueOf(sCostB), Double.valueOf(sCostA));
             }
         };
     }
@@ -70,13 +68,15 @@ public class CryptoCurrencyComparator {
                 String sHourChangeA = a.getHourPercentChange();
                 String sHourChangeB = b.getHourPercentChange();
 
-                if(sHourChangeA.isEmpty()) {
+                if(sHourChangeA.isEmpty() && !sHourChangeB.isEmpty()) {
                     return 1;
-                }
-                if(sHourChangeB.isEmpty()) {
+                } else if(!sHourChangeA.isEmpty() && sHourChangeB.isEmpty()) {
                     return -1;
+                } else if (sHourChangeA.isEmpty() && sHourChangeB.isEmpty()) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sHourChangeB), Double.valueOf(sHourChangeA));
                 }
-                return Double.compare(Double.valueOf(sHourChangeB), Double.valueOf(sHourChangeA));
             }
         };
     }
@@ -88,13 +88,15 @@ public class CryptoCurrencyComparator {
                 String sHourChangeA = a.getHourPercentChange();
                 String sHourChangeB = b.getHourPercentChange();
 
-                if(sHourChangeA.isEmpty()) {
+                if(sHourChangeA.isEmpty() && !sHourChangeB.isEmpty()) {
                     return 1;
-                }
-                if(sHourChangeB.isEmpty()) {
+                } else if(!sHourChangeA.isEmpty() && sHourChangeB.isEmpty()) {
                     return -1;
+                } else if (sHourChangeA.isEmpty() && sHourChangeB.isEmpty()) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sHourChangeA), Double.valueOf(sHourChangeB));
                 }
-                return Double.compare(Double.valueOf(sHourChangeA), Double.valueOf(sHourChangeB));
             }
         };
     }
