@@ -10,6 +10,7 @@ public class CryptoCurrencyComparator {
 
     private static final String TAG = "CryptoCurrencyComp";
 
+
     public static Comparator<CryptoCurrency> compareByRank(){
         return new Comparator<CryptoCurrency>() {
             @Override

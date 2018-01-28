@@ -1,15 +1,18 @@
 package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +35,9 @@ public class CryptoCurListFragment extends Fragment {
     private static final String TAG = "CryptoCurListFragment";
 
     private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private CryptoCurrencyAdapter mCryptoCurrencyAdapter;
+    private SearchView mSearchView;
     private List<CryptoCurrency> mCryptoCurrencies;
     private AssetFetcher mAssetFetcher;
 
@@ -43,8 +48,6 @@ public class CryptoCurListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        updateItems();
         setHasOptionsMenu(true);
         mAssetFetcher = new AssetFetcher(getContext().getAssets());
     }
@@ -52,17 +55,20 @@ public class CryptoCurListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_crypto_tracker, container, false);
+        View view = inflater.inflate(R.layout.fragment_crypto_cur_list, container, false);
         mRecyclerView = view.findViewById(R.id.currency_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateItems();
+            }
 
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        });
+        setRetainInstance(true);
         updateItems();
+        return view;
     }
 
     @Override
@@ -71,18 +77,26 @@ public class CryptoCurListFragment extends Fragment {
         inflater.inflate(R.menu.fragment_crypto_tracker, menu);
 
         MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
-        final SearchView searchView = (SearchView) searchMenuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView = (SearchView) searchMenuItem.getActionView();
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Preferences.setStoredQuery(getActivity(), query);
                 mCryptoCurrencyAdapter.filter(query);
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCryptoCurrencyAdapter.filter(newText);
                 return false;
+            }
+        });
+
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = Preferences.getStoredQuery(getActivity());
+                mSearchView.setQuery(query, true);
             }
         });
     }
@@ -111,7 +125,7 @@ public class CryptoCurListFragment extends Fragment {
     }
 
     //TODO: убрать костыль с orientation
-    private class CryptoCurrencyHolder extends RecyclerView.ViewHolder {
+    private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener{
         CryptoCurrency mCryptoCurrency;
 
         ImageView mCurIco;
@@ -141,6 +155,7 @@ public class CryptoCurListFragment extends Fragment {
                 mAvailableSupplyVol = itemView.findViewById(R.id.available_supply_vol);
                 mMaxSupplyVol = itemView.findViewById(R.id.total_supply_vol);
             }
+            itemView.setOnClickListener(this);
         }
 
         @SuppressLint("SetTextI18n")
@@ -183,6 +198,13 @@ public class CryptoCurListFragment extends Fragment {
                 textView.setTextColor(getResources().getColor(R.color.colorBlack));
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = CryptoCurItemActivity.newIntent(getContext(), mCryptoCurrency);
+            startActivity(intent);
+
+        }
     }
 
     private class CryptoCurrencyAdapter extends RecyclerView.Adapter<CryptoCurrencyHolder> {
@@ -214,7 +236,7 @@ public class CryptoCurListFragment extends Fragment {
 
         public void filter(String text) {
             mCryptoCurrencies.clear();
-            if(text.isEmpty()){
+            if(text == null || text.isEmpty() ){
                 mCryptoCurrencies.addAll(mCryptoCurrenciesCopy);
             } else{
                 for(CryptoCurrency item: mCryptoCurrenciesCopy){
@@ -256,5 +278,11 @@ public class CryptoCurListFragment extends Fragment {
 
     private void updateItems() {
         new FetchCurrenciesTask().execute();
+        Preferences.getStoredQuery(getActivity());
+        onItemsLoadComplete();
+    }
+
+    private void onItemsLoadComplete() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

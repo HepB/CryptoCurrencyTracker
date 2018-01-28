@@ -2,11 +2,13 @@ package ru.lyubimov.cryptotracker;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Lyubimov-AA on 16.01.2018.
  */
 
-public class CryptoCurrency {
+public class CryptoCurrency implements Serializable{
 
     private static final String NULL = "null";
 
