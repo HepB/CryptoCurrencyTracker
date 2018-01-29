@@ -3,6 +3,7 @@ package ru.lyubimov.cryptotracker;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -82,7 +83,7 @@ public class CryptoCurListFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 Preferences.setStoredQuery(getActivity(), query);
                 mCryptoCurrencyAdapter.filter(query);
-                return true;
+                return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -104,7 +105,7 @@ public class CryptoCurListFragment extends Fragment {
             @Override
             public boolean onClose() {
                 Preferences.setStoredQuery(getActivity(), "");
-                return true;
+                return false;
             }
         });
     }
@@ -114,18 +115,23 @@ public class CryptoCurListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_item_sort_by_rank:
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRank());
+                Preferences.setStoredSort(getActivity(), CryptoCurrencyComparator.COMPARE_BY_RANK);
                 return true;
             case R.id.menu_item_sort_by_volume:
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByVolume());
+                Preferences.setStoredSort(getActivity(), CryptoCurrencyComparator.COMPARE_BY_VOLUME);
                 return true;
             case R.id.menu_item_sort_by_cost:
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByCost());
+                Preferences.setStoredSort(getActivity(), CryptoCurrencyComparator.COMPARE_BY_COST);
                 return true;
             case R.id.menu_item_sort_by_rise:
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRise());
+                Preferences.setStoredSort(getActivity(), CryptoCurrencyComparator.COMPARE_BY_RISE);
                 return true;
             case R.id.menu_item_sort_by_fall:
                 mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByFallingDown());
+                Preferences.setStoredSort(getActivity(), CryptoCurrencyComparator.COMPARE_BY_FALLING_DOWN);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,7 +176,10 @@ public class CryptoCurListFragment extends Fragment {
         public void bind(CryptoCurrency cryptoCurrency) {
             mCryptoCurrency = cryptoCurrency;
 
-            mCurIco.setImageDrawable(mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol()));
+            Drawable curIcon = mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol());
+            if (curIcon != null) {
+                mCurIco.setImageDrawable(curIcon);
+            }
             mCurName.setText(mCryptoCurrency.getName().toUpperCase());
 
             mCurCost.setText(mCryptoCurrency.getPriceCur());
@@ -223,7 +232,20 @@ public class CryptoCurListFragment extends Fragment {
             mCryptoCurrencies = cryptoCurrencies;
             mCryptoCurrenciesCopy = new ArrayList<>();
             mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
+
+            String compareType = Preferences.getStoredSort(getActivity());
             filter(Preferences.getStoredQuery(getActivity()));
+            if(CryptoCurrencyComparator.COMPARE_BY_RANK.equalsIgnoreCase(compareType)) {
+                sortItems(CryptoCurrencyComparator.compareByRank());
+            } else if (CryptoCurrencyComparator.COMPARE_BY_VOLUME.equalsIgnoreCase(compareType)) {
+                sortItems(CryptoCurrencyComparator.compareByVolume());
+            } else if (CryptoCurrencyComparator.COMPARE_BY_COST.equalsIgnoreCase(compareType)) {
+                sortItems(CryptoCurrencyComparator.compareByCost());
+            } else if (CryptoCurrencyComparator.COMPARE_BY_RISE.equalsIgnoreCase(compareType)) {
+                sortItems(CryptoCurrencyComparator.compareByRise());
+            } else if (CryptoCurrencyComparator.COMPARE_BY_FALLING_DOWN.equalsIgnoreCase(compareType)) {
+                sortItems(CryptoCurrencyComparator.compareByFallingDown());
+            }
         }
 
         @Override
@@ -287,7 +309,6 @@ public class CryptoCurListFragment extends Fragment {
 
     private void updateItems() {
         new FetchCurrenciesTask().execute();
-        Preferences.getStoredQuery(getActivity());
         onItemsLoadComplete();
     }
 

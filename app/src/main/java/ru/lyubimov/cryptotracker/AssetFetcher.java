@@ -25,14 +25,21 @@ public class AssetFetcher {
     @Nullable
     public Drawable getDrawableFromAssets(String fileName) {
         Drawable drawable = null;
-        String path = assetConstants.ICON_PATH + "/" + fileName.toLowerCase() + assetConstants.PNG;
+        String path = assetConstants.ICON_PATH + "/";
+        InputStream is = null;
         try {
-            InputStream is = mAssetManager.open(path);
-            if (is != null) {
-                drawable = Drawable.createFromStream(is, null);
-            }
+            is = mAssetManager.open(path + fileName.toLowerCase() + assetConstants.PNG);
+            drawable = Drawable.createFromStream(is, null);
         } catch (IOException e) {
             Log.e(TAG, e.getLocalizedMessage());
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return drawable;
     }
@@ -40,5 +47,6 @@ public class AssetFetcher {
     public interface assetConstants {
         String PNG = ".png";
         String ICON_PATH = "crypto_currency_icon";
+        String DEFAULT_NAME = "def";
     }
 }

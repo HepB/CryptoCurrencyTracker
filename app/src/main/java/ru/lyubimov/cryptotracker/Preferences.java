@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 
 public class Preferences {
     private static final String PREF_SEARCH_QUERY = "query";
+    private static final String PREF_SORT_TYPE = "sort";
 
     public static String getStoredQuery(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
@@ -19,6 +20,18 @@ public class Preferences {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(PREF_SEARCH_QUERY, query)
+                .apply();
+    }
+
+    public static String getStoredSort(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(PREF_SORT_TYPE, CryptoCurrencyComparator.COMPARE_BY_RANK);
+    }
+
+    public static void setStoredSort(Context context, String sortType) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(PREF_SORT_TYPE, sortType)
                 .apply();
     }
 

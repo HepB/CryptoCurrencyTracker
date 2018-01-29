@@ -10,6 +10,12 @@ public class CryptoCurrencyComparator {
 
     private static final String TAG = "CryptoCurrencyComp";
 
+    public static final String COMPARE_BY_RANK = "compareByRank";
+    public static final String COMPARE_BY_VOLUME = "compareByVolume";
+    public static final String COMPARE_BY_COST = "compareByCost";
+    public static final String COMPARE_BY_RISE = "compareByRise";
+    public static final String COMPARE_BY_FALLING_DOWN = "compareByFallingDown";
+
 
     public static Comparator<CryptoCurrency> compareByRank(){
         return new Comparator<CryptoCurrency>() {
