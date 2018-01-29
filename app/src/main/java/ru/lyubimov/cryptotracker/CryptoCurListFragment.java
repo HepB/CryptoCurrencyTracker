@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -87,6 +86,7 @@ public class CryptoCurListFragment extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                Preferences.setStoredQuery(getActivity(), newText);
                 mCryptoCurrencyAdapter.filter(newText);
                 return false;
             }
@@ -97,6 +97,14 @@ public class CryptoCurListFragment extends Fragment {
             public void onClick(View v) {
                 String query = Preferences.getStoredQuery(getActivity());
                 mSearchView.setQuery(query, true);
+            }
+        });
+
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Preferences.setStoredQuery(getActivity(), "");
+                return true;
             }
         });
     }
@@ -215,6 +223,7 @@ public class CryptoCurListFragment extends Fragment {
             mCryptoCurrencies = cryptoCurrencies;
             mCryptoCurrenciesCopy = new ArrayList<>();
             mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
+            filter(Preferences.getStoredQuery(getActivity()));
         }
 
         @Override
@@ -234,11 +243,11 @@ public class CryptoCurListFragment extends Fragment {
             return mCryptoCurrencies.size();
         }
 
-        public void filter(String text) {
+        void filter(String text) {
             mCryptoCurrencies.clear();
             if(text == null || text.isEmpty() ){
                 mCryptoCurrencies.addAll(mCryptoCurrenciesCopy);
-            } else{
+            } else {
                 for(CryptoCurrency item: mCryptoCurrenciesCopy){
                     if(item.getName().toLowerCase().contains(text.toLowerCase()) || item.getSymbol().toLowerCase().contains(text.toLowerCase())){
                         mCryptoCurrencies.add(item);

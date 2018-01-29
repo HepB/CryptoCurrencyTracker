@@ -1,6 +1,5 @@
 package ru.lyubimov.cryptotracker;
 
-import android.app.ListFragment;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -15,7 +14,6 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
