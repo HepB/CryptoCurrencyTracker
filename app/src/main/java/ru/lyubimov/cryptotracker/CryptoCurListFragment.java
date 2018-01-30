@@ -179,6 +179,8 @@ public class CryptoCurListFragment extends Fragment {
             Drawable curIcon = mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol());
             if (curIcon != null) {
                 mCurIco.setImageDrawable(curIcon);
+            } else {
+                mCurIco.setImageResource(R.drawable.def);
             }
             mCurName.setText(mCryptoCurrency.getName().toUpperCase());
 
