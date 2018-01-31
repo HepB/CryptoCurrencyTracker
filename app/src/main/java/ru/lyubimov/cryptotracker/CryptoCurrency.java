@@ -10,8 +10,6 @@ import java.io.Serializable;
 
 public class CryptoCurrency implements Serializable{
 
-    private static final String NULL = "null";
-
     @SerializedName("id")
     private String mId;
     @SerializedName("name")

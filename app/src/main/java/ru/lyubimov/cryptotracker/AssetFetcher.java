@@ -38,7 +38,7 @@ public class AssetFetcher {
                     is.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getLocalizedMessage());
             }
         }
         return drawable;
@@ -47,6 +47,5 @@ public class AssetFetcher {
     public interface assetConstants {
         String PNG = ".png";
         String ICON_PATH = "crypto_currency_icon";
-        String DEFAULT_NAME = "def";
     }
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Вертикальный guideline с относительным отступом 25% -->
+    <android.support.constraint.Guideline
+        android:id="@+id/line_1"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Вертикальный guideline с отступом 100dp от левой стороны ConstraintLayout -->
+    <android.support.constraint.Guideline
+        android:id="@+id/line_2"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Вертикальный guideline с отступом 50dp от правой стороны ConstraintLayout -->
+    <android.support.constraint.Guideline
+        android:id="@+id/line_3"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/view_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="view_1"
+        app:layout_constraintLeft_toLeftOf="@id/line_1"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/view_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="view_2"
+        app:layout_constraintTop_toBottomOf="@id/view_1"
+        app:layout_constraintLeft_toLeftOf="@id/line_1"
+        app:layout_constraintRight_toRightOf="@id/line_3"/>
+
+    <TextView
+        android:id="@+id/view_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="view_3"
+        app:layout_constraintTop_toBottomOf="@id/view_2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/line_2"/>
+
+
+</android.support.constraint.ConstraintLayout>

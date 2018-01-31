@@ -3,6 +3,9 @@ package ru.lyubimov.cryptotracker;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by Alex on 28.01.2018.
@@ -25,5 +28,14 @@ public class CryptoCurFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCryptoCurrency = (CryptoCurrency) (savedInstanceState != null ? savedInstanceState.getSerializable(ARGS_CRYPTO_CURRENCY) : null);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cur_item, container, false);
+
+
+        return view;
     }
 }

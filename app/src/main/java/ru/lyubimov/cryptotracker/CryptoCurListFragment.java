@@ -173,7 +173,7 @@ public class CryptoCurListFragment extends Fragment {
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(CryptoCurrency cryptoCurrency) {
+        public void bind(CryptoCurrency cryptoCurrency, int position) {
             mCryptoCurrency = cryptoCurrency;
 
             Drawable curIcon = mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol());
@@ -182,7 +182,8 @@ public class CryptoCurListFragment extends Fragment {
             } else {
                 mCurIco.setImageResource(R.drawable.def);
             }
-            mCurName.setText(mCryptoCurrency.getName().toUpperCase());
+            String name = position + "." + mCryptoCurrency.getName().toUpperCase();
+            mCurName.setText(name);
 
             mCurCost.setText(mCryptoCurrency.getPriceCur());
             mBtcCost.setText(mCryptoCurrency.getPriceBtc());
@@ -259,7 +260,7 @@ public class CryptoCurListFragment extends Fragment {
         @Override
         public void onBindViewHolder(CryptoCurrencyHolder holder, int position) {
             CryptoCurrency cryptoCurrency = mCryptoCurrencies.get(position);
-            holder.bind(cryptoCurrency);
+            holder.bind(cryptoCurrency, position);
         }
 
         @Override
