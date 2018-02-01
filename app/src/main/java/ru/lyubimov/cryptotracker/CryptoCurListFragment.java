@@ -182,40 +182,21 @@ public class CryptoCurListFragment extends Fragment {
             } else {
                 mCurIco.setImageResource(R.drawable.def);
             }
-            String name = position + "." + mCryptoCurrency.getName().toUpperCase();
+            String name = (position + 1) + "." + mCryptoCurrency.getName().toUpperCase();
             mCurName.setText(name);
 
             mCurCost.setText(mCryptoCurrency.getPriceCur());
             mBtcCost.setText(mCryptoCurrency.getPriceBtc());
             mCurVolume.setText(mCryptoCurrency.getDayVolumeCur());
 
-            setupChangeView(mOneHourChange, mCryptoCurrency.getHourPercentChange());
-            setupChangeView(mOneDayChange, mCryptoCurrency.getDayPercentChange());
-            setupChangeView(mOneWeekChange, mCryptoCurrency.getWeekPercentChange());
+            ViewTextUtils.setupChangeView(getResources(), mOneHourChange, mCryptoCurrency.getHourPercentChange());
+            ViewTextUtils.setupChangeView(getResources(), mOneDayChange, mCryptoCurrency.getDayPercentChange());
+            ViewTextUtils.setupChangeView(getResources(), mOneWeekChange, mCryptoCurrency.getWeekPercentChange());
 
             if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 mMarketCapVol.setText(mCryptoCurrency.getMarketCapCur());
                 mAvailableSupplyVol.setText(mCryptoCurrency.getAvailableSupply());
                 mMaxSupplyVol.setText(mCryptoCurrency.getMaxSupply());
-            }
-        }
-
-        private void setupChangeView(TextView textView, String param) {
-            if(param != null) {
-                Double numParam = Double.valueOf(param);
-                String textToView;
-                if(numParam >= 0) {
-                    textView.setTextColor(getResources().getColor(R.color.colorGreen));
-                    textToView = "+" + param + "%";
-                    textView.setText(textToView);
-                } else {
-                    textView.setTextColor(getResources().getColor(R.color.colorRed));
-                    textToView = param + "%";
-                    textView.setText(textToView);
-                }
-            } else {
-                textView.setText("-");
-                textView.setTextColor(getResources().getColor(R.color.colorBlack));
             }
         }
 

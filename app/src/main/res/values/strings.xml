@@ -14,10 +14,11 @@
     <string name="one_day_title">1d:</string>
     <string name="one_week_title">1w:</string>
 
-    <string name="crypto_currency_icon">Crypto Currency icon</string>
     <string name="sort_by_rank">Sort by rank</string>
     <string name="sort_by_volume">Sort by volume</string>
     <string name="sort_by_cost">Sort by cost</string>
     <string name="sort_by_rise">Sort by rise</string>
     <string name="sort_by_falling_down">Sort by falling down</string>
+
+    <string name="crypto_currency_icon">Crypto Currency icon</string>
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +11,7 @@
         android:layout_height="120dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="44dp"
+        android:contentDescription="@string/crypto_currency_icon"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,157 +24,128 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
 
     <TextView
-        android:id="@+id/cur_cost_title"
+        android:id="@+id/cur_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="81dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintStart_toEndOf="@+id/cur_icon"
+        app:layout_constraintTop_toBottomOf="@+id/cur_name"
+        tools:text="TextView" />
 
     <TextView
-        android:id="@+id/cur_cost_val"
+        android:id="@+id/btc_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="122dp" />
-
-    <TextView
-        android:id="@+id/btc_cost_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="209dp"
-        tools:layout_editor_absoluteY="81dp" />
-
-    <TextView
-        android:id="@+id/btc_cost_val"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="209dp"
-        tools:layout_editor_absoluteY="122dp" />
-
-    <TextView
-        android:id="@+id/day_vol_title"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/day_vol"
-        app:layout_constraintRight_toLefttOf="@+id/market_cap_title"
-        tools:layout_editor_absoluteX="48dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@+id/cur_icon"
+        app:layout_constraintTop_toBottomOf="@+id/cur_cost"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/day_vol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="62dp"
+        android:layout_height="19dp"
         android:layout_marginBottom="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="51dp" />
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
+        app:layout_constraintTop_toBottomOf="@+id/cur_icon"
+        tools:text="TextView" />
+
 
     <TextView
-        android:id="@+id/market_cap_title"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:text="TextView"
-        app:layout_constraintLeft_toRigttOf="@id/day_vol_title"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="172dp" />
-
-    <TextView
-        android:id="@+id/market_cap_vol"
+        android:id="@+id/market_cap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="224dp" />
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
+        app:layout_constraintTop_toBottomOf="@+id/day_vol"
+        tools:text="TextView" />
+
 
     <TextView
-        android:id="@+id/available_supply_title"
+        android:id="@+id/available_supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="268dp" />
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
+        app:layout_constraintTop_toBottomOf="@+id/market_cap"
+        tools:text="TextView" />
+
 
     <TextView
-        android:id="@+id/available_supply_vol"
+        android:id="@+id/total_supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="287dp" />
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
+        app:layout_constraintTop_toBottomOf="@+id/available_supply"
+        tools:text="TextView" />
 
     <TextView
-        android:id="@+id/total_supply_title"
+        android:id="@+id/hour_change_tittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="268dp" />
+        android:layout_marginTop="24dp"
+        android:text="@string/one_hour_title"
+        app:layout_constraintEnd_toStartOf="@+id/day_change_title"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_supply" />
 
     <TextView
-        android:id="@+id/total_supply_vol"
+        android:id="@+id/hour_change_vol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="287dp" />
+        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
+        app:layout_constraintTop_toBottomOf="@+id/hour_change_tittle"
+        tools:text="TextView" />
 
     <TextView
-        android:id="@+id/one_hour_title"
+        android:id="@+id/day_change_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="328dp" />
+        android:layout_marginTop="24dp"
+        android:text="@string/one_day_title"
+        app:layout_constraintEnd_toStartOf="@+id/week_change_title"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/hour_change_tittle"
+        app:layout_constraintTop_toBottomOf="@+id/total_supply" />
 
     <TextView
-        android:id="@+id/one_hour_change"
+        android:id="@+id/day_change_vol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="119dp"
-        tools:layout_editor_absoluteY="328dp" />
+        app:layout_constraintStart_toStartOf="@+id/day_change_title"
+        app:layout_constraintTop_toBottomOf="@+id/day_change_title"
+        tools:text="TextView" />
 
     <TextView
-        android:id="@+id/one_day_title"
+        android:id="@+id/week_change_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="328dp" />
+        android:layout_marginTop="24dp"
+        android:text="@string/one_week_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/day_change_title"
+        app:layout_constraintTop_toBottomOf="@+id/total_supply" />
+
 
     <TextView
-        android:id="@+id/one_day_change"
+        android:id="@+id/week_change_vol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="347dp" />
+        app:layout_constraintStart_toStartOf="@+id/week_change_title"
+        app:layout_constraintTop_toBottomOf="@+id/week_change_title"
+        tools:text="TextView" />
 
-    <TextView
-        android:id="@+id/one_week_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="119dp"
-        tools:layout_editor_absoluteY="347dp" />
-
-    <TextView
-        android:id="@+id/one_week_change"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="347dp" />
 
 </android.support.constraint.ConstraintLayout>

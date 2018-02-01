@@ -29,7 +29,7 @@
         android:contentDescription="@string/crypto_currency_icon" />
 
     <TextView
-        android:id="@+id/cur_cost_title"
+        android:id="@+id/cur_cost"
         style="@style/TitleParamText"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/btc_cost_title"
+        android:id="@+id/btc_cost"
         style="@style/TitleParamText"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
@@ -48,10 +48,10 @@
         android:layout_marginTop="8dp"
         android:text="@string/price_btc"
         app:layout_constraintStart_toEndOf="@+id/cur_icon"
-        app:layout_constraintTop_toBottomOf="@+id/cur_cost_title" />
+        app:layout_constraintTop_toBottomOf="@+id/cur_cost" />
 
     <TextView
-        android:id="@+id/usd_cur_vol"
+        android:id="@+id/usd_cur"
         style="@style/TitleParamText"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/day_volume_usd"
         app:layout_constraintStart_toEndOf="@+id/cur_icon"
-        app:layout_constraintTop_toBottomOf="@+id/btc_cost_title" />
+        app:layout_constraintTop_toBottomOf="@+id/btc_cost" />
 
     <TextView
         android:id="@+id/cur_cost_val"
@@ -67,7 +67,7 @@
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        app:layout_constraintStart_toEndOf="@+id/cur_cost_title"
+        app:layout_constraintStart_toEndOf="@+id/cur_cost"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1111111111" />
 
@@ -77,7 +77,7 @@
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/btc_cost_title"
+        app:layout_constraintStart_toEndOf="@+id/btc_cost"
         app:layout_constraintTop_toBottomOf="@+id/cur_cost_val"
         tools:text="1111111111" />
 
@@ -87,12 +87,12 @@
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/usd_cur_vol"
+        app:layout_constraintStart_toEndOf="@+id/usd_cur"
         app:layout_constraintTop_toBottomOf="@+id/btc_cost_val"
         tools:text="1111111111" />
 
     <TextView
-        android:id="@+id/one_hour_title"
+        android:id="@+id/one_hour"
         style="@style/TitleParamText"
         android:layout_width="22dp"
         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/one_day_title"
+        android:id="@+id/one_day"
         style="@style/TitleParamText"
         android:layout_width="22dp"
         android:layout_height="wrap_content"
@@ -111,10 +111,10 @@
         android:layout_marginTop="8dp"
         android:text="@string/one_day_title"
         app:layout_constraintStart_toEndOf="@+id/btc_cost_val"
-        app:layout_constraintTop_toBottomOf="@+id/one_hour_title" />
+        app:layout_constraintTop_toBottomOf="@+id/one_hour" />
 
     <TextView
-        android:id="@+id/one_week_title"
+        android:id="@+id/one_week"
         style="@style/TitleParamText"
         android:layout_width="22dp"
         android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/one_week_title"
         app:layout_constraintStart_toEndOf="@+id/usd_vol_val"
-        app:layout_constraintTop_toBottomOf="@+id/one_day_title" />
+        app:layout_constraintTop_toBottomOf="@+id/one_day" />
 
     <TextView
         android:id="@+id/hour_change_volume"
@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         tools:text="-20.3%"
-        app:layout_constraintStart_toEndOf="@+id/one_hour_title"
+        app:layout_constraintStart_toEndOf="@+id/one_hour"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -140,7 +140,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/one_day_title"
+        app:layout_constraintStart_toEndOf="@+id/one_day"
         app:layout_constraintTop_toBottomOf="@+id/hour_change_volume"
         tools:text="11%" />
 
@@ -150,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/one_week_title"
+        app:layout_constraintStart_toEndOf="@+id/one_week"
         app:layout_constraintTop_toBottomOf="@+id/day_change_volume"
         tools:text="114%" />
 
