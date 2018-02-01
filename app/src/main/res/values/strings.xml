@@ -6,9 +6,18 @@
     <string name="price_btc">Price BTC: </string>
     <string name="day_volume_usd">24h USD vol: </string>
 
+    <string name="price_usd_n">Price USD: %1s</string>
+    <string name="price_btc_n">Price BTC: %1s</string>
+    <string name="day_volume_usd_n">24h USD vol: %1s</string>
+
+    <string name="market_cap_usd_n">Market cap: %1s</string>
+    <string name="available_supply_n">Available supply: %1s</string>
+    <string name="max_supply_n">Max supply: %1s</string>
+
     <string name="market_cap_usd">Market cap: </string>
-    <string name="available_supply">Available supply:</string>
-    <string name="max_supply">Max supply:</string>
+    <string name="available_supply">Available supply: </string>
+    <string name="max_supply">Max supply: </string>
+
 
     <string name="one_hour_title">1h:</string>
     <string name="one_day_title">1d:</string>

@@ -34,6 +34,4 @@ public class Preferences {
                 .putString(PREF_SORT_TYPE, sortType)
                 .apply();
     }
-
-
 }

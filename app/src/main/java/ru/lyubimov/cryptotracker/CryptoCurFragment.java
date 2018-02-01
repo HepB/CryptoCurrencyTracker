@@ -1,11 +1,13 @@
 package ru.lyubimov.cryptotracker;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -15,10 +17,19 @@ import android.widget.TextView;
 public class CryptoCurFragment extends Fragment {
     private static final String ARGS_CRYPTO_CURRENCY = "crypto_currency";
 
+    private AssetFetcher mAssetFetcher;
+
+    private ImageView mCurIco;
+    private TextView mCurName;
+    private TextView mCurCostView;
+    private TextView mBtcCostView;
+    private TextView mDayVolView;
+    private TextView mMarketCapView;
+    private TextView mAvailableSupVolume;
+    private TextView mMaxSupVolume;
     private TextView mHourChangeVolume;
     private TextView mDayChangeVolume;
     private TextView mWeekChangeVolume;
-
 
     private CryptoCurrency mCryptoCurrency;
 
@@ -34,6 +45,7 @@ public class CryptoCurFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCryptoCurrency = (CryptoCurrency) getArguments().getSerializable(ARGS_CRYPTO_CURRENCY);
+        mAssetFetcher = new AssetFetcher(getContext().getAssets());
     }
 
     @Nullable
@@ -41,14 +53,38 @@ public class CryptoCurFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cur_item, container, false);
 
+        mCurIco = view.findViewById(R.id.cur_icon);
+        mCurName = view.findViewById(R.id.cur_name);
+        mCurCostView = view.findViewById(R.id.cur_cost);
+        mBtcCostView = view.findViewById(R.id.btc_cost);
+        mDayVolView = view.findViewById(R.id.day_vol);
+        mMarketCapView = view.findViewById(R.id.market_cap);
+        mAvailableSupVolume = view.findViewById(R.id.available_supply);
+        mMaxSupVolume = view.findViewById(R.id.max_supply);
         mHourChangeVolume = view.findViewById(R.id.hour_change_vol);
-        ViewTextUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getHourPercentChange());
-
         mDayChangeVolume = view.findViewById(R.id.day_change_vol);
-        ViewTextUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());
-
         mWeekChangeVolume = view.findViewById(R.id.week_change_vol);
-        ViewTextUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getWeekPercentChange());
+
+        Drawable curIcon = mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol());
+        if (curIcon != null) {
+            mCurIco.setImageDrawable(curIcon);
+        } else {
+            mCurIco.setImageResource(R.drawable.def);
+        }
+
+        mCurName.setText(mCryptoCurrency.getName().toUpperCase());
+
+        ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceCur());
+        ViewUtils.setupBtcCostView(getResources(), mBtcCostView, mCryptoCurrency.getPriceBtc());
+
+        ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd_n, mDayVolView, mCryptoCurrency.getDayVolumeCur());
+        ViewUtils.setupVolumeView(getResources(), R.string.market_cap_usd_n, mMarketCapView, mCryptoCurrency.getMarketCapCur());
+        ViewUtils.setupVolumeView(getResources(), R.string.available_supply_n, mAvailableSupVolume, mCryptoCurrency.getAvailableSupply());
+        ViewUtils.setupVolumeView(getResources(), R.string.max_supply_n, mMaxSupVolume, mCryptoCurrency.getMaxSupply());
+
+        ViewUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getHourPercentChange());
+        ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());
+        ViewUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getWeekPercentChange());
 
         return view;
     }

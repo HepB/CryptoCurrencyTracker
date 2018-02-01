@@ -21,6 +21,7 @@
         android:id="@+id/cur_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/TitleText"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -51,8 +52,8 @@
 
     <TextView
         android:id="@+id/day_vol"
-        android:layout_width="62dp"
-        android:layout_height="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
@@ -81,7 +82,7 @@
 
 
     <TextView
-        android:id="@+id/total_supply"
+        android:id="@+id/max_supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -98,7 +99,7 @@
         app:layout_constraintEnd_toStartOf="@+id/day_change_title"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_supply" />
+        app:layout_constraintTop_toBottomOf="@+id/max_supply" />
 
     <TextView
         android:id="@+id/hour_change_vol"
@@ -117,7 +118,7 @@
         app:layout_constraintEnd_toStartOf="@+id/week_change_title"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/hour_change_tittle"
-        app:layout_constraintTop_toBottomOf="@+id/total_supply" />
+        app:layout_constraintTop_toBottomOf="@+id/max_supply" />
 
     <TextView
         android:id="@+id/day_change_vol"
@@ -136,7 +137,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/day_change_title"
-        app:layout_constraintTop_toBottomOf="@+id/total_supply" />
+        app:layout_constraintTop_toBottomOf="@+id/max_supply" />
 
 
     <TextView
