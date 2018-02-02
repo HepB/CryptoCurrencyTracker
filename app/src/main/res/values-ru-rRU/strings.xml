@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Трекер криптовалют</string>
+    <string name="search">Поиск</string>
+    <string name="price_usd">Цена USD:</string>
+    <string name="price_btc">Цена BTC:</string>
+    <string name="day_volume_usd">24ч. USD объем продаж:</string>
+    <string name="price_usd_n">Цена USD: %1s</string>
+    <string name="price_btc_n">Цена BTC: %1s</string>
+    <string name="day_volume_usd_n">Объем 24ч: %1s</string>
+    <string name="one_hour_title">"1 ч: "</string>
+    <string name="one_day_title">"1 д: "</string>
+    <string name="one_week_title">"1 н: "</string>
+    <string name="sort_by_rank">Сортировать по рангу</string>
+    <string name="sort_by_volume">Сортировать по объему</string>
+    <string name="sort_by_cost">Сортировать по стоимости</string>
+    <string name="sort_by_rise">Сортировать по росту цены за час</string>
+    <string name="sort_by_falling_down">Сорритровать по падению цены за час</string>
+    <string name="crypto_currency_icon">Иконка криптовалюты</string>
+    <string name="max_supply">Максимальное кол-во монет:</string>
+    <string name="available_supply">"Доступный объем монет: "</string>
+    <string name="market_cap_usd_n">Объем рынка USD: %1s</string>
+    <string name="market_cap_usd">Объем рынка USD:</string>
+    <string name="max_supply_n">Макс. кол-во монет: %1s</string>
+    <string name="available_supply_n">Доступное кол-во монет: %1s</string>
+</resources>

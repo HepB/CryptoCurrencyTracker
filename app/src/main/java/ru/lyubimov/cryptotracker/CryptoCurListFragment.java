@@ -138,7 +138,6 @@ public class CryptoCurListFragment extends Fragment {
         }
     }
 
-    //TODO: убрать костыль с orientation
     private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener{
         CryptoCurrency mCryptoCurrency;
 
@@ -146,29 +145,21 @@ public class CryptoCurListFragment extends Fragment {
         TextView mCurName;
         TextView mCurCost;
         TextView mBtcCost;
-        TextView mCurVolume;
+        TextView mDayVolume;
         TextView mOneHourChange;
         TextView mOneDayChange;
         TextView mOneWeekChange;
-        TextView mMarketCapVol;
-        TextView mAvailableSupplyVol;
-        TextView mMaxSupplyVol;
 
         public CryptoCurrencyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_ccurrency, parent, false));
             mCurIco = itemView.findViewById(R.id.cur_icon);
             mCurName = itemView.findViewById(R.id.cur_name);
-            mCurCost = itemView.findViewById(R.id.cur_cost_val);
-            mBtcCost = itemView.findViewById(R.id.btc_cost_val);
-            mCurVolume = itemView.findViewById(R.id.usd_vol_val);
+            mCurCost = itemView.findViewById(R.id.cur_cost);
+            mBtcCost = itemView.findViewById(R.id.btc_cost);
+            mDayVolume = itemView.findViewById(R.id.usd_day_vol);
             mOneHourChange = itemView.findViewById(R.id.hour_change_volume);
             mOneDayChange = itemView.findViewById(R.id.day_change_volume);
             mOneWeekChange = itemView.findViewById(R.id.week_change_volume);
-            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                mMarketCapVol = itemView.findViewById(R.id.market_cap_vol);
-                mAvailableSupplyVol = itemView.findViewById(R.id.available_supply_vol);
-                mMaxSupplyVol = itemView.findViewById(R.id.total_supply_vol);
-            }
             itemView.setOnClickListener(this);
         }
 
@@ -182,23 +173,14 @@ public class CryptoCurListFragment extends Fragment {
             } else {
                 mCurIco.setImageResource(R.drawable.def);
             }
-            String name = (position + 1) + "." + mCryptoCurrency.getName().toUpperCase();
-            mCurName.setText(name);
 
-            mCurCost.setText(mCryptoCurrency.getPriceCur());
-            mBtcCost.setText(mCryptoCurrency.getPriceBtc());
-            mCurVolume.setText(mCryptoCurrency.getDayVolumeCur());
-
-            ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), position);
+            ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), null, position + 1);
+            ViewUtils.setupCurCostView(getResources(), mCurCost, mCryptoCurrency.getPriceCur());
+            ViewUtils.setupBtcCostView(getResources(), mBtcCost, mCryptoCurrency.getPriceBtc());
+            ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd_n, mDayVolume, mCryptoCurrency.getDayVolumeCur());
             ViewUtils.setupChangeView(getResources(), mOneHourChange, mCryptoCurrency.getHourPercentChange());
             ViewUtils.setupChangeView(getResources(), mOneDayChange, mCryptoCurrency.getDayPercentChange());
             ViewUtils.setupChangeView(getResources(), mOneWeekChange, mCryptoCurrency.getWeekPercentChange());
-
-            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                mMarketCapVol.setText(mCryptoCurrency.getMarketCapCur());
-                mAvailableSupplyVol.setText(mCryptoCurrency.getAvailableSupply());
-                mMaxSupplyVol.setText(mCryptoCurrency.getMaxSupply());
-            }
         }
 
         @Override

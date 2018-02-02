@@ -16,7 +16,10 @@ public class ViewUtils {
         if(num != null) {
             sb.append(num).append(".");
         }
-        sb.append(curName).append("(").append(curSymbol).append(")");
+        sb.append(curName);
+        if (curSymbol != null) {
+            sb.append("(").append(curSymbol).append(")");
+        }
         textView.setText(sb.toString().toUpperCase());
     }
 
