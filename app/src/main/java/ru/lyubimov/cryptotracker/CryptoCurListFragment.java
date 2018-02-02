@@ -189,6 +189,7 @@ public class CryptoCurListFragment extends Fragment {
             mBtcCost.setText(mCryptoCurrency.getPriceBtc());
             mCurVolume.setText(mCryptoCurrency.getDayVolumeCur());
 
+            ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), position);
             ViewUtils.setupChangeView(getResources(), mOneHourChange, mCryptoCurrency.getHourPercentChange());
             ViewUtils.setupChangeView(getResources(), mOneDayChange, mCryptoCurrency.getDayPercentChange());
             ViewUtils.setupChangeView(getResources(), mOneWeekChange, mCryptoCurrency.getWeekPercentChange());

@@ -72,8 +72,7 @@ public class CryptoCurFragment extends Fragment {
             mCurIco.setImageResource(R.drawable.def);
         }
 
-        mCurName.setText(mCryptoCurrency.getName().toUpperCase());
-
+        ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), null);
         ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceCur());
         ViewUtils.setupBtcCostView(getResources(), mBtcCostView, mCryptoCurrency.getPriceBtc());
 

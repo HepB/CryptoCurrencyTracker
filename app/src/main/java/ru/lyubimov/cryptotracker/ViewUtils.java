@@ -11,6 +11,15 @@ import java.text.NumberFormat;
 
 public class ViewUtils {
 
+    public static void setupTitleView(TextView textView, String curName, String curSymbol, Integer num) {
+        StringBuilder sb = new StringBuilder();
+        if(num != null) {
+            sb.append(num).append(".");
+        }
+        sb.append(curName).append("(").append(curSymbol).append(")");
+        textView.setText(sb.toString().toUpperCase());
+    }
+
     public static void setupChangeView(Resources resources, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
