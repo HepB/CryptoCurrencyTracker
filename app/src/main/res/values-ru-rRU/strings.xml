@@ -11,11 +11,11 @@
     <string name="one_hour_title">"1 ч: "</string>
     <string name="one_day_title">"1 д: "</string>
     <string name="one_week_title">"1 н: "</string>
-    <string name="sort_by_rank">Сортировать по рангу</string>
-    <string name="sort_by_volume">Сортировать по объему</string>
-    <string name="sort_by_cost">Сортировать по стоимости</string>
-    <string name="sort_by_rise">Сортировать по росту цены за час</string>
-    <string name="sort_by_falling_down">Сорритровать по падению цены за час</string>
+    <string name="sort_by_rank">Сорт. по рангу</string>
+    <string name="sort_by_volume">Сорт. по объему</string>
+    <string name="sort_by_cost">Сорт. по стоимости</string>
+    <string name="sort_by_rise">Сорт. по росту цены за час</string>
+    <string name="sort_by_falling_down">Сорт. по падению цены за час</string>
     <string name="crypto_currency_icon">Иконка криптовалюты</string>
     <string name="max_supply">Максимальное кол-во монет:</string>
     <string name="available_supply">"Доступный объем монет: "</string>

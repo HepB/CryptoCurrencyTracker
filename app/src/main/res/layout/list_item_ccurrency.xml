@@ -11,7 +11,7 @@
         style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="22dp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Bitcoin" />
@@ -20,7 +20,7 @@
         android:id="@+id/cur_icon"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/crypto_currency_icon"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,13 +120,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.36" />
+        app:layout_constraintGuide_percent="0.39" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.81" />
+        app:layout_constraintGuide_percent="0.79" />
 
 </android.support.constraint.ConstraintLayout>

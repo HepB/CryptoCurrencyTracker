@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 26
     defaultConfig {
         applicationId "ru.lyubimov.cryptotracker"
-        minSdkVersion 21
+        minSdkVersion 20
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -28,5 +28,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
