@@ -1,6 +1,12 @@
 package ru.lyubimov.cryptotracker;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -75,6 +81,19 @@ public class ViewUtils {
         } else {
             String text = resources.getString(stringId, "-");
             textView.setText(text);
+        }
+    }
+
+    public static void setCurViewIcon(Resources resources, TextView curIconView, AssetFetcher assetFetcher, String symbol) {
+        Drawable curIcon = assetFetcher.getDrawableFromAssets(symbol);
+        if (curIcon != null) {
+            curIconView.setBackground(curIcon);
+            curIconView.setText(null);
+        } else {
+            curIcon = resources.getDrawable(R.drawable.def_n);
+            curIconView.setText(symbol);
+            curIconView.setTextColor(resources.getColor(R.color.colorWhite));
+            curIconView.setBackground(curIcon);
         }
     }
 }

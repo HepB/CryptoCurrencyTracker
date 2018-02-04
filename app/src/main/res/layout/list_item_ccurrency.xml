@@ -16,13 +16,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Bitcoin" />
 
-    <ImageView
+    <TextView
         android:id="@+id/cur_icon"
+        style="@style/TextIconStyle"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/crypto_currency_icon"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

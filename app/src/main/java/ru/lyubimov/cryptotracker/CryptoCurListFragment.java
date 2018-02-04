@@ -2,7 +2,6 @@ package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -141,7 +140,7 @@ public class CryptoCurListFragment extends Fragment {
     private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener{
         CryptoCurrency mCryptoCurrency;
 
-        ImageView mCurIco;
+        TextView mCurIco;
         TextView mCurName;
         TextView mCurCost;
         TextView mBtcCost;
@@ -167,14 +166,8 @@ public class CryptoCurListFragment extends Fragment {
         public void bind(CryptoCurrency cryptoCurrency, int position) {
             mCryptoCurrency = cryptoCurrency;
 
-            Drawable curIcon = mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol());
-            if (curIcon != null) {
-                mCurIco.setImageDrawable(curIcon);
-            } else {
-                mCurIco.setImageResource(R.drawable.def);
-            }
-
             ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), null, position + 1);
+            ViewUtils.setCurViewIcon(getResources(), mCurIco,mAssetFetcher, mCryptoCurrency.getSymbol());
             ViewUtils.setupCurCostView(getResources(), mCurCost, mCryptoCurrency.getPriceCur());
             ViewUtils.setupBtcCostView(getResources(), mBtcCost, mCryptoCurrency.getPriceBtc());
             ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd_n, mDayVolume, mCryptoCurrency.getDayVolumeCur());

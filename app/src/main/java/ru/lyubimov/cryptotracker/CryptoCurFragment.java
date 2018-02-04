@@ -19,7 +19,7 @@ public class CryptoCurFragment extends Fragment {
 
     private AssetFetcher mAssetFetcher;
 
-    private ImageView mCurIco;
+    private TextView mCurIco;
     private TextView mCurName;
     private TextView mCurCostView;
     private TextView mBtcCostView;
@@ -65,12 +65,7 @@ public class CryptoCurFragment extends Fragment {
         mDayChangeVolume = view.findViewById(R.id.day_change_vol);
         mWeekChangeVolume = view.findViewById(R.id.week_change_vol);
 
-        Drawable curIcon = mAssetFetcher.getDrawableFromAssets(mCryptoCurrency.getSymbol());
-        if (curIcon != null) {
-            mCurIco.setImageDrawable(curIcon);
-        } else {
-            mCurIco.setImageResource(R.drawable.def);
-        }
+        ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
 
         ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), null);
         ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceCur());

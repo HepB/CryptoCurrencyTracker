@@ -8,12 +8,12 @@
     <TextView
         android:id="@+id/cur_icon"
         style="@style/TextIconStyle"
-        android:gravity="center"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="44dp"
         android:contentDescription="@string/crypto_currency_icon"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:color/background_light" />
@@ -35,9 +35,8 @@
         android:id="@+id/cur_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toEndOf="@+id/cur_icon"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/cur_name"
         tools:text="TextView" />
 
@@ -45,9 +44,8 @@
         android:id="@+id/btc_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toEndOf="@+id/cur_icon"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/cur_cost"
         tools:text="TextView" />
 
@@ -55,10 +53,9 @@
         android:id="@+id/day_vol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
-        app:layout_constraintTop_toBottomOf="@+id/cur_icon"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toBottomOf="@+id/cur_name"
         tools:text="TextView" />
 
 
@@ -66,8 +63,8 @@
         android:id="@+id/market_cap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/day_vol"
         tools:text="TextView" />
 
@@ -76,9 +73,9 @@
         android:id="@+id/available_supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
-        app:layout_constraintTop_toBottomOf="@+id/market_cap"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/btc_cost"
         tools:text="TextView" />
 
 
@@ -86,8 +83,8 @@
         android:id="@+id/max_supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="@+id/hour_change_tittle"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/available_supply"
         tools:text="TextView" />
 
@@ -95,7 +92,7 @@
         android:id="@+id/hour_change_tittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/one_hour_title"
         app:layout_constraintEnd_toStartOf="@+id/day_change_title"
         app:layout_constraintHorizontal_bias="0.5"
@@ -115,7 +112,7 @@
         android:id="@+id/day_change_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/one_day_title"
         app:layout_constraintEnd_toStartOf="@+id/week_change_title"
         app:layout_constraintHorizontal_bias="0.5"
@@ -135,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/one_week_title"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.5"
@@ -164,6 +161,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="32dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25675675" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
 
 
 </android.support.constraint.ConstraintLayout>

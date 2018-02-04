@@ -21,6 +21,6 @@
     <string name="available_supply">"Доступный объем монет: "</string>
     <string name="market_cap_usd_n">Объем рынка USD: %1s</string>
     <string name="market_cap_usd">Объем рынка USD:</string>
-    <string name="max_supply_n">Макс. кол-во монет: %1s</string>
+    <string name="max_supply_n">Макcимальное кол-во монет: %1s</string>
     <string name="available_supply_n">Доступное кол-во монет: %1s</string>
 </resources>
