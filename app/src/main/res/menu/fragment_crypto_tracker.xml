@@ -2,30 +2,40 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:id="@+id/menu_item_search"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/menu_item_sort_by_rank"
-        android:title="@string/sort_by_rank"
-        app:showAsAction="never"/>
+    <item android:id="@+id/search_item"
+        android:title="@string/sort_title"
+        android:icon="@drawable/sort_ico"
+        app:showAsAction="ifRoom">
 
-    <item android:id="@+id/menu_item_sort_by_volume"
-        android:title="@string/sort_by_volume"
-        app:showAsAction="never"/>
+        <menu>
+            <item android:id="@+id/menu_item_sort_by_rank"
+                android:title="@string/sort_by_rank"
+                app:showAsAction="never"/>
 
-    <item android:id="@+id/menu_item_sort_by_cost"
-        android:title="@string/sort_by_cost"
-        app:showAsAction="never"/>
+            <item android:id="@+id/menu_item_sort_by_volume"
+                android:title="@string/sort_by_volume"
+                app:showAsAction="never"/>
 
-    <item android:id="@+id/menu_item_sort_by_rise"
-        android:title="@string/sort_by_rise"
-        app:showAsAction="never"/>
+            <item android:id="@+id/menu_item_sort_by_cost"
+                android:title="@string/sort_by_cost"
+                app:showAsAction="never"/>
 
-    <item android:id="@+id/menu_item_sort_by_fall"
-        android:title="@string/sort_by_falling_down"
-        app:showAsAction="never"/>
+            <item android:id="@+id/menu_item_sort_by_rise"
+                android:title="@string/sort_by_rise"
+                app:showAsAction="never"/>
 
+            <item android:id="@+id/menu_item_sort_by_fall"
+                android:title="@string/sort_by_falling_down"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+
+    <item android:id="@+id/options"
+        android:title="@string/options_title"
+        app:showAsAction="never"/>
 </menu>

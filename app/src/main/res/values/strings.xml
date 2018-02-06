@@ -30,4 +30,6 @@
     <string name="sort_by_falling_down">Sort by falling down</string>
 
     <string name="crypto_currency_icon">Crypto Currency icon</string>
+    <string name="options_title">Options</string>
+    <string name="sort_title">Sort</string>
 </resources>
