@@ -43,6 +43,7 @@ public class ViewUtils {
                 textView.setText(textToView);
             }
         } else {
+            textView.setTextColor(resources.getColor(R.color.colorBlack));
             textView.setText("-");
         }
     }
