@@ -10,13 +10,6 @@ public class CryptoCurrencyComparator {
 
     private static final String TAG = "CryptoCurrencyComp";
 
-    public static final String COMPARE_BY_RANK = "compareByRank";
-    public static final String COMPARE_BY_VOLUME = "compareByVolume";
-    public static final String COMPARE_BY_COST = "compareByCost";
-    public static final String COMPARE_BY_RISE = "compareByRise";
-    public static final String COMPARE_BY_FALLING_DOWN = "compareByFallingDown";
-
-
     public static Comparator<CryptoCurrency> compareByRank(){
         return new Comparator<CryptoCurrency>() {
             @Override
@@ -68,7 +61,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByRise() {
+    public static Comparator<CryptoCurrency> compareByHourRise() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -88,7 +81,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByFallingDown() {
+    public static Comparator<CryptoCurrency> compareByHourFallingDown() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -103,6 +96,87 @@ public class CryptoCurrencyComparator {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sHourChangeA), Double.valueOf(sHourChangeB));
+                }
+            }
+        };
+    }
+
+
+    public static Comparator<CryptoCurrency> compareByDayRise() {
+        return new Comparator<CryptoCurrency>() {
+            @Override
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
+                String sDayChangeA = a.getDayPercentChange();
+                String sDayChangeB = b.getDayPercentChange();
+
+                if (sDayChangeA == null && sDayChangeB != null) {
+                    return 1;
+                } else if(sDayChangeA != null && sDayChangeB == null) {
+                    return -1;
+                } else if (sDayChangeA == null && sDayChangeB == null) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sDayChangeB), Double.valueOf(sDayChangeA));
+                }
+            }
+        };
+    }
+
+    public static Comparator<CryptoCurrency> compareByDayFallingDown() {
+        return new Comparator<CryptoCurrency>() {
+            @Override
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
+                String sDayChangeA = a.getDayPercentChange();
+                String sDayChangeB = b.getDayPercentChange();
+
+                if (sDayChangeA == null && sDayChangeB != null) {
+                    return 1;
+                } else if(sDayChangeA != null && sDayChangeB == null) {
+                    return -1;
+                } else if (sDayChangeA == null && sDayChangeB == null) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sDayChangeA), Double.valueOf(sDayChangeB));
+                }
+            }
+        };
+    }
+
+    public static Comparator<CryptoCurrency> compareByWeekRise() {
+        return new Comparator<CryptoCurrency>() {
+            @Override
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
+                String sWeekChangeA = a.getWeekPercentChange();
+                String sWeekChangeB = b.getWeekPercentChange();
+
+                if (sWeekChangeA == null && sWeekChangeB != null) {
+                    return 1;
+                } else if(sWeekChangeA != null && sWeekChangeB == null) {
+                    return -1;
+                } else if (sWeekChangeA == null && sWeekChangeB == null) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sWeekChangeB), Double.valueOf(sWeekChangeA));
+                }
+            }
+        };
+    }
+
+    public static Comparator<CryptoCurrency> compareByWeekFallingDown() {
+        return new Comparator<CryptoCurrency>() {
+            @Override
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
+                String sWeekChangeA = a.getWeekPercentChange();
+                String sWeekChangeB = b.getWeekPercentChange();
+
+                if (sWeekChangeA == null && sWeekChangeB != null) {
+                    return 1;
+                } else if(sWeekChangeA != null && sWeekChangeB == null) {
+                    return -1;
+                } else if (sWeekChangeA == null && sWeekChangeB == null) {
+                    return 0;
+                } else {
+                    return Double.compare(Double.valueOf(sWeekChangeA), Double.valueOf(sWeekChangeB));
                 }
             }
         };

@@ -23,7 +23,18 @@
     <string name="market_cap_usd">Объем рынка USD:</string>
     <string name="max_supply_n">Макcимальное кол-во монет: %1s</string>
     <string name="available_supply_n">Доступное кол-во монет: %1s</string>
-    <string name="sort_title">Сортировать</string>
+    <string name="sort_title">"Сортировать: "</string>
     <string name="options_title">Настройки</string>
 
+    <string-array name="sort_types">
+        <item>по рангу</item>
+        <item>по объему рынка</item>
+        <item>по стоимости</item>
+        <item>по росту цены за час</item>
+        <item>по падению цены за час</item>
+        <item>по росту цены за день</item>
+        <item>по падению цены за день</item>
+        <item>по росту цены за неделю</item>
+        <item>по падению цены за неделю</item>
+    </string-array>
 </resources>

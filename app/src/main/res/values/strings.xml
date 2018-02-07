@@ -31,5 +31,17 @@
 
     <string name="crypto_currency_icon">Crypto Currency icon</string>
     <string name="options_title">Options</string>
-    <string name="sort_title">Sort</string>
+    <string name="sort_title">"Sort by: "</string>
+
+    <string-array name="sort_types">
+        <item>by rank</item>
+        <item>by volume</item>
+        <item>by cost</item>
+        <item>by hour rise</item>
+        <item>by hour falling down</item>
+        <item>by day rise</item>
+        <item>by day falling down</item>
+        <item>by week rise</item>
+        <item>by week falling down</item>
+    </string-array>
 </resources>
