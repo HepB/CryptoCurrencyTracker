@@ -247,6 +247,7 @@ public class CryptoCurListFragment extends Fragment {
 
         @Override
         protected List<CryptoCurrency> doInBackground(Void... voids) {
+            onProgressUpdate();
             return new CoinMarketCapFetcher().fetchCryptoCurrencies();
         }
 
@@ -254,6 +255,13 @@ public class CryptoCurListFragment extends Fragment {
         protected void onPostExecute(List<CryptoCurrency> aCryptoCurrencies) {
             mCryptoCurrencies = aCryptoCurrencies;
             setupAdapter();
+            onItemsLoadComplete();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+            mSwipeRefreshLayout.setRefreshing(true);
         }
     }
 
@@ -267,7 +275,6 @@ public class CryptoCurListFragment extends Fragment {
 
     private void updateItems() {
         new FetchCurrenciesTask().execute();
-        onItemsLoadComplete();
     }
 
     private void onItemsLoadComplete() {
