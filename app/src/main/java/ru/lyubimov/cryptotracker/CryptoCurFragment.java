@@ -1,13 +1,11 @@
 package ru.lyubimov.cryptotracker;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -71,10 +69,10 @@ public class CryptoCurFragment extends Fragment {
         ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceCur());
         ViewUtils.setupBtcCostView(getResources(), mBtcCostView, mCryptoCurrency.getPriceBtc());
 
-        ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd_n, mDayVolView, mCryptoCurrency.getDayVolumeCur());
-        ViewUtils.setupVolumeView(getResources(), R.string.market_cap_usd_n, mMarketCapView, mCryptoCurrency.getMarketCapCur());
-        ViewUtils.setupVolumeView(getResources(), R.string.available_supply_n, mAvailableSupVolume, mCryptoCurrency.getAvailableSupply());
-        ViewUtils.setupVolumeView(getResources(), R.string.max_supply_n, mMaxSupVolume, mCryptoCurrency.getMaxSupply());
+        ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolView, mCryptoCurrency.getDayVolumeCur());
+        ViewUtils.setupVolumeView(getResources(), R.string.market_cap_usd, mMarketCapView, mCryptoCurrency.getMarketCapCur());
+        ViewUtils.setupVolumeView(getResources(), R.string.available_supply, mAvailableSupVolume, mCryptoCurrency.getAvailableSupply());
+        ViewUtils.setupVolumeView(getResources(), R.string.max_supply, mMaxSupVolume, mCryptoCurrency.getMaxSupply());
 
         ViewUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getHourPercentChange());
         ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());

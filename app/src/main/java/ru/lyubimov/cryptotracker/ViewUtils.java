@@ -1,11 +1,6 @@
 package ru.lyubimov.cryptotracker;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
@@ -51,11 +46,11 @@ public class ViewUtils {
     public static void setupCurCostView(Resources resources, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
-            String textToView = resources.getString(R.string.price_usd_n, String.format(resources.getConfiguration().locale,"%-10.2f", numParam));
+            String textToView = resources.getString(R.string.price_usd, String.format(resources.getConfiguration().locale,"%-10.2f", numParam));
             textView.setText(textToView);
             textView.setTextColor(resources.getColor(R.color.colorBlack));
         } else {
-            String text = resources.getString(R.string.price_usd_n, "-");
+            String text = resources.getString(R.string.price_usd, "-");
             textView.setText(text);
         }
     }
@@ -63,11 +58,11 @@ public class ViewUtils {
     public static void setupBtcCostView(Resources resources, TextView textView, String param) {
         if (param != null) {
             Double numParam = Double.valueOf(param);
-            String textToView = resources.getString(R.string.price_btc_n, String.format(resources.getConfiguration().locale, "%-10.9f", numParam));
+            String textToView = resources.getString(R.string.price_btc, String.format(resources.getConfiguration().locale, "%-10.9f", numParam));
             textView.setText(textToView);
             textView.setTextColor(resources.getColor(R.color.colorBlack));
         } else {
-            String text = resources.getString(R.string.price_btc_n, "-");
+            String text = resources.getString(R.string.price_btc, "-");
             textView.setText(text);
         }
     }
