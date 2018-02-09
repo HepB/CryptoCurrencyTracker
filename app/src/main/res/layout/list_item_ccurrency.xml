@@ -90,9 +90,9 @@
 
     <TextView
         android:id="@+id/hour_change_volume"
+        style="@style/ValueParamText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/ValueParamText"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/one_hour"
         app:layout_constraintTop_toTopOf="@+id/cur_cost" />

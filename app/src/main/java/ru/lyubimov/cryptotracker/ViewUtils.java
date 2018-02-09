@@ -10,9 +10,9 @@ import java.text.NumberFormat;
  * Created by Alex on 31.01.2018.
  */
 
-public class ViewUtils {
+class ViewUtils {
 
-    public static void setupTitleView(TextView textView, String curName, String curSymbol, Integer num) {
+    static void setupTitleView(TextView textView, String curName, String curSymbol, Integer num) {
         StringBuilder sb = new StringBuilder();
         if(num != null) {
             sb.append(num).append(".");
@@ -24,7 +24,7 @@ public class ViewUtils {
         textView.setText(sb.toString().toUpperCase());
     }
 
-    public static void setupChangeView(Resources resources, TextView textView, String param) {
+    static void setupChangeView(Resources resources, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
             String textToView;
@@ -43,7 +43,7 @@ public class ViewUtils {
         }
     }
 
-    public static void setupCurCostView(Resources resources, TextView textView, String param) {
+    static void setupCurCostView(Resources resources, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
             String textToView = resources.getString(R.string.price_usd, String.format(resources.getConfiguration().locale,"%-10.2f", numParam));
@@ -55,7 +55,7 @@ public class ViewUtils {
         }
     }
 
-    public static void setupBtcCostView(Resources resources, TextView textView, String param) {
+    static void setupBtcCostView(Resources resources, TextView textView, String param) {
         if (param != null) {
             Double numParam = Double.valueOf(param);
             String textToView = resources.getString(R.string.price_btc, String.format(resources.getConfiguration().locale, "%-10.9f", numParam));
@@ -67,7 +67,7 @@ public class ViewUtils {
         }
     }
 
-    public static void setupVolumeView(Resources resources, int stringId, TextView textView, String param) {
+    static void setupVolumeView(Resources resources, int stringId, TextView textView, String param) {
         if (param != null) {
             Double numParam = Double.valueOf(param);
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -80,7 +80,7 @@ public class ViewUtils {
         }
     }
 
-    public static void setCurViewIcon(Resources resources, TextView curIconView, AssetFetcher assetFetcher, String symbol) {
+    static void setCurViewIcon(Resources resources, TextView curIconView, AssetFetcher assetFetcher, String symbol) {
         Drawable curIcon = assetFetcher.getDrawableFromAssets(symbol);
         if (curIcon != null) {
             curIconView.setBackground(curIcon);

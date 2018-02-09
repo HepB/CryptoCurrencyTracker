@@ -6,11 +6,11 @@ import java.util.Comparator;
  * Created by Alex on 23.01.2018.
  */
 
-public class CryptoCurrencyComparator {
+class CryptoCurrencyComparator {
 
     private static final String TAG = "CryptoCurrencyComp";
 
-    public static Comparator<CryptoCurrency> compareByRank(){
+    static Comparator<CryptoCurrency> compareByRank(){
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -21,7 +21,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByVolume() {
+    static Comparator<CryptoCurrency> compareByVolume() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -41,7 +41,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByCost() {
+    static Comparator<CryptoCurrency> compareByCost() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -61,7 +61,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByHourRise() {
+    static Comparator<CryptoCurrency> compareByHourRise() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -81,7 +81,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByHourFallingDown() {
+    static Comparator<CryptoCurrency> compareByHourFallingDown() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -102,7 +102,7 @@ public class CryptoCurrencyComparator {
     }
 
 
-    public static Comparator<CryptoCurrency> compareByDayRise() {
+    static Comparator<CryptoCurrency> compareByDayRise() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -122,7 +122,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByDayFallingDown() {
+    static Comparator<CryptoCurrency> compareByDayFallingDown() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -142,7 +142,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByWeekRise() {
+    static Comparator<CryptoCurrency> compareByWeekRise() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {
@@ -162,7 +162,7 @@ public class CryptoCurrencyComparator {
         };
     }
 
-    public static Comparator<CryptoCurrency> compareByWeekFallingDown() {
+    static Comparator<CryptoCurrency> compareByWeekFallingDown() {
         return new Comparator<CryptoCurrency>() {
             @Override
             public int compare(CryptoCurrency a, CryptoCurrency b) {

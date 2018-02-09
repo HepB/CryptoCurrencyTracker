@@ -43,31 +43,39 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@android:color/background_light" />
+
                 <TextView
                     android:id="@+id/cur_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintStart_toStartOf="@+id/btc_cost"
-                    app:layout_constraintTop_toBottomOf="@+id/btc_cost"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/btc_cost"
+                    app:layout_constraintStart_toEndOf="@+id/cur_icon"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="TextView" />
+
                 <TextView
                     android:id="@+id/btc_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/market_cap"
                     app:layout_constraintStart_toEndOf="@+id/cur_icon"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cur_cost"
                     tools:text="TextView" />
+
                 <TextView
                     android:id="@+id/market_cap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintStart_toStartOf="@+id/btc_cost"
-                    app:layout_constraintTop_toBottomOf="@+id/cur_cost"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cur_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/btc_cost"
                     tools:text="TextView" />
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
