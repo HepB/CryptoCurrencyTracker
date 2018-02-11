@@ -1,18 +1,31 @@
 package ru.lyubimov.cryptotracker;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alex on 28.01.2018.
  */
 
 public class CryptoCurFragment extends Fragment {
+    private static final String TAG = "CryptoCurFragment";
     private static final String ARGS_CRYPTO_CURRENCY = "crypto_currency";
 
     private AssetFetcher mAssetFetcher;
@@ -28,8 +41,11 @@ public class CryptoCurFragment extends Fragment {
     private TextView mHourChangeVolume;
     private TextView mDayChangeVolume;
     private TextView mWeekChangeVolume;
+    private LinearLayout mMarketView;
+    private Spinner mCurrTypeSpinner;
 
     private CryptoCurrency mCryptoCurrency;
+    private ArrayList<Market> mMarkets;
 
     public static CryptoCurFragment newInstance(CryptoCurrency cryptoCurrency) {
         Bundle args = new Bundle();
@@ -63,6 +79,11 @@ public class CryptoCurFragment extends Fragment {
         mDayChangeVolume = view.findViewById(R.id.day_change_vol);
         mWeekChangeVolume = view.findViewById(R.id.week_change_vol);
 
+        mCurrTypeSpinner = view.findViewById(R.id.cur_type_spinner);
+        setupCurrSpinner();
+
+        mMarketView = view.findViewById(R.id.markets_list_view);
+
         ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
 
         ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), null);
@@ -78,6 +99,88 @@ public class CryptoCurFragment extends Fragment {
         ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());
         ViewUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getWeekPercentChange());
 
+        updateItems();
+
         return view;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class FetchMarketsTask extends AsyncTask<String, Void, ArrayList<Market>> {
+
+        @Override
+        protected ArrayList<Market> doInBackground(String... strings) {
+            onProgressUpdate();
+            return new CryptonatorFetcher().downloadCryptoCurrencies(strings[0], strings[1]);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Market> aMarkets) {
+            mMarkets = aMarkets;
+            setupMarketView();
+            Log.i(TAG, String.valueOf(mMarkets.size()));
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    public class MarketsAdapter extends ArrayAdapter<Market> {
+
+        public MarketsAdapter(Context context, ArrayList<Market> markets) {
+            super(context, 0, markets);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Market market = getItem(position);
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.market_list_item, parent, false);
+            }
+
+            TextView marketTitle = convertView.findViewById(R.id.market_title);
+            TextView marketCost = convertView.findViewById(R.id.market_cost);
+            TextView marketVol = convertView.findViewById(R.id.market_vol);
+
+            marketTitle.setText(market.getMarketName());
+            marketCost.setText(market.getPrice());
+            marketVol.setText(market.getVolume());
+
+            return convertView;
+        }
+    }
+
+    private void updateItems() {
+        new CryptoCurFragment.FetchMarketsTask().execute(mCryptoCurrency.getSymbol(), mCurrTypeSpinner.getSelectedItem().toString());
+    }
+
+    private void setupCurrSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.cur_types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mCurrTypeSpinner.setAdapter(adapter);
+
+        mCurrTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateItems();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void setupMarketView() {
+        mMarketView.removeAllViews();
+        MarketsAdapter marketsAdapter = new MarketsAdapter(getActivity(), mMarkets);
+        for (int i=0; i < mMarkets.size(); i++) {
+            View vi = marketsAdapter.getView(i, null, mMarketView);
+            mMarketView.addView(vi);
+        }
     }
 }

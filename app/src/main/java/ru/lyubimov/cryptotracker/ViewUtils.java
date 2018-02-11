@@ -46,7 +46,13 @@ class ViewUtils {
     static void setupCurCostView(Resources resources, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
-            String textToView = resources.getString(R.string.price_usd, String.format(resources.getConfiguration().locale,"%-10.2f", numParam));
+            String format;
+            if(numParam > 0.01) {
+                format = "%-10.4f";
+            } else {
+                format = "%-10.2f";
+            }
+            String textToView = resources.getString(R.string.price_usd, String.format(resources.getConfiguration().locale, format, numParam));
             textView.setText(textToView);
             textView.setTextColor(resources.getColor(R.color.colorBlack));
         } else {

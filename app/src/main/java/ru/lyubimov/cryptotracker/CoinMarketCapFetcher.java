@@ -20,37 +20,12 @@ import java.util.List;
  * Created by Alex on 15.01.2018.
  */
 
-public class CoinMarketCapFetcher {
+public class CoinMarketCapFetcher extends WebDataFetcher{
     private static final String TAG = "CoinMarketCapFetcher";
 
     private static final Uri ENDPOINT = Uri.parse("https://api.coinmarketcap.com/v1/ticker/");
     private static final String LIMIT = "limit";
     private static final String CONVERT = "convert";
-
-    public byte[] getUrlBytes(String urlSpec) throws IOException {
-        URL url = new URL(urlSpec);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream in = connection.getInputStream();
-            if(connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                IOException ioe = new IOException(connection.getResponseMessage() + ": with " + urlSpec);
-                Log.e(TAG, ioe.getMessage());
-                throw ioe;
-            }
-            int bytesRead;
-            byte[] buffer = new byte[1024];
-            while ((bytesRead = in.read(buffer)) > 0) {
-                out.write(buffer, 0, bytesRead);
-            }
-            out.close();
-            return out.toByteArray();
-        }
-        finally {
-            connection.disconnect();
-        }
-    }
 
     public List<CryptoCurrency> fetchCryptoCurrencies() {
         String url = buildUrl();
@@ -104,5 +79,4 @@ public class CoinMarketCapFetcher {
         List<CryptoCurrency> cryptoCurrencies = gson.fromJson(jsonSting, collectionType);
         items.addAll(cryptoCurrencies);
     }
-
 }

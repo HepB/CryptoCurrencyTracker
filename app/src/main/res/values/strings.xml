@@ -17,16 +17,23 @@
     <string name="crypto_currency_icon">Crypto Currency icon</string>
     <string name="options_title">Options</string>
     <string name="sort_title">"Sort by: "</string>
+    <string name="currency_title">Currency:</string>
 
     <string-array name="sort_types">
-        <item>by rank</item>
-        <item>by volume</item>
-        <item>by cost</item>
-        <item>by hour rise</item>
-        <item>by hour falling down</item>
-        <item>by day rise</item>
-        <item>by day falling down</item>
-        <item>by week rise</item>
-        <item>by week falling down</item>
+        <item>rank</item>
+        <item>volume</item>
+        <item>cost</item>
+        <item>hour rise</item>
+        <item>hour falling down</item>
+        <item>day rise</item>
+        <item>day falling down</item>
+        <item>week rise</item>
+        <item>week falling down</item>
     </string-array>
+
+    <string-array name="cur_types">
+        <item>USD</item>
+        <item>BTC</item>
+    </string-array>
+
 </resources>
