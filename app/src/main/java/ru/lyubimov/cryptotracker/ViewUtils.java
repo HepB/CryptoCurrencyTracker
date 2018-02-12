@@ -48,9 +48,9 @@ class ViewUtils {
             Double numParam = Double.valueOf(param);
             String format;
             if(numParam > 0.01) {
-                format = "%-10.4f";
-            } else {
                 format = "%-10.2f";
+            } else {
+                format = "%-10.4f";
             }
             String textToView = resources.getString(R.string.price_usd, String.format(resources.getConfiguration().locale, format, numParam));
             textView.setText(textToView);
