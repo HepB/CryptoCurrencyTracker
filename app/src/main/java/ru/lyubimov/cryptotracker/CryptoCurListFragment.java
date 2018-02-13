@@ -114,17 +114,6 @@ public class CryptoCurListFragment extends Fragment {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.options:
-                //TODO настройки
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener{
         CryptoCurrency mCryptoCurrency;
 
@@ -178,12 +167,9 @@ public class CryptoCurListFragment extends Fragment {
 
         public CryptoCurrencyAdapter(List<CryptoCurrency> cryptoCurrencies) {
             mCryptoCurrencies = cryptoCurrencies;
-            mCryptoCurrenciesCopy = new ArrayList<>();
-            mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
 
             // compareType - индекс в массиве sort_types
             int compareType = StoredPreferences.getStoredSort(getActivity());
-            filter(StoredPreferences.getStoredQuery(getActivity()));
             if(compareType == 0) {
                 sortItems(CryptoCurrencyComparator.compareByRank());
             } else if (compareType == 1) {
@@ -203,6 +189,10 @@ public class CryptoCurListFragment extends Fragment {
             } else if (compareType == 8) {
                 sortItems(CryptoCurrencyComparator.compareByWeekFallingDown());
             }
+
+            mCryptoCurrenciesCopy = new ArrayList<>();
+            mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
+            filter(StoredPreferences.getStoredQuery(getActivity()));
         }
 
         @Override

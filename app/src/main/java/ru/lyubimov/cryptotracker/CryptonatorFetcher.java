@@ -22,7 +22,7 @@ import java.util.List;
  * Created by Alex on 11.02.2018.
  */
 
-public class CryptonatorFetcher extends WebDataFetcher{
+public class CryptonatorFetcher extends WebDataFetcher {
     private static final String TAG = "CryptonatorFetcher";
 
     private static final Uri ENDPOINT = Uri.parse("https://api.cryptonator.com/api/full/");
@@ -40,14 +40,14 @@ public class CryptonatorFetcher extends WebDataFetcher{
         try {
             String jsonString = getUrlString(targetCurrSymbol, costCurrencyType);
             parseItems(items, jsonString);
-        } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch items", ioe);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to fetch items", e);
         }
         return items;
     }
 
     String getUrlString(String targetCurrSymbol, String costCurrencyType) throws IOException {
-        String completeUrl= buildUrl(targetCurrSymbol, costCurrencyType);
+        String completeUrl = buildUrl(targetCurrSymbol, costCurrencyType);
         return new String(getUrlBytes(completeUrl));
     }
 
@@ -55,18 +55,14 @@ public class CryptonatorFetcher extends WebDataFetcher{
 
         JsonParser parser = new JsonParser();
         JsonElement jsonElement = parser.parse(jsonSting);
+
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-
-        if(jsonObject == null) return;
         JsonObject ticker = jsonObject.getAsJsonObject("ticker");
-
-        if(ticker == null) return;
         JsonArray jsonArray = ticker.get("markets").getAsJsonArray();
 
-        if (jsonArray == null) return;
         Gson gson = new Gson();
-
-        Type collectionType = new TypeToken<List<Market>>(){}.getType();
+        Type collectionType = new TypeToken<List<Market>>() {
+        }.getType();
         List<Market> markets = gson.fromJson(jsonArray, collectionType);
         items.addAll(markets);
     }

@@ -16,8 +16,9 @@
 
     <string name="crypto_currency_icon">Crypto Currency icon</string>
     <string name="options_title">Options</string>
-    <string name="sort_title">"Sort by: "</string>
+    <string name="sort_title">Sort by:</string>
     <string name="currency_title">Currency:</string>
+    <string name="volume">Volume:</string>
 
     <string-array name="sort_types">
         <item>rank</item>

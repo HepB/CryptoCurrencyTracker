@@ -7,7 +7,4 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/options"
-        android:title="@string/options_title"
-        app:showAsAction="never"/>
 </menu>

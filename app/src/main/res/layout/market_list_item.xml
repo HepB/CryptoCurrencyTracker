@@ -10,18 +10,21 @@
         android:id="@+id/market_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
         tools:text="Title" />
 
     <TextView
         android:id="@+id/market_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
         tools:text="TextView" />
 
     <TextView
         android:id="@+id/market_vol"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
         tools:text="TextView" />
 </LinearLayout>

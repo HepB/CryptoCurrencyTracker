@@ -20,6 +20,7 @@
 
     <string name="sort_title">Сортировать: </string>
     <string name="currency_title">Валюта: </string>
+    <string name="volume">Объем: </string>
 
     <string-array name="cur_types">
         <item>USD</item>

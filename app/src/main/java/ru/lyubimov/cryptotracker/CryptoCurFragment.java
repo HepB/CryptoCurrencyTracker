@@ -145,15 +145,22 @@ public class CryptoCurFragment extends Fragment {
             TextView marketVol = convertView.findViewById(R.id.market_vol);
 
             marketTitle.setText(market.getMarketName());
-            marketCost.setText(market.getPrice());
-            marketVol.setText(market.getVolume());
+
+            if (mCurrTypeSpinner.getSelectedItemPosition() == 0) {
+                ViewUtils.setupCurCostView(getResources(), marketCost, market.getPrice());
+            } else {
+                ViewUtils.setupBtcCostView(getResources(), marketCost, market.getPrice());
+            }
+
+            String volume = getString(R.string.volume) + " " +market.getVolume();
+            marketVol.setText(volume);
 
             return convertView;
         }
     }
 
     private void updateItems() {
-        new CryptoCurFragment.FetchMarketsTask().execute(mCryptoCurrency.getSymbol(), mCurrTypeSpinner.getSelectedItem().toString());
+        new CryptoCurFragment.FetchMarketsTask().execute(mCryptoCurrency.getSymbol().toLowerCase(), mCurrTypeSpinner.getSelectedItem().toString().toLowerCase());
     }
 
     private void setupCurrSpinner() {
