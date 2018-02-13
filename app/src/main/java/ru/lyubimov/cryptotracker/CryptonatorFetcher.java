@@ -40,8 +40,8 @@ public class CryptonatorFetcher extends WebDataFetcher {
         try {
             String jsonString = getUrlString(targetCurrSymbol, costCurrencyType);
             parseItems(items, jsonString);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to fetch items", e);
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch items", ioe);
         }
         return items;
     }
@@ -52,18 +52,21 @@ public class CryptonatorFetcher extends WebDataFetcher {
     }
 
     private void parseItems(List<Market> items, String jsonSting) {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonElement jsonElement = parser.parse(jsonSting);
 
-        JsonParser parser = new JsonParser();
-        JsonElement jsonElement = parser.parse(jsonSting);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonObject ticker = jsonObject.getAsJsonObject("ticker");
+            JsonArray jsonArray = ticker.get("markets").getAsJsonArray();
 
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        JsonObject ticker = jsonObject.getAsJsonObject("ticker");
-        JsonArray jsonArray = ticker.get("markets").getAsJsonArray();
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<List<Market>>() {}.getType();
+            List<Market> markets = gson.fromJson(jsonArray, collectionType);
+            items.addAll(markets);
 
-        Gson gson = new Gson();
-        Type collectionType = new TypeToken<List<Market>>() {
-        }.getType();
-        List<Market> markets = gson.fromJson(jsonArray, collectionType);
-        items.addAll(markets);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to parse items", e);
+        }
     }
 }
