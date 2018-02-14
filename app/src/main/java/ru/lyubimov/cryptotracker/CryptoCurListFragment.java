@@ -167,6 +167,8 @@ public class CryptoCurListFragment extends Fragment {
 
         public CryptoCurrencyAdapter(List<CryptoCurrency> cryptoCurrencies) {
             mCryptoCurrencies = cryptoCurrencies;
+            mCryptoCurrenciesCopy = new ArrayList<>();
+            mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
 
             // compareType - индекс в массиве sort_types
             int compareType = StoredPreferences.getStoredSort(getActivity());
@@ -189,9 +191,6 @@ public class CryptoCurListFragment extends Fragment {
             } else if (compareType == 8) {
                 sortItems(CryptoCurrencyComparator.compareByWeekFallingDown());
             }
-
-            mCryptoCurrenciesCopy = new ArrayList<>();
-            mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
             filter(StoredPreferences.getStoredQuery(getActivity()));
         }
 
@@ -228,6 +227,7 @@ public class CryptoCurListFragment extends Fragment {
 
         public void sortItems(Comparator<CryptoCurrency> comparator) {
             Collections.sort(mCryptoCurrencies, comparator);
+            Collections.sort(mCryptoCurrenciesCopy, comparator);
             notifyDataSetChanged();
         }
     }
