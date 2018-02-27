@@ -1,4 +1,4 @@
-package ru.lyubimov.cryptotracker;
+package ru.lyubimov.cryptotracker.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by Lyubimov-AA on 16.01.2018.
  */
 
-public class CryptoCurrency implements Serializable{
+public class CryptoCurrency extends Object implements Serializable{
 
     @SerializedName("id")
     private String mId;

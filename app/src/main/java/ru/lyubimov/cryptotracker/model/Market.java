@@ -1,4 +1,4 @@
-package ru.lyubimov.cryptotracker;
+package ru.lyubimov.cryptotracker.model;
 
 import com.google.gson.annotations.SerializedName;
 

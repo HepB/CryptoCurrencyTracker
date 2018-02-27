@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,12 +14,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import ru.lyubimov.cryptotracker.model.AsyncTaskResult;
+import ru.lyubimov.cryptotracker.model.CryptoCurrency;
+import ru.lyubimov.cryptotracker.model.Market;
 
 /**
  * Created by Alex on 28.01.2018.
@@ -78,46 +82,38 @@ public class CryptoCurFragment extends Fragment {
         mHourChangeVolume = view.findViewById(R.id.hour_change_vol);
         mDayChangeVolume = view.findViewById(R.id.day_change_vol);
         mWeekChangeVolume = view.findViewById(R.id.week_change_vol);
-
         mCurrTypeSpinner = view.findViewById(R.id.cur_type_spinner);
-        setupCurrSpinner();
-
         mMarketView = view.findViewById(R.id.markets_list_view);
 
-        ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
-
-        ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), null);
-        ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceCur());
-        ViewUtils.setupBtcCostView(getResources(), mBtcCostView, mCryptoCurrency.getPriceBtc());
-
-        ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolView, mCryptoCurrency.getDayVolumeCur());
-        ViewUtils.setupVolumeView(getResources(), R.string.market_cap_usd, mMarketCapView, mCryptoCurrency.getMarketCapCur());
-        ViewUtils.setupVolumeView(getResources(), R.string.available_supply, mAvailableSupVolume, mCryptoCurrency.getAvailableSupply());
-        ViewUtils.setupVolumeView(getResources(), R.string.max_supply, mMaxSupVolume, mCryptoCurrency.getMaxSupply());
-
-        ViewUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getHourPercentChange());
-        ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());
-        ViewUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getWeekPercentChange());
-
+        updateUI();
         updateItems();
-
         return view;
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class FetchMarketsTask extends AsyncTask<String, Void, ArrayList<Market>> {
+    private class FetchMarketsTask extends AsyncTask<String, Void, AsyncTaskResult<ArrayList<Market>>> {
 
         @Override
-        protected ArrayList<Market> doInBackground(String... strings) {
-            onProgressUpdate();
-            return new CryptonatorFetcher().downloadCryptoCurrencies(strings[0], strings[1]);
+        protected AsyncTaskResult<ArrayList<Market>> doInBackground(String... strings) {
+            try {
+                ArrayList<Market> markets = new CryptonatorFetcher(getResources()).downloadCryptoCurrencies(strings[0], strings[1]);
+                return new AsyncTaskResult<>(markets);
+            } catch (Exception ex) {
+                return new AsyncTaskResult<>(ex);
+            }
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Market> aMarkets) {
-            mMarkets = aMarkets;
-            setupMarketView();
-            Log.i(TAG, String.valueOf(mMarkets.size()));
+        protected void onPostExecute(AsyncTaskResult<ArrayList<Market>> result) {
+            if (result.getResult() != null) {
+                mMarkets = result.getResult();
+                setupMarketView();
+                Log.i(TAG, String.valueOf(mMarkets.size()));
+            } else {
+                Exception ex = result.getError();
+                Log.e(TAG, ex.getMessage(), ex);
+                Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
 
         @Override
@@ -132,8 +128,9 @@ public class CryptoCurFragment extends Fragment {
             super(context, 0, markets);
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             Market market = getItem(position);
 
             if (convertView == null) {
@@ -189,5 +186,20 @@ public class CryptoCurFragment extends Fragment {
             View vi = marketsAdapter.getView(i, null, mMarketView);
             mMarketView.addView(vi);
         }
+    }
+
+    private void updateUI() {
+        setupCurrSpinner();
+        ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
+        ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), null);
+        ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceCur());
+        ViewUtils.setupBtcCostView(getResources(), mBtcCostView, mCryptoCurrency.getPriceBtc());
+        ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolView, mCryptoCurrency.getDayVolumeCur());
+        ViewUtils.setupVolumeView(getResources(), R.string.market_cap_usd, mMarketCapView, mCryptoCurrency.getMarketCapCur());
+        ViewUtils.setupVolumeView(getResources(), R.string.available_supply, mAvailableSupVolume, mCryptoCurrency.getAvailableSupply());
+        ViewUtils.setupVolumeView(getResources(), R.string.max_supply, mMaxSupVolume, mCryptoCurrency.getMaxSupply());
+        ViewUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getHourPercentChange());
+        ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());
+        ViewUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getWeekPercentChange());
     }
 }

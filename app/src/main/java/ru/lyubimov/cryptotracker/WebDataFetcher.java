@@ -1,5 +1,6 @@
 package ru.lyubimov.cryptotracker;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -15,6 +16,12 @@ import java.net.URL;
 public abstract class WebDataFetcher {
     private static final String TAG = "WebDataFetcher";
 
+    private Resources mResources;
+
+    public WebDataFetcher(Resources resources) {
+        mResources = resources;
+    }
+
     public byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -23,7 +30,7 @@ public abstract class WebDataFetcher {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             InputStream in = connection.getInputStream();
             if(connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                IOException ioe = new IOException(connection.getResponseMessage() + ": with " + urlSpec);
+                IOException ioe = new IOException(getResources().getString(R.string.no_internet_exception));
                 Log.e(TAG, ioe.getMessage());
                 throw ioe;
             }
@@ -38,5 +45,9 @@ public abstract class WebDataFetcher {
         finally {
             connection.disconnect();
         }
+    }
+
+    Resources getResources() {
+        return mResources;
     }
 }

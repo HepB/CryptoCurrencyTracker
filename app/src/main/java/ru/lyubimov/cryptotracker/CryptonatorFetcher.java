@@ -1,7 +1,7 @@
 package ru.lyubimov.cryptotracker;
 
+import android.content.res.Resources;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -11,12 +11,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.lyubimov.cryptotracker.model.Market;
 
 /**
  * Created by Alex on 11.02.2018.
@@ -27,6 +27,11 @@ public class CryptonatorFetcher extends WebDataFetcher {
 
     private static final Uri ENDPOINT = Uri.parse("https://api.cryptonator.com/api/full/");
 
+    CryptonatorFetcher(Resources resources) {
+        super(resources);
+    }
+
+
     String buildUrl(String targetCurrSymbol, String costCurrencyType) {
         Uri.Builder builder;
         String urlTail = targetCurrSymbol + "-" + costCurrencyType;
@@ -35,18 +40,14 @@ public class CryptonatorFetcher extends WebDataFetcher {
         return builder.build().toString();
     }
 
-    ArrayList<Market> downloadCryptoCurrencies(String targetCurrSymbol, String costCurrencyType) {
+    ArrayList<Market> downloadCryptoCurrencies(String targetCurrSymbol, String costCurrencyType) throws IOException {
         ArrayList<Market> items = new ArrayList<>();
-        try {
-            String jsonString = getUrlString(targetCurrSymbol, costCurrencyType);
-            parseItems(items, jsonString);
-        } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch items", ioe);
-        }
+        String jsonString = getUrlString(targetCurrSymbol, costCurrencyType);
+        parseItems(items, jsonString);
         return items;
     }
 
-    String getUrlString(String targetCurrSymbol, String costCurrencyType) throws IOException {
+    private String getUrlString(String targetCurrSymbol, String costCurrencyType) throws IOException {
         String completeUrl = buildUrl(targetCurrSymbol, costCurrencyType);
         return new String(getUrlBytes(completeUrl));
     }
@@ -67,6 +68,7 @@ public class CryptonatorFetcher extends WebDataFetcher {
 
         } catch (Exception e) {
             Log.e(TAG, "Failed to parse items", e);
+            throw new RuntimeException(getResources().getString(R.string.parse_exception));
         }
     }
 }

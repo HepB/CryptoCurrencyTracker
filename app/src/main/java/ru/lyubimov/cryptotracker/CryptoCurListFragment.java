@@ -2,6 +2,7 @@ package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +24,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import ru.lyubimov.cryptotracker.model.AsyncTaskResult;
+import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 
 /**
  * Created by Alex on 15.01.2018.
@@ -233,19 +239,30 @@ public class CryptoCurListFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class FetchCurrenciesTask extends AsyncTask<Void, Void, List<CryptoCurrency>> {
+    private class FetchCurrenciesTask extends AsyncTask<Void, Void, AsyncTaskResult<List<CryptoCurrency>>> {
 
         @Override
-        protected List<CryptoCurrency> doInBackground(Void... voids) {
-            onProgressUpdate();
-            return new CoinMarketCapFetcher().fetchCryptoCurrencies();
+        protected AsyncTaskResult<List<CryptoCurrency>> doInBackground(Void... voids) {
+            try {
+                onProgressUpdate();
+                return new AsyncTaskResult<>(new CoinMarketCapFetcher(getResources()).fetchCryptoCurrencies());
+            } catch (Exception ex) {
+                return new AsyncTaskResult<>(ex);
+            }
         }
 
         @Override
-        protected void onPostExecute(List<CryptoCurrency> aCryptoCurrencies) {
-            mCryptoCurrencies = aCryptoCurrencies;
-            setupAdapter();
-            onItemsLoadComplete();
+        protected void onPostExecute(AsyncTaskResult<List<CryptoCurrency>> result) {
+            if(result.getResult() != null) {
+                mCryptoCurrencies = result.getResult();
+                setupAdapter();
+                onItemsLoadComplete();
+            } else {
+                onItemsLoadComplete();
+                Exception ex = result.getError();
+                Log.e(TAG, ex.getMessage(), ex);
+                Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
 
         @Override

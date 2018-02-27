@@ -2,6 +2,8 @@ package ru.lyubimov.cryptotracker;
 
 import java.util.Comparator;
 
+import ru.lyubimov.cryptotracker.model.CryptoCurrency;
+
 /**
  * Created by Alex on 23.01.2018.
  */
@@ -32,7 +34,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sVolumeA != null && sVolumeB == null) {
                     return -1;
-                } else if (sVolumeA == null && sVolumeB == null) {
+                } else if (sVolumeA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sVolumeB), Double.valueOf(sVolumeA));
@@ -52,7 +54,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sCostA != null && sCostB  == null) {
                     return -1;
-                } else if (sCostA == null && sCostB == null) {
+                } else if (sCostA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sCostB), Double.valueOf(sCostA));
@@ -72,7 +74,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sHourChangeA != null && sHourChangeB == null) {
                     return -1;
-                } else if (sHourChangeA == null && sHourChangeB == null) {
+                } else if (sHourChangeA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sHourChangeB), Double.valueOf(sHourChangeA));
@@ -92,7 +94,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sHourChangeA != null && sHourChangeB == null) {
                     return -1;
-                } else if (sHourChangeA == null && sHourChangeB == null) {
+                } else if (sHourChangeA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sHourChangeA), Double.valueOf(sHourChangeB));
@@ -113,7 +115,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sDayChangeA != null && sDayChangeB == null) {
                     return -1;
-                } else if (sDayChangeA == null && sDayChangeB == null) {
+                } else if (sDayChangeA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sDayChangeB), Double.valueOf(sDayChangeA));
@@ -133,7 +135,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sDayChangeA != null && sDayChangeB == null) {
                     return -1;
-                } else if (sDayChangeA == null && sDayChangeB == null) {
+                } else if (sDayChangeA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sDayChangeA), Double.valueOf(sDayChangeB));
@@ -153,7 +155,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sWeekChangeA != null && sWeekChangeB == null) {
                     return -1;
-                } else if (sWeekChangeA == null && sWeekChangeB == null) {
+                } else if (sWeekChangeA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sWeekChangeB), Double.valueOf(sWeekChangeA));
@@ -173,7 +175,7 @@ class CryptoCurrencyComparator {
                     return 1;
                 } else if(sWeekChangeA != null && sWeekChangeB == null) {
                     return -1;
-                } else if (sWeekChangeA == null && sWeekChangeB == null) {
+                } else if (sWeekChangeA == null) {
                     return 0;
                 } else {
                     return Double.compare(Double.valueOf(sWeekChangeA), Double.valueOf(sWeekChangeB));

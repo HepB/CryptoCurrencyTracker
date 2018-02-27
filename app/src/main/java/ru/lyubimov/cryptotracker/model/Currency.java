@@ -1,4 +1,4 @@
-package ru.lyubimov.cryptotracker;
+package ru.lyubimov.cryptotracker.model;
 
 /**
  * Created by Lyubimov-AA on 16.01.2018.
