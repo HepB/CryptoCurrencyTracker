@@ -68,7 +68,7 @@ public class CryptonatorFetcher extends WebDataFetcher {
 
         } catch (Exception e) {
             Log.e(TAG, "Failed to parse items", e);
-            throw new RuntimeException(getResources().getString(R.string.parse_exception));
+            throw new RuntimeException(getResources().getString(R.string.parse_markets_exception));
         }
     }
 }
