@@ -107,13 +107,14 @@ public class CryptoCurFragment extends Fragment {
         protected void onPostExecute(AsyncTaskResult<ArrayList<Market>> result) {
             if (result.getResult() != null) {
                 mMarkets = result.getResult();
-                setupMarketView();
                 Log.i(TAG, String.valueOf(mMarkets.size()));
             } else {
+                mMarkets = new ArrayList<>();
                 Exception ex = result.getError();
                 Log.e(TAG, ex.getMessage(), ex);
                 Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
             }
+            setupMarketView();
         }
 
         @Override
@@ -124,7 +125,7 @@ public class CryptoCurFragment extends Fragment {
 
     public class MarketsAdapter extends ArrayAdapter<Market> {
 
-        public MarketsAdapter(Context context, ArrayList<Market> markets) {
+        MarketsAdapter(Context context, ArrayList<Market> markets) {
             super(context, 0, markets);
         }
 
@@ -140,7 +141,6 @@ public class CryptoCurFragment extends Fragment {
             TextView marketTitle = convertView.findViewById(R.id.market_title);
             TextView marketCost = convertView.findViewById(R.id.market_cost);
             TextView marketVol = convertView.findViewById(R.id.market_vol);
-
             marketTitle.setText(market.getMarketName());
 
             if (mCurrTypeSpinner.getSelectedItemPosition() == 0) {

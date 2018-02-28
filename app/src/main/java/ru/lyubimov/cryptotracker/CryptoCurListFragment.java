@@ -76,7 +76,6 @@ public class CryptoCurListFragment extends Fragment {
             }
 
         });
-        setRetainInstance(true);
         updateItems();
         return view;
     }
@@ -132,7 +131,7 @@ public class CryptoCurListFragment extends Fragment {
         TextView mOneDayChange;
         TextView mOneWeekChange;
 
-        public CryptoCurrencyHolder(LayoutInflater inflater, ViewGroup parent) {
+        CryptoCurrencyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_ccurrency, parent, false));
             mCurIco = itemView.findViewById(R.id.cur_icon);
             mCurName = itemView.findViewById(R.id.cur_name);
@@ -146,7 +145,7 @@ public class CryptoCurListFragment extends Fragment {
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(CryptoCurrency cryptoCurrency, int position) {
+        void bind(CryptoCurrency cryptoCurrency, int position) {
             mCryptoCurrency = cryptoCurrency;
 
             ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), null, position + 1);
@@ -163,7 +162,6 @@ public class CryptoCurListFragment extends Fragment {
         public void onClick(View v) {
             Intent intent = CryptoCurItemActivity.newIntent(getContext(), mCryptoCurrency);
             startActivity(intent);
-
         }
     }
 
@@ -171,7 +169,7 @@ public class CryptoCurListFragment extends Fragment {
         private List<CryptoCurrency> mCryptoCurrencies;
         private List<CryptoCurrency> mCryptoCurrenciesCopy;
 
-        public CryptoCurrencyAdapter(List<CryptoCurrency> cryptoCurrencies) {
+        CryptoCurrencyAdapter(List<CryptoCurrency> cryptoCurrencies) {
             mCryptoCurrencies = cryptoCurrencies;
             mCryptoCurrenciesCopy = new ArrayList<>();
             mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
@@ -231,7 +229,7 @@ public class CryptoCurListFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        public void sortItems(Comparator<CryptoCurrency> comparator) {
+        void sortItems(Comparator<CryptoCurrency> comparator) {
             Collections.sort(mCryptoCurrencies, comparator);
             Collections.sort(mCryptoCurrenciesCopy, comparator);
             notifyDataSetChanged();
@@ -255,14 +253,14 @@ public class CryptoCurListFragment extends Fragment {
         protected void onPostExecute(AsyncTaskResult<List<CryptoCurrency>> result) {
             if(result.getResult() != null) {
                 mCryptoCurrencies = result.getResult();
-                setupAdapter();
-                onItemsLoadComplete();
             } else {
-                onItemsLoadComplete();
+                mCryptoCurrencies = new ArrayList<>();
                 Exception ex = result.getError();
                 Log.e(TAG, ex.getMessage(), ex);
                 Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
             }
+            onItemsLoadComplete();
+            setupAdapter();
         }
 
         @Override
@@ -339,9 +337,7 @@ public class CryptoCurListFragment extends Fragment {
                 }
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         mSortSpinner.setSelection(StoredPreferences.getStoredSort(getActivity()));
