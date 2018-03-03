@@ -90,14 +90,19 @@ public class CryptoCurListFragment extends Fragment {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                StoredPreferences.setStoredQuery(getActivity(), query);
-                mCryptoCurrencyAdapter.filter(query);
+                if (!mSwipeRefreshLayout.isRefreshing()) {
+                    StoredPreferences.setStoredQuery(getActivity(), query);
+                    mCryptoCurrencyAdapter.filter(query);
+                }
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
-                StoredPreferences.setStoredQuery(getActivity(), newText);
-                mCryptoCurrencyAdapter.filter(newText);
+                if (!mSwipeRefreshLayout.isRefreshing()) {
+                    StoredPreferences.setStoredQuery(getActivity(), newText);
+                    mCryptoCurrencyAdapter.filter(newText);
+                }
                 return false;
             }
         });
@@ -119,7 +124,7 @@ public class CryptoCurListFragment extends Fragment {
         });
     }
 
-    private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener{
+    private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener {
         CryptoCurrency mCryptoCurrency;
 
         TextView mCurIco;
@@ -149,7 +154,7 @@ public class CryptoCurListFragment extends Fragment {
             mCryptoCurrency = cryptoCurrency;
 
             ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), null, position + 1);
-            ViewUtils.setCurViewIcon(getResources(), mCurIco,mAssetFetcher, mCryptoCurrency.getSymbol());
+            ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
             ViewUtils.setupCurCostView(getResources(), mCurCost, mCryptoCurrency.getPriceCur());
             ViewUtils.setupBtcCostView(getResources(), mBtcCost, mCryptoCurrency.getPriceBtc());
             ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolume, mCryptoCurrency.getDayVolumeCur());
@@ -176,7 +181,7 @@ public class CryptoCurListFragment extends Fragment {
 
             // compareType - индекс в массиве sort_types
             int compareType = StoredPreferences.getStoredSort(getActivity());
-            if(compareType == 0) {
+            if (compareType == 0) {
                 sortItems(CryptoCurrencyComparator.compareByRank());
             } else if (compareType == 1) {
                 sortItems(CryptoCurrencyComparator.compareByVolume());
@@ -217,11 +222,11 @@ public class CryptoCurListFragment extends Fragment {
 
         void filter(String text) {
             mCryptoCurrencies.clear();
-            if(text == null || text.isEmpty() ){
+            if (text == null || text.isEmpty()) {
                 mCryptoCurrencies.addAll(mCryptoCurrenciesCopy);
             } else {
-                for(CryptoCurrency item: mCryptoCurrenciesCopy){
-                    if(item.getName().toLowerCase().contains(text.toLowerCase()) || item.getSymbol().toLowerCase().contains(text.toLowerCase())){
+                for (CryptoCurrency item : mCryptoCurrenciesCopy) {
+                    if (item.getName().toLowerCase().contains(text.toLowerCase()) || item.getSymbol().toLowerCase().contains(text.toLowerCase())) {
                         mCryptoCurrencies.add(item);
                     }
                 }
@@ -251,7 +256,7 @@ public class CryptoCurListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(AsyncTaskResult<List<CryptoCurrency>> result) {
-            if(result.getResult() != null) {
+            if (result.getResult() != null) {
                 mCryptoCurrencies = result.getResult();
             } else {
                 mCryptoCurrencies = new ArrayList<>();
@@ -336,8 +341,10 @@ public class CryptoCurListFragment extends Fragment {
                         //что-нибудь сюда
                 }
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         mSortSpinner.setSelection(StoredPreferences.getStoredSort(getActivity()));
