@@ -2,10 +2,6 @@ package ru.lyubimov.cryptotracker.model;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Alex on 11.02.2018.
- */
-
 public class Market {
     @SerializedName("market")
     private String marketName;

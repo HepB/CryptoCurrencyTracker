@@ -1,8 +1,6 @@
 package ru.lyubimov.cryptotracker;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,9 +17,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import ru.lyubimov.cryptotracker.model.AsyncTaskResult;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
+import ru.lyubimov.cryptotracker.model.CryptonatorData;
 import ru.lyubimov.cryptotracker.model.Market;
 
 /**
@@ -33,6 +37,7 @@ public class CryptoCurFragment extends Fragment {
     private static final String ARGS_CRYPTO_CURRENCY = "crypto_currency";
 
     private AssetFetcher mAssetFetcher;
+    private WebApi mService;
 
     private TextView mCurIco;
     private TextView mCurName;
@@ -64,6 +69,14 @@ public class CryptoCurFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mCryptoCurrency = (CryptoCurrency) getArguments().getSerializable(ARGS_CRYPTO_CURRENCY);
         mAssetFetcher = new AssetFetcher(getContext().getAssets());
+        mMarkets = new ArrayList<>();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.cryptonator.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        mService = retrofit.create(WebApi.class);
     }
 
     @Nullable
@@ -88,39 +101,6 @@ public class CryptoCurFragment extends Fragment {
         updateUI();
         updateItems();
         return view;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class FetchMarketsTask extends AsyncTask<String, Void, AsyncTaskResult<ArrayList<Market>>> {
-
-        @Override
-        protected AsyncTaskResult<ArrayList<Market>> doInBackground(String... strings) {
-            try {
-                ArrayList<Market> markets = new CryptonatorFetcher(getResources()).downloadCryptoCurrencies(strings[0], strings[1]);
-                return new AsyncTaskResult<>(markets);
-            } catch (Exception ex) {
-                return new AsyncTaskResult<>(ex);
-            }
-        }
-
-        @Override
-        protected void onPostExecute(AsyncTaskResult<ArrayList<Market>> result) {
-            if (result.getResult() != null) {
-                mMarkets = result.getResult();
-                Log.i(TAG, String.valueOf(mMarkets.size()));
-            } else {
-                mMarkets = new ArrayList<>();
-                Exception ex = result.getError();
-                Log.e(TAG, ex.getMessage(), ex);
-                Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            setupMarketView();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
     }
 
     public class MarketsAdapter extends ArrayAdapter<Market> {
@@ -149,7 +129,7 @@ public class CryptoCurFragment extends Fragment {
                 ViewUtils.setupBtcCostView(getResources(), marketCost, market.getPrice());
             }
 
-            String volume = getString(R.string.volume) + " " +market.getVolume();
+            String volume = getString(R.string.volume) + " " + market.getVolume();
             marketVol.setText(volume);
 
             return convertView;
@@ -157,7 +137,32 @@ public class CryptoCurFragment extends Fragment {
     }
 
     private void updateItems() {
-        new CryptoCurFragment.FetchMarketsTask().execute(mCryptoCurrency.getSymbol().toLowerCase(), mCurrTypeSpinner.getSelectedItem().toString().toLowerCase());
+        String pare = mCryptoCurrency.getSymbol().toLowerCase()
+                + "-"
+                + mCurrTypeSpinner.getSelectedItem().toString().toLowerCase();
+        mMarkets.clear();
+
+        Call<CryptonatorData> call = mService.getMarkets(pare);
+        call.enqueue(new Callback<CryptonatorData>() {
+            @Override
+            public void onResponse(@NonNull Call<CryptonatorData> call, @NonNull Response<CryptonatorData> response) {
+                Log.i(TAG, response.message());
+                CryptonatorData data = response.body();
+                if (data.isSuccess()) {
+                    List<Market> markets = data.getTicker().getMarkets();
+                    mMarkets.addAll(markets != null ? markets : new ArrayList<Market>());
+                } else {
+                    Toast.makeText(getActivity(), data.getError(), Toast.LENGTH_SHORT).show();
+                }
+                setupMarketView();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CryptonatorData> call, @NonNull Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                setupMarketView();
+            }
+        });
     }
 
     private void setupCurrSpinner() {
@@ -182,7 +187,7 @@ public class CryptoCurFragment extends Fragment {
     private void setupMarketView() {
         mMarketView.removeAllViews();
         MarketsAdapter marketsAdapter = new MarketsAdapter(getActivity(), mMarkets);
-        for (int i=0; i < mMarkets.size(); i++) {
+        for (int i = 0; i < mMarkets.size(); i++) {
             View vi = marketsAdapter.getView(i, null, mMarketView);
             mMarketView.addView(vi);
         }

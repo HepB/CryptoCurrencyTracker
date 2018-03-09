@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import ru.lyubimov.cryptotracker.model.AsyncTaskResult;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 
@@ -49,6 +51,7 @@ public class CryptoCurListFragment extends Fragment {
     private SearchView mSearchView;
     private List<CryptoCurrency> mCryptoCurrencies;
     private AssetFetcher mAssetFetcher;
+    private WebApi mService;
 
     public static CryptoCurListFragment newInstance() {
         return new CryptoCurListFragment();
