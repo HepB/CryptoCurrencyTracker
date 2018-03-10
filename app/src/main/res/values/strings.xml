@@ -20,9 +20,8 @@
     <string name="currency_title">Currency:</string>
     <string name="volume">Volume:</string>
 
-    <string name="no_internet_exception">No internet connection. Make sure internet is enabled on the device or try again later.</string>
-    <string name="parse_markets_exception">Can not get exchange data. Maybe problems with the exchange provider, please try again later.</string>
-    <string name="parse_crypto_cur_exception">Can not get cryptocurrencies data. Maybe problems with the cryptocurrencies data provider, please try again later.</string>
+    <string name="parse_markets_exception">Can not get exchange data. Please try again later.</string>
+    <string name="parse_crypto_cur_exception">Can not get cryptocurrencies data. Please try again later.</string>
 
     <string-array name="sort_types">
         <item>rank</item>

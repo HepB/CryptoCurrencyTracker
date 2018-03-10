@@ -2,7 +2,9 @@ package ru.lyubimov.cryptotracker;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
@@ -96,6 +98,12 @@ class ViewUtils {
             curIconView.setText(symbol);
             curIconView.setTextColor(resources.getColor(R.color.colorWhite));
             curIconView.setBackground(curIcon);
+        }
+    }
+
+    static void showError(Fragment currentFragment, String errorText) {
+        if(currentFragment.isAdded()) {
+            Toast.makeText(currentFragment.getActivity(), errorText, Toast.LENGTH_SHORT).show();
         }
     }
 }

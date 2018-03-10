@@ -22,9 +22,8 @@
     <string name="currency_title">Валюта: </string>
     <string name="volume">Объем: </string>
 
-    <string name="no_internet_exception">Нет соединения с интернетом. Убедитесь, что интернте включен на устройстве или попробуйте позже.</string>
-    <string name="parse_markets_exception">Невозможно получить данные о биржах. Вероятно, проблема на стороне агрегатора информации по биржам, пожалуйста, попробуйте позже.</string>
-    <string name="parse_crypto_cur_exception">Невозможно получить данные о криптовалютах. Вероятно, проблема на стороне агрегатора информации по криптовалютам, пожалуйста, попробуйте позже.</string>
+    <string name="parse_markets_exception">Невозможно получить данные о биржах. Пожалуйста, попробуйте позже.</string>
+    <string name="parse_crypto_cur_exception">Невозможно получить данные о криптовалютах. Пожалуйста, попробуйте позже.</string>
 
     <string-array name="cur_types">
         <item>USD</item>

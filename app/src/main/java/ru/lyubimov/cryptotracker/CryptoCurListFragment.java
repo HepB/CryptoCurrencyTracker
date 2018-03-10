@@ -1,6 +1,7 @@
 package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -122,6 +122,12 @@ public class CryptoCurListFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
     }
 
     private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener {
@@ -272,7 +278,7 @@ public class CryptoCurListFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<List<CryptoCurrency>> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                ViewUtils.showError(getCurrentFragment(), getString(R.string.parse_crypto_cur_exception));
                 onItemsLoadComplete();
                 setupAdapter();
             }
@@ -341,5 +347,9 @@ public class CryptoCurListFragment extends Fragment {
 
         mSortSpinner.setSelection(StoredPreferences.getStoredSort(getActivity()));
         adapter.notifyDataSetChanged();
+    }
+
+    private Fragment getCurrentFragment() {
+        return this;
     }
 }

@@ -143,15 +143,19 @@ public class CryptoCurFragment extends Fragment {
                     List<Market> markets = data.getTicker().getMarkets();
                     mMarkets.addAll(markets != null ? markets : new ArrayList<Market>());
                 } else {
-                    Toast.makeText(getActivity(), data.getError(), Toast.LENGTH_LONG).show();
+                    if(isAdded()) {
+                        ViewUtils.showError(getCurrentFragment(), data.getError());
+                    }
                 }
                 setupMarketView();
             }
 
             @Override
             public void onFailure(@NonNull Call<CryptonatorData> call, @NonNull Throwable t) {
-                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                setupMarketView();
+                if (isAdded()) {
+                    ViewUtils.showError(getCurrentFragment(), getString(R.string.parse_markets_exception));
+                    setupMarketView();
+                }
             }
         });
     }
@@ -176,11 +180,13 @@ public class CryptoCurFragment extends Fragment {
     }
 
     private void setupMarketView() {
-        mMarketView.removeAllViews();
-        MarketsAdapter marketsAdapter = new MarketsAdapter(getActivity(), mMarkets);
-        for (int i = 0; i < mMarkets.size(); i++) {
-            View vi = marketsAdapter.getView(i, null, mMarketView);
-            mMarketView.addView(vi);
+        if (isAdded()) {
+            mMarketView.removeAllViews();
+            MarketsAdapter marketsAdapter = new MarketsAdapter(getActivity(), mMarkets);
+            for (int i = 0; i < mMarkets.size(); i++) {
+                View vi = marketsAdapter.getView(i, null, mMarketView);
+                mMarketView.addView(vi);
+            }
         }
     }
 
@@ -197,5 +203,9 @@ public class CryptoCurFragment extends Fragment {
         ViewUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getHourPercentChange());
         ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());
         ViewUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getWeekPercentChange());
+    }
+
+    private Fragment getCurrentFragment() {
+        return this;
     }
 }
