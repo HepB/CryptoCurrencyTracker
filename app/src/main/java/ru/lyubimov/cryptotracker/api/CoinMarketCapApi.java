@@ -14,6 +14,6 @@ import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 
 public interface CoinMarketCapApi {
 
-    @GET("v1/ticker/{cryptoCurrency}")
-    Call<List<CryptoCurrency>> getCurrency(@Path("cryptoCurrency") String cryptoCurrency, @Query("limit") int limit, @Query("convert") String currency);
+    @GET("v1/ticker/")
+    Call<List<CryptoCurrency>> getCryptoCurrencies(@Query("limit") int limit, @Query("convert") String currency);
 }

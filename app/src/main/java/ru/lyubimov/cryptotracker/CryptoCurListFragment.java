@@ -2,8 +2,8 @@ package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +29,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import ru.lyubimov.cryptotracker.model.AsyncTaskResult;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 
 /**
@@ -240,40 +241,6 @@ public class CryptoCurListFragment extends Fragment {
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class FetchCurrenciesTask extends AsyncTask<Void, Void, AsyncTaskResult<List<CryptoCurrency>>> {
-
-        @Override
-        protected AsyncTaskResult<List<CryptoCurrency>> doInBackground(Void... voids) {
-            try {
-                onProgressUpdate();
-                return new AsyncTaskResult<>(new CoinMarketCapFetcher(getResources()).fetchCryptoCurrencies());
-            } catch (Exception ex) {
-                return new AsyncTaskResult<>(ex);
-            }
-        }
-
-        @Override
-        protected void onPostExecute(AsyncTaskResult<List<CryptoCurrency>> result) {
-            if (result.getResult() != null) {
-                mCryptoCurrencies = result.getResult();
-            } else {
-                mCryptoCurrencies = new ArrayList<>();
-                Exception ex = result.getError();
-                Log.e(TAG, ex.getMessage(), ex);
-                Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            onItemsLoadComplete();
-            setupAdapter();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-    }
-
     private void setupAdapter() {
         if (isAdded()) {
             mCryptoCurrencyAdapter = new CryptoCurrencyAdapter(mCryptoCurrencies);
@@ -283,7 +250,33 @@ public class CryptoCurListFragment extends Fragment {
     }
 
     private void updateItems() {
-        new FetchCurrenciesTask().execute();
+        if(mCryptoCurrencies == null) {
+            mCryptoCurrencies = new ArrayList<>();
+        }
+        mSwipeRefreshLayout.setRefreshing(true);
+        Call<List<CryptoCurrency>> call = App.getCoinMarketCapApi().getCryptoCurrencies(0, null);
+        call.enqueue(new Callback<List<CryptoCurrency>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<CryptoCurrency>> call, @NonNull Response<List<CryptoCurrency>> response) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                List<CryptoCurrency> result = response.body();
+                if (result != null) {
+                    mCryptoCurrencies.clear();
+                    mCryptoCurrencies.addAll(result);
+                } else {
+                    mCryptoCurrencies = new ArrayList<>();
+                }
+                onItemsLoadComplete();
+                setupAdapter();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<CryptoCurrency>> call, @NonNull Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                onItemsLoadComplete();
+                setupAdapter();
+            }
+        });
     }
 
     private void onItemsLoadComplete() {
