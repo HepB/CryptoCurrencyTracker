@@ -22,8 +22,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 import ru.lyubimov.cryptotracker.model.CryptonatorData;
 import ru.lyubimov.cryptotracker.model.Market;
@@ -37,7 +35,6 @@ public class CryptoCurFragment extends Fragment {
     private static final String ARGS_CRYPTO_CURRENCY = "crypto_currency";
 
     private AssetFetcher mAssetFetcher;
-    private WebApi mService;
 
     private TextView mCurIco;
     private TextView mCurName;
@@ -70,13 +67,6 @@ public class CryptoCurFragment extends Fragment {
         mCryptoCurrency = (CryptoCurrency) getArguments().getSerializable(ARGS_CRYPTO_CURRENCY);
         mAssetFetcher = new AssetFetcher(getContext().getAssets());
         mMarkets = new ArrayList<>();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.cryptonator.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mService = retrofit.create(WebApi.class);
     }
 
     @Nullable
@@ -142,17 +132,18 @@ public class CryptoCurFragment extends Fragment {
                 + mCurrTypeSpinner.getSelectedItem().toString().toLowerCase();
         mMarkets.clear();
 
-        Call<CryptonatorData> call = mService.getMarkets(pare);
+        Call<CryptonatorData> call = App.getCryptonatorApi().getMarkets(pare);
         call.enqueue(new Callback<CryptonatorData>() {
             @Override
             public void onResponse(@NonNull Call<CryptonatorData> call, @NonNull Response<CryptonatorData> response) {
                 Log.i(TAG, response.message());
                 CryptonatorData data = response.body();
+                assert data != null;
                 if (data.isSuccess()) {
                     List<Market> markets = data.getTicker().getMarkets();
                     mMarkets.addAll(markets != null ? markets : new ArrayList<Market>());
                 } else {
-                    Toast.makeText(getActivity(), data.getError(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), data.getError(), Toast.LENGTH_LONG).show();
                 }
                 setupMarketView();
             }
