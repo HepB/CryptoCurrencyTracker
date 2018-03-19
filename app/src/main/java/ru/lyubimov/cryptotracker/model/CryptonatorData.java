@@ -13,7 +13,7 @@ public class CryptonatorData {
     @SerializedName("ticker")
     private Ticker ticker;
     @SerializedName("success")
-    private boolean success;
+    private Boolean success;
     @SerializedName("error")
     private String error;
 
@@ -36,7 +36,7 @@ public class CryptonatorData {
         this.ticker = ticker;
     }
 
-    public boolean isSuccess() {
+    public Boolean isSuccess() {
         return success;
     }
     public void setSuccess(boolean success) {

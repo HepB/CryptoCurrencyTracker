@@ -138,10 +138,13 @@ public class CryptoCurFragment extends Fragment {
             public void onResponse(@NonNull Call<CryptonatorData> call, @NonNull Response<CryptonatorData> response) {
                 Log.i(TAG, response.message());
                 CryptonatorData data = response.body();
-                assert data != null;
-                if (data.isSuccess()) {
+                if(data == null) {
+                    ViewUtils.showError(getCurrentFragment(), getString(R.string.parse_markets_exception));
+                } else if (data.isSuccess() != null &&data.isSuccess()) {
                     List<Market> markets = data.getTicker().getMarkets();
                     mMarkets.addAll(markets != null ? markets : new ArrayList<Market>());
+                } else if(data.isSuccess() == null) {
+                    ViewUtils.showError(getCurrentFragment(), getString(R.string.parse_markets_exception));
                 } else {
                     if(isAdded()) {
                         ViewUtils.showError(getCurrentFragment(), data.getError());

@@ -6,8 +6,8 @@ android {
         applicationId "ru.lyubimov.cryptotracker"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 16
-        versionName "0.4.32-beta"
+        versionCode 17
+        versionName "0.4.3.3-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
