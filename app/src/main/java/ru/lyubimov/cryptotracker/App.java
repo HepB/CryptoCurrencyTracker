@@ -15,7 +15,6 @@ public class App extends Application {
 
     private static CoinMarketCapApi sCoinMarketCapApi;
     private static CryptonatorApi sCryptonatorApi;
-    private Retrofit mRetrofit;
 
     @Override
     public void onCreate() {
