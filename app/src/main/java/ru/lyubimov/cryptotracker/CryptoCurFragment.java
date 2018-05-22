@@ -22,6 +22,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.lyubimov.cryptotracker.di.app.DaggerAppComponent;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 import ru.lyubimov.cryptotracker.model.CryptonatorData;
 import ru.lyubimov.cryptotracker.model.Market;
@@ -132,7 +133,9 @@ public class CryptoCurFragment extends Fragment {
                 + mCurrTypeSpinner.getSelectedItem().toString().toLowerCase();
         mMarkets.clear();
 
-        Call<CryptonatorData> call = App.getCryptonatorApi().getMarkets(pare);
+        Call<CryptonatorData> call = DaggerAppComponent.builder()
+                .build()
+                .getCryptonatorApiService().getMarkets(pare);
         call.enqueue(new Callback<CryptonatorData>() {
             @Override
             public void onResponse(@NonNull Call<CryptonatorData> call, @NonNull Response<CryptonatorData> response) {

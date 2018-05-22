@@ -32,6 +32,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.lyubimov.cryptotracker.di.app.DaggerAppComponent;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 
 /**
@@ -122,12 +123,6 @@ public class CryptoCurListFragment extends Fragment {
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
     }
 
     private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener {
@@ -260,7 +255,11 @@ public class CryptoCurListFragment extends Fragment {
             mCryptoCurrencies = new ArrayList<>();
         }
         mSwipeRefreshLayout.setRefreshing(true);
-        Call<List<CryptoCurrency>> call = App.getCoinMarketCapApi().getCryptoCurrencies(0, null);
+        Call<List<CryptoCurrency>> call = DaggerAppComponent
+                .builder()
+                .build()
+                .getCoinMarketCapService()
+                .getCryptoCurrencies(0, null);
         call.enqueue(new Callback<List<CryptoCurrency>>() {
             @Override
             public void onResponse(@NonNull Call<List<CryptoCurrency>> call, @NonNull Response<List<CryptoCurrency>> response) {
