@@ -1,7 +1,6 @@
 package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,8 +31,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import ru.lyubimov.cryptotracker.di.app.DaggerAppComponent;
+import ru.lyubimov.cryptotracker.di.activity.DaggerActivityComponent;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
+import ru.lyubimov.cryptotracker.utils.ComparatorUtils;
+import ru.lyubimov.cryptotracker.utils.StoredPreferencesUtils;
+import ru.lyubimov.cryptotracker.utils.ViewUtils;
 
 /**
  * Created by Alex on 15.01.2018.
@@ -49,6 +51,7 @@ public class CryptoCurListFragment extends Fragment {
     private CryptoCurrencyAdapter mCryptoCurrencyAdapter;
     private SearchView mSearchView;
     private List<CryptoCurrency> mCryptoCurrencies;
+
     private AssetFetcher mAssetFetcher;
 
     public static CryptoCurListFragment newInstance() {
@@ -59,7 +62,7 @@ public class CryptoCurListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mAssetFetcher = new AssetFetcher(getContext().getAssets());
+        mAssetFetcher = CryptoTrackerApp.get(getActivity()).getAppComponent().getAssetFetcher();
     }
 
     @Nullable
@@ -92,7 +95,7 @@ public class CryptoCurListFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!mSwipeRefreshLayout.isRefreshing()) {
-                    StoredPreferences.setStoredQuery(getActivity(), query);
+                    StoredPreferencesUtils.setStoredQuery(getActivity(), query);
                     mCryptoCurrencyAdapter.filter(query);
                 }
                 return false;
@@ -101,7 +104,7 @@ public class CryptoCurListFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (!mSwipeRefreshLayout.isRefreshing()) {
-                    StoredPreferences.setStoredQuery(getActivity(), newText);
+                    StoredPreferencesUtils.setStoredQuery(getActivity(), newText);
                     mCryptoCurrencyAdapter.filter(newText);
                 }
                 return false;
@@ -111,7 +114,7 @@ public class CryptoCurListFragment extends Fragment {
         mSearchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String query = StoredPreferences.getStoredQuery(getActivity());
+                String query = StoredPreferencesUtils.getStoredQuery(getActivity());
                 mSearchView.setQuery(query, true);
             }
         });
@@ -119,7 +122,7 @@ public class CryptoCurListFragment extends Fragment {
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                StoredPreferences.setStoredQuery(getActivity(), "");
+                StoredPreferencesUtils.setStoredQuery(getActivity(), "");
                 return false;
             }
         });
@@ -154,7 +157,7 @@ public class CryptoCurListFragment extends Fragment {
         void bind(CryptoCurrency cryptoCurrency, int position) {
             mCryptoCurrency = cryptoCurrency;
 
-            ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), null, position + 1);
+            ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(),null, position + 1);
             ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
             ViewUtils.setupCurCostView(getResources(), mCurCost, mCryptoCurrency.getPriceCur());
             ViewUtils.setupBtcCostView(getResources(), mBtcCost, mCryptoCurrency.getPriceBtc());
@@ -181,27 +184,27 @@ public class CryptoCurListFragment extends Fragment {
             mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
 
             // compareType - индекс в массиве sort_types
-            int compareType = StoredPreferences.getStoredSort(getActivity());
+            int compareType = StoredPreferencesUtils.getStoredSort(getActivity());
             if (compareType == 0) {
-                sortItems(CryptoCurrencyComparator.compareByRank());
+                sortItems(ComparatorUtils.compareByRank());
             } else if (compareType == 1) {
-                sortItems(CryptoCurrencyComparator.compareByVolume());
+                sortItems(ComparatorUtils.compareByVolume());
             } else if (compareType == 2) {
-                sortItems(CryptoCurrencyComparator.compareByCost());
+                sortItems(ComparatorUtils.compareByCost());
             } else if (compareType == 3) {
-                sortItems(CryptoCurrencyComparator.compareByHourRise());
+                sortItems(ComparatorUtils.compareByHourRise());
             } else if (compareType == 4) {
-                sortItems(CryptoCurrencyComparator.compareByHourFallingDown());
+                sortItems(ComparatorUtils.compareByHourFallingDown());
             } else if (compareType == 5) {
-                sortItems(CryptoCurrencyComparator.compareByDayRise());
+                sortItems(ComparatorUtils.compareByDayRise());
             } else if (compareType == 6) {
-                sortItems(CryptoCurrencyComparator.compareByDayFallingDown());
+                sortItems(ComparatorUtils.compareByDayFallingDown());
             } else if (compareType == 7) {
-                sortItems(CryptoCurrencyComparator.compareByWeekRise());
+                sortItems(ComparatorUtils.compareByWeekRise());
             } else if (compareType == 8) {
-                sortItems(CryptoCurrencyComparator.compareByWeekFallingDown());
+                sortItems(ComparatorUtils.compareByWeekFallingDown());
             }
-            filter(StoredPreferences.getStoredQuery(getActivity()));
+            filter(StoredPreferencesUtils.getStoredQuery(getActivity()));
         }
 
         @Override
@@ -255,7 +258,7 @@ public class CryptoCurListFragment extends Fragment {
             mCryptoCurrencies = new ArrayList<>();
         }
         mSwipeRefreshLayout.setRefreshing(true);
-        Call<List<CryptoCurrency>> call = DaggerAppComponent
+        Call<List<CryptoCurrency>> call = DaggerActivityComponent
                 .builder()
                 .build()
                 .getCoinMarketCapService()
@@ -299,40 +302,40 @@ public class CryptoCurListFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByRank());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByRank());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 1:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByVolume());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByVolume());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 2:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByCost());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByCost());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 3:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByHourRise());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByHourRise());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 4:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByHourFallingDown());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByHourFallingDown());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 5:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByDayRise());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByDayRise());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 6:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByDayFallingDown());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByDayFallingDown());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 7:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByWeekRise());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByWeekRise());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     case 8:
-                        mCryptoCurrencyAdapter.sortItems(CryptoCurrencyComparator.compareByWeekFallingDown());
-                        StoredPreferences.setStoredSort(getActivity(), position);
+                        mCryptoCurrencyAdapter.sortItems(ComparatorUtils.compareByWeekFallingDown());
+                        StoredPreferencesUtils.setStoredSort(getActivity(), position);
                         break;
                     default:
                         //что-нибудь сюда
@@ -344,7 +347,7 @@ public class CryptoCurListFragment extends Fragment {
             }
         });
 
-        mSortSpinner.setSelection(StoredPreferences.getStoredSort(getActivity()));
+        mSortSpinner.setSelection(StoredPreferencesUtils.getStoredSort(getActivity()));
         adapter.notifyDataSetChanged();
     }
 

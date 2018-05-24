@@ -3,14 +3,11 @@ package ru.lyubimov.cryptotracker.di.app;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.lyubimov.cryptotracker.api.CoinMarketCapApi;
-import ru.lyubimov.cryptotracker.api.CryptonatorApi;
+import ru.lyubimov.cryptotracker.AssetFetcher;
 
 @Singleton
-@Component(modules = AppNetworkModule.class)
+@Component(modules = {AppDataModule.class, AppModule.class})
 public interface AppComponent {
 
-    CoinMarketCapApi getCoinMarketCapService();
-
-    CryptonatorApi getCryptonatorApiService();
+    AssetFetcher getAssetFetcher();
 }

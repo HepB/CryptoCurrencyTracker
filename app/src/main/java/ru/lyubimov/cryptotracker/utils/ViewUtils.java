@@ -1,4 +1,4 @@
-package ru.lyubimov.cryptotracker;
+package ru.lyubimov.cryptotracker.utils;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -8,13 +8,18 @@ import android.widget.Toast;
 
 import java.text.NumberFormat;
 
+import ru.lyubimov.cryptotracker.AssetFetcher;
+import ru.lyubimov.cryptotracker.R;
+
 /**
  * Created by Alex on 31.01.2018.
  */
 
-class ViewUtils {
+public class ViewUtils {
 
-    static void setupTitleView(TextView textView, String curName, String curSymbol, Integer num) {
+    private ViewUtils() {}
+
+    public static void setupTitleView(TextView textView, String curName, String curSymbol, Integer num) {
         StringBuilder sb = new StringBuilder();
         if(num != null) {
             sb.append(num).append(".");
@@ -26,7 +31,7 @@ class ViewUtils {
         textView.setText(sb.toString().toUpperCase());
     }
 
-    static void setupChangeView(Resources resources, TextView textView, String param) {
+    public static void setupChangeView(Resources resources, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
             String textToView;
@@ -45,7 +50,7 @@ class ViewUtils {
         }
     }
 
-    static void setupCurCostView(Resources resources, TextView textView, String param) {
+    public static void setupCurCostView(Resources resources, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
             String format;
@@ -63,7 +68,7 @@ class ViewUtils {
         }
     }
 
-    static void setupBtcCostView(Resources resources, TextView textView, String param) {
+    public static void setupBtcCostView(Resources resources, TextView textView, String param) {
         if (param != null) {
             Double numParam = Double.valueOf(param);
             String textToView = resources.getString(R.string.price_btc, String.format(resources.getConfiguration().locale, "%-10.9f", numParam));
@@ -75,7 +80,7 @@ class ViewUtils {
         }
     }
 
-    static void setupVolumeView(Resources resources, int stringId, TextView textView, String param) {
+    public static void setupVolumeView(Resources resources, int stringId, TextView textView, String param) {
         if (param != null) {
             Double numParam = Double.valueOf(param);
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -88,7 +93,7 @@ class ViewUtils {
         }
     }
 
-    static void setCurViewIcon(Resources resources, TextView curIconView, AssetFetcher assetFetcher, String symbol) {
+    public static void setCurViewIcon(Resources resources, TextView curIconView, AssetFetcher assetFetcher, String symbol) {
         Drawable curIcon = assetFetcher.getDrawableFromAssets(symbol);
         if (curIcon != null) {
             curIconView.setBackground(curIcon);
@@ -101,7 +106,7 @@ class ViewUtils {
         }
     }
 
-    static void showError(Fragment currentFragment, String errorText) {
+    public static void showError(Fragment currentFragment, String errorText) {
         if(currentFragment.isAdded()) {
             Toast.makeText(currentFragment.getActivity(), errorText, Toast.LENGTH_SHORT).show();
         }

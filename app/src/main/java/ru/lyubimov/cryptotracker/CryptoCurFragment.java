@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +21,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import ru.lyubimov.cryptotracker.di.app.DaggerAppComponent;
+import ru.lyubimov.cryptotracker.di.activity.DaggerActivityComponent;
+
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 import ru.lyubimov.cryptotracker.model.CryptonatorData;
 import ru.lyubimov.cryptotracker.model.Market;
+import ru.lyubimov.cryptotracker.utils.ViewUtils;
 
 /**
  * Created by Alex on 28.01.2018.
@@ -66,7 +67,7 @@ public class CryptoCurFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCryptoCurrency = (CryptoCurrency) getArguments().getSerializable(ARGS_CRYPTO_CURRENCY);
-        mAssetFetcher = new AssetFetcher(getContext().getAssets());
+        mAssetFetcher = CryptoTrackerApp.get(getActivity()).getAppComponent().getAssetFetcher();
         mMarkets = new ArrayList<>();
     }
 
@@ -133,7 +134,7 @@ public class CryptoCurFragment extends Fragment {
                 + mCurrTypeSpinner.getSelectedItem().toString().toLowerCase();
         mMarkets.clear();
 
-        Call<CryptonatorData> call = DaggerAppComponent.builder()
+        Call<CryptonatorData> call = DaggerActivityComponent.builder()
                 .build()
                 .getCryptonatorApiService().getMarkets(pare);
         call.enqueue(new Callback<CryptonatorData>() {

@@ -1,4 +1,4 @@
-package ru.lyubimov.cryptotracker.di.app;
+package ru.lyubimov.cryptotracker.di.activity;
 
 import javax.inject.Singleton;
 
@@ -10,9 +10,8 @@ import ru.lyubimov.cryptotracker.api.CoinMarketCapApi;
 import ru.lyubimov.cryptotracker.api.CryptonatorApi;
 
 @Module
-public class AppNetworkModule {
-
-    @Singleton
+public class ActivityNetworkModule {
+    @ActivityScope
     @Provides
     public CoinMarketCapApi getCoinMarketCapApi(){
         return new Retrofit.Builder()
@@ -22,7 +21,7 @@ public class AppNetworkModule {
                 .create(CoinMarketCapApi.class);
     }
 
-    @Singleton
+    @ActivityScope
     @Provides
     public CryptonatorApi getCryptonatorApi() {
         return new Retrofit.Builder()
