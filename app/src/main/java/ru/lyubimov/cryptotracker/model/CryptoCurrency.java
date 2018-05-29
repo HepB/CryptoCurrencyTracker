@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by Lyubimov-AA on 16.01.2018.
  */
 
-public class CryptoCurrency extends Object implements Serializable{
+public class CryptoCurrency implements Serializable{
 
     @SerializedName("id")
     private String mId;
