@@ -8,7 +8,7 @@ import ru.lyubimov.cryptotracker.model.CryptoCurrency;
  * Created by Alex on 23.01.2018.
  */
 
-public class ComparatorUtils {
+public final class ComparatorUtils {
 
     private ComparatorUtils() {}
 

@@ -15,7 +15,7 @@ import ru.lyubimov.cryptotracker.R;
  * Created by Alex on 31.01.2018.
  */
 
-public class ViewUtils {
+public final class ViewUtils {
 
     private ViewUtils() {}
 

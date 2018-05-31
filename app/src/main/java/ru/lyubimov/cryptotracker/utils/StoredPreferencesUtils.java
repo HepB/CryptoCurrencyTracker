@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
  * Created by Alex on 28.01.2018.
  */
 
-public class StoredPreferencesUtils {
+public final class StoredPreferencesUtils {
     private static final String PREF_SEARCH_QUERY = "query";
     private static final String PREF_SORT_TYPE = "sortType";
 
