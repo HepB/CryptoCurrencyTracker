@@ -18,6 +18,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,6 +29,7 @@ import ru.lyubimov.cryptotracker.di.activity.DaggerActivityComponent;
 import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 import ru.lyubimov.cryptotracker.model.CryptonatorData;
 import ru.lyubimov.cryptotracker.model.Market;
+import ru.lyubimov.cryptotracker.model.nine.CCurrency;
 import ru.lyubimov.cryptotracker.utils.ViewUtils;
 
 /**
@@ -36,26 +40,28 @@ public class CryptoCurFragment extends Fragment {
     private static final String TAG = "CryptoCurFragment";
     private static final String ARGS_CRYPTO_CURRENCY = "crypto_currency";
 
+    private Unbinder unbinder;
+
     private AssetFetcher mAssetFetcher;
 
-    private TextView mCurIco;
-    private TextView mCurName;
-    private TextView mCurCostView;
-    private TextView mBtcCostView;
-    private TextView mDayVolView;
-    private TextView mMarketCapView;
-    private TextView mAvailableSupVolume;
-    private TextView mMaxSupVolume;
-    private TextView mHourChangeVolume;
-    private TextView mDayChangeVolume;
-    private TextView mWeekChangeVolume;
-    private LinearLayout mMarketView;
-    private Spinner mCurrTypeSpinner;
+    @BindView(R.id.cur_icon) TextView mCurIco;
+    @BindView(R.id.cur_name) TextView mCurName;
+    @BindView(R.id.cur_cost) TextView mCurCostView;
+    @BindView(R.id.btc_cost) TextView mBtcCostView;
+    @BindView(R.id.day_vol) TextView mDayVolView;
+    @BindView(R.id.market_cap) TextView mMarketCapView;
+    @BindView(R.id.available_supply) TextView mAvailableSupVolume;
+    @BindView(R.id.max_supply) TextView mMaxSupVolume;
+    @BindView(R.id.hour_change_vol) TextView mHourChangeVolume;
+    @BindView(R.id.day_change_vol) TextView mDayChangeVolume;
+    @BindView(R.id.week_change_vol) TextView mWeekChangeVolume;
+    @BindView(R.id.markets_list_view) LinearLayout mMarketView;
+    @BindView(R.id.cur_type_spinner) Spinner mCurrTypeSpinner;
 
-    private CryptoCurrency mCryptoCurrency;
+    private CCurrency mCryptoCurrency;
     private ArrayList<Market> mMarkets;
 
-    public static CryptoCurFragment newInstance(CryptoCurrency cryptoCurrency) {
+    public static CryptoCurFragment newInstance(CCurrency cryptoCurrency) {
         Bundle args = new Bundle();
         args.putSerializable(ARGS_CRYPTO_CURRENCY, cryptoCurrency);
         CryptoCurFragment curFragment = new CryptoCurFragment();
@@ -66,7 +72,7 @@ public class CryptoCurFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCryptoCurrency = (CryptoCurrency) getArguments().getSerializable(ARGS_CRYPTO_CURRENCY);
+        mCryptoCurrency = (CCurrency) getArguments().getSerializable(ARGS_CRYPTO_CURRENCY);
         mAssetFetcher = CryptoTrackerApp.get(getActivity()).getAppComponent().getAssetFetcher();
         mMarkets = new ArrayList<>();
     }
@@ -75,21 +81,7 @@ public class CryptoCurFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cur_item, container, false);
-
-        mCurIco = view.findViewById(R.id.cur_icon);
-        mCurName = view.findViewById(R.id.cur_name);
-        mCurCostView = view.findViewById(R.id.cur_cost);
-        mBtcCostView = view.findViewById(R.id.btc_cost);
-        mDayVolView = view.findViewById(R.id.day_vol);
-        mMarketCapView = view.findViewById(R.id.market_cap);
-        mAvailableSupVolume = view.findViewById(R.id.available_supply);
-        mMaxSupVolume = view.findViewById(R.id.max_supply);
-        mHourChangeVolume = view.findViewById(R.id.hour_change_vol);
-        mDayChangeVolume = view.findViewById(R.id.day_change_vol);
-        mWeekChangeVolume = view.findViewById(R.id.week_change_vol);
-        mCurrTypeSpinner = view.findViewById(R.id.cur_type_spinner);
-        mMarketView = view.findViewById(R.id.markets_list_view);
-
+        unbinder = ButterKnife.bind(this, view);
         updateUI();
         updateItems();
         return view;
@@ -118,7 +110,7 @@ public class CryptoCurFragment extends Fragment {
             if (mCurrTypeSpinner.getSelectedItemPosition() == 0) {
                 ViewUtils.setupCurCostView(getResources(), marketCost, market.getPrice());
             } else {
-                ViewUtils.setupBtcCostView(getResources(), marketCost, market.getPrice());
+                ViewUtils.setToBtcChangeView(getResources(), marketCost, market.getPrice());
             }
 
             String volume = getString(R.string.volume) + " " + market.getVolume();
@@ -181,7 +173,7 @@ public class CryptoCurFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //no logic
             }
         });
     }
@@ -201,15 +193,15 @@ public class CryptoCurFragment extends Fragment {
         setupCurrSpinner();
         ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
         ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), null);
-        ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceCur());
-        ViewUtils.setupBtcCostView(getResources(), mBtcCostView, mCryptoCurrency.getPriceBtc());
-        ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolView, mCryptoCurrency.getDayVolumeCur());
-        ViewUtils.setupVolumeView(getResources(), R.string.market_cap_usd, mMarketCapView, mCryptoCurrency.getMarketCapCur());
+        ViewUtils.setupCurCostView(getResources(), mCurCostView, mCryptoCurrency.getPriceUsd());
+        ViewUtils.setToBtcChangeView(getResources(), mBtcCostView, mCryptoCurrency.getPercentChangeBtc24h());
+        ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolView, mCryptoCurrency.getVolumeUsd24h());
+        ViewUtils.setupVolumeView(getResources(), R.string.market_cap_usd, mMarketCapView, mCryptoCurrency.getMarketCapUsd());
         ViewUtils.setupVolumeView(getResources(), R.string.available_supply, mAvailableSupVolume, mCryptoCurrency.getAvailableSupply());
-        ViewUtils.setupVolumeView(getResources(), R.string.max_supply, mMaxSupVolume, mCryptoCurrency.getMaxSupply());
-        ViewUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getHourPercentChange());
-        ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getDayPercentChange());
-        ViewUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getWeekPercentChange());
+        ViewUtils.setupVolumeView(getResources(), R.string.max_supply, mMaxSupVolume, mCryptoCurrency.getmTotalSupply());
+        ViewUtils.setupChangeView(getResources(), mHourChangeVolume, mCryptoCurrency.getPercentChange1h());
+        ViewUtils.setupChangeView(getResources(), mDayChangeVolume, mCryptoCurrency.getVolumeUsd24h());
+        ViewUtils.setupChangeView(getResources(), mWeekChangeVolume, mCryptoCurrency.getPercentChange7d());
     }
 
     private Fragment getCurrentFragment() {

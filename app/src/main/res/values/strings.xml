@@ -2,9 +2,9 @@
     <string name="app_name">Crypto Tracker</string>
     <string name="search">Search</string>
 
-    <string name="price_usd">Price USD: %1s</string>
-    <string name="price_btc">Price BTC: %1s</string>
-    <string name="day_volume_usd">24h USD vol: %1s</string>
+    <string name="price_usd">Price: %1s %2s</string>
+    <string name="price_btc">Change to BTC 24h: %1s</string>
+    <string name="day_volume_usd">24h vol: %1s %2s</string>
 
     <string name="market_cap_usd">Market cap: %1s</string>
     <string name="available_supply">Available supply: %1s</string>

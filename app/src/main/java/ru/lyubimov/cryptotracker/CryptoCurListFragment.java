@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,11 +29,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.lyubimov.cryptotracker.di.activity.DaggerActivityComponent;
-import ru.lyubimov.cryptotracker.model.CryptoCurrency;
+import ru.lyubimov.cryptotracker.model.nine.CCurrency;
+import ru.lyubimov.cryptotracker.model.nine.NintyNineCoinsData;
 import ru.lyubimov.cryptotracker.utils.ComparatorUtils;
 import ru.lyubimov.cryptotracker.utils.StoredPreferencesUtils;
 import ru.lyubimov.cryptotracker.utils.ViewUtils;
@@ -44,13 +49,15 @@ import ru.lyubimov.cryptotracker.utils.ViewUtils;
 public class CryptoCurListFragment extends Fragment {
     private static final String TAG = "CryptoCurListFragment";
 
-    private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Spinner mSortSpinner;
+    private Unbinder unbinder;
+
+    @BindView(R.id.currency_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.sort_spinner) Spinner mSortSpinner;
 
     private CryptoCurrencyAdapter mCryptoCurrencyAdapter;
     private SearchView mSearchView;
-    private List<CryptoCurrency> mCryptoCurrencies;
+    private List<CCurrency> mCryptoCurrencies;
 
     private AssetFetcher mAssetFetcher;
 
@@ -67,12 +74,10 @@ public class CryptoCurListFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crypto_cur_list, container, false);
-        mRecyclerView = view.findViewById(R.id.currency_recycler_view);
+        unbinder = ButterKnife.bind(this, view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mSortSpinner = view.findViewById(R.id.sort_spinner);
-        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -128,43 +133,42 @@ public class CryptoCurListFragment extends Fragment {
         });
     }
 
-    private class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener {
-        CryptoCurrency mCryptoCurrency;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
-        TextView mCurIco;
-        TextView mCurName;
-        TextView mCurCost;
-        TextView mBtcCost;
-        TextView mDayVolume;
-        TextView mOneHourChange;
-        TextView mOneDayChange;
-        TextView mOneWeekChange;
+    class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener {
+        CCurrency mCryptoCurrency;
+
+        @BindView(R.id.cur_icon) TextView mCurIco;
+        @BindView(R.id.cur_name) TextView mCurName;
+        @BindView(R.id.cur_cost) TextView mCurCost;
+        @BindView(R.id.change_to_btc) TextView changeToBtc;
+        @BindView(R.id.usd_day_vol) TextView mDayVolume;
+        @BindView(R.id.hour_change_volume) TextView mOneHourChange;
+        @BindView(R.id.day_change_volume) TextView mOneDayChange;
+        @BindView(R.id.week_change_volume) TextView mOneWeekChange;
 
         CryptoCurrencyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_ccurrency, parent, false));
-            mCurIco = itemView.findViewById(R.id.cur_icon);
-            mCurName = itemView.findViewById(R.id.cur_name);
-            mCurCost = itemView.findViewById(R.id.cur_cost);
-            mBtcCost = itemView.findViewById(R.id.btc_cost);
-            mDayVolume = itemView.findViewById(R.id.usd_day_vol);
-            mOneHourChange = itemView.findViewById(R.id.hour_change_volume);
-            mOneDayChange = itemView.findViewById(R.id.day_change_volume);
-            mOneWeekChange = itemView.findViewById(R.id.week_change_volume);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
         @SuppressLint("SetTextI18n")
-        void bind(CryptoCurrency cryptoCurrency, int position) {
+        void bind(CCurrency cryptoCurrency, int position) {
             mCryptoCurrency = cryptoCurrency;
 
             ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(),null, position + 1);
             ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
-            ViewUtils.setupCurCostView(getResources(), mCurCost, mCryptoCurrency.getPriceCur());
-            ViewUtils.setupBtcCostView(getResources(), mBtcCost, mCryptoCurrency.getPriceBtc());
-            ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolume, mCryptoCurrency.getDayVolumeCur());
-            ViewUtils.setupChangeView(getResources(), mOneHourChange, mCryptoCurrency.getHourPercentChange());
-            ViewUtils.setupChangeView(getResources(), mOneDayChange, mCryptoCurrency.getDayPercentChange());
-            ViewUtils.setupChangeView(getResources(), mOneWeekChange, mCryptoCurrency.getWeekPercentChange());
+            ViewUtils.setupCurCostView(getResources(), mCurCost, mCryptoCurrency.getPriceUsd());
+            ViewUtils.setToBtcChangeView(getResources(), changeToBtc, mCryptoCurrency.getPercentChangeBtc24h());
+            ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolume, mCryptoCurrency.getVolumeUsd24h());
+            ViewUtils.setupChangeView(getResources(), mOneHourChange, mCryptoCurrency.getPercentChange1h());
+            ViewUtils.setupChangeView(getResources(), mOneDayChange, mCryptoCurrency.getPercentChange24h());
+            ViewUtils.setupChangeView(getResources(), mOneWeekChange, mCryptoCurrency.getPercentChange7d());
         }
 
         @Override
@@ -175,10 +179,10 @@ public class CryptoCurListFragment extends Fragment {
     }
 
     private class CryptoCurrencyAdapter extends RecyclerView.Adapter<CryptoCurrencyHolder> {
-        private List<CryptoCurrency> mCryptoCurrencies;
-        private List<CryptoCurrency> mCryptoCurrenciesCopy;
+        private List<CCurrency> mCryptoCurrencies;
+        private List<CCurrency> mCryptoCurrenciesCopy;
 
-        CryptoCurrencyAdapter(List<CryptoCurrency> cryptoCurrencies) {
+        CryptoCurrencyAdapter(List<CCurrency> cryptoCurrencies) {
             mCryptoCurrencies = cryptoCurrencies;
             mCryptoCurrenciesCopy = new ArrayList<>();
             mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
@@ -215,7 +219,7 @@ public class CryptoCurListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(CryptoCurrencyHolder holder, int position) {
-            CryptoCurrency cryptoCurrency = mCryptoCurrencies.get(position);
+            CCurrency cryptoCurrency = mCryptoCurrencies.get(position);
             holder.bind(cryptoCurrency, position);
         }
 
@@ -229,7 +233,7 @@ public class CryptoCurListFragment extends Fragment {
             if (text == null || text.isEmpty()) {
                 mCryptoCurrencies.addAll(mCryptoCurrenciesCopy);
             } else {
-                for (CryptoCurrency item : mCryptoCurrenciesCopy) {
+                for (CCurrency item : mCryptoCurrenciesCopy) {
                     if (item.getName().toLowerCase().contains(text.toLowerCase()) || item.getSymbol().toLowerCase().contains(text.toLowerCase())) {
                         mCryptoCurrencies.add(item);
                     }
@@ -238,7 +242,7 @@ public class CryptoCurListFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        void sortItems(Comparator<CryptoCurrency> comparator) {
+        void sortItems(Comparator<CCurrency> comparator) {
             Collections.sort(mCryptoCurrencies, comparator);
             Collections.sort(mCryptoCurrenciesCopy, comparator);
             notifyDataSetChanged();
@@ -258,20 +262,21 @@ public class CryptoCurListFragment extends Fragment {
             mCryptoCurrencies = new ArrayList<>();
         }
         mSwipeRefreshLayout.setRefreshing(true);
-        Call<List<CryptoCurrency>> call = DaggerActivityComponent
+        Call<NintyNineCoinsData> call = DaggerActivityComponent
                 .builder()
                 .build()
-                .getCoinMarketCapService()
-                .getCryptoCurrencies(0, null);
-        call.enqueue(new Callback<List<CryptoCurrency>>() {
+                .getNintyNineCoinsApi()
+                .getCryptoCurrencies();
+        call.enqueue(new Callback<NintyNineCoinsData>() {
             @Override
-            public void onResponse(@NonNull Call<List<CryptoCurrency>> call, @NonNull Response<List<CryptoCurrency>> response) {
+            public void onResponse(@NonNull Call<NintyNineCoinsData> call, @NonNull Response<NintyNineCoinsData> response) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                List<CryptoCurrency> result = response.body();
-                if (result != null) {
+                NintyNineCoinsData result = response.body();
+                if (result != null && result.getStatus().equals("true")) {
                     mCryptoCurrencies.clear();
-                    mCryptoCurrencies.addAll(result);
+                    mCryptoCurrencies.addAll(result.getResult());
                 } else {
+                    ViewUtils.showError(getCurrentFragment(), getString(R.string.parse_crypto_cur_exception));
                     mCryptoCurrencies = new ArrayList<>();
                 }
                 onItemsLoadComplete();
@@ -279,8 +284,9 @@ public class CryptoCurListFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<CryptoCurrency>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<NintyNineCoinsData> call, @NonNull Throwable t) {
                 ViewUtils.showError(getCurrentFragment(), getString(R.string.parse_crypto_cur_exception));
+                Log.e(TAG, t.getMessage());
                 onItemsLoadComplete();
                 setupAdapter();
             }

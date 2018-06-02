@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import ru.lyubimov.cryptotracker.AssetFetcher;
 import ru.lyubimov.cryptotracker.R;
@@ -33,15 +34,14 @@ public final class ViewUtils {
 
     public static void setupChangeView(Resources resources, TextView textView, String param) {
         if(param != null) {
-            Double numParam = Double.valueOf(param);
             String textToView;
-            if(numParam >= 0) {
-                textView.setTextColor(resources.getColor(R.color.colorGreen));
-                textToView = "+" + param + "%";
-                textView.setText(textToView);
-            } else {
+            if(param.charAt(0) == '-') {
                 textView.setTextColor(resources.getColor(R.color.colorRed));
                 textToView = param + "%";
+                textView.setText(textToView);
+            } else {
+                textView.setTextColor(resources.getColor(R.color.colorGreen));
+                textToView = "+" + param + "%";
                 textView.setText(textToView);
             }
         } else {
@@ -55,23 +55,22 @@ public final class ViewUtils {
             Double numParam = Double.valueOf(param);
             String format;
             if(numParam > 0.01) {
-                format = "%-10.2f";
+                format = "%.2f";
             } else {
-                format = "%-10.4f";
+                format = "%.4f";
             }
-            String textToView = resources.getString(R.string.price_usd, String.format(resources.getConfiguration().locale, format, numParam));
+            String textToView = resources.getString(R.string.price_usd, String.format(Locale.getDefault(), format, numParam), "$");
             textView.setText(textToView);
             textView.setTextColor(resources.getColor(R.color.colorBlack));
         } else {
-            String text = resources.getString(R.string.price_usd, "-");
+            String text = resources.getString(R.string.price_usd, "-", null);
             textView.setText(text);
         }
     }
 
-    public static void setupBtcCostView(Resources resources, TextView textView, String param) {
+    public static void setToBtcChangeView(Resources resources, TextView textView, String param) {
         if (param != null) {
-            Double numParam = Double.valueOf(param);
-            String textToView = resources.getString(R.string.price_btc, String.format(resources.getConfiguration().locale, "%-10.9f", numParam));
+            String textToView = resources.getString(R.string.price_btc, param + "%");
             textView.setText(textToView);
             textView.setTextColor(resources.getColor(R.color.colorBlack));
         } else {
@@ -84,11 +83,11 @@ public final class ViewUtils {
         if (param != null) {
             Double numParam = Double.valueOf(param);
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            String textToView = resources.getString(stringId, numberFormat.format(numParam));
+            String textToView = resources.getString(stringId, numberFormat.format(numParam), "$");
             textView.setText(textToView);
             textView.setTextColor(resources.getColor(R.color.colorBlack));
         } else {
-            String text = resources.getString(stringId, "-");
+            String text = resources.getString(stringId, "-", null);
             textView.setText(text);
         }
     }

@@ -16,7 +16,7 @@
             style="@style/TitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Bitcoin" />
@@ -43,17 +43,17 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/cur_name"
-            tools:text="USD price: 11234.84" />
+            tools:text="Price: 11234.84 $" />
 
         <TextView
-            android:id="@+id/btc_cost"
+            android:id="@+id/change_to_btc"
             style="@style/TitleParamText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/cur_cost"
-            tools:text="BTC price: 0.010201200" />
+            tools:text="Change to BTC 24h: 1,234%" />
 
         <TextView
             android:id="@+id/usd_day_vol"
@@ -62,8 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/btc_cost"
-            tools:text="24h USD vol: 123451354125" />
+            app:layout_constraintTop_toBottomOf="@+id/change_to_btc"
+            tools:text="24h vol: 123451354125 $" />
 
         <TextView
             android:id="@+id/one_hour"
