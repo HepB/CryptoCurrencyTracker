@@ -2,7 +2,6 @@ package ru.lyubimov.cryptotracker.utils;
 
 import java.util.Comparator;
 
-import ru.lyubimov.cryptotracker.model.CryptoCurrency;
 import ru.lyubimov.cryptotracker.model.nine.CCurrency;
 
 /**
@@ -51,8 +50,9 @@ public final class ComparatorUtils {
                 } else if (sCostA == null) {
                     return 0;
                 } else {
-                    sCostA = StringUtils.clearStringToDouble(sCostA);
-                    sCostB = StringUtils.clearStringToDouble(sCostB);
+                    //99creyptocoins зачем-то для разделения используют ",", приходится фильтровать.
+                    sCostA = sCostA.replace(",", "");
+                    sCostB = sCostB.replace(",", "");
                     return Double.compare(Double.valueOf(sCostB), Double.valueOf(sCostA));
                 }
             }
@@ -73,8 +73,8 @@ public final class ComparatorUtils {
                 } else if (sHourChangeA == null) {
                     return 0;
                 } else {
-                    sHourChangeA = StringUtils.clearStringToDouble(sHourChangeA);
-                    sHourChangeB = StringUtils.clearStringToDouble(sHourChangeB);
+                    sHourChangeA = sHourChangeA.replace(",", "");
+                    sHourChangeB = sHourChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sHourChangeB), Double.valueOf(sHourChangeA));
                 }
             }
@@ -95,8 +95,8 @@ public final class ComparatorUtils {
                 } else if (sHourChangeA == null) {
                     return 0;
                 } else {
-                    sHourChangeA = StringUtils.clearStringToDouble(sHourChangeA);
-                    sHourChangeB = StringUtils.clearStringToDouble(sHourChangeB);
+                    sHourChangeA = sHourChangeA.replace(",", "");
+                    sHourChangeB = sHourChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sHourChangeA), Double.valueOf(sHourChangeB));
                 }
             }
@@ -118,8 +118,8 @@ public final class ComparatorUtils {
                 } else if (sDayChangeA == null) {
                     return 0;
                 } else {
-                    sDayChangeA = StringUtils.clearStringToDouble(sDayChangeA);
-                    sDayChangeB = StringUtils.clearStringToDouble(sDayChangeB);
+                    sDayChangeA = sDayChangeB.replace(",", "");
+                    sDayChangeB = sDayChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sDayChangeB), Double.valueOf(sDayChangeA));
                 }
             }
@@ -140,8 +140,8 @@ public final class ComparatorUtils {
                 } else if (sDayChangeA == null) {
                     return 0;
                 } else {
-                    sDayChangeA = StringUtils.clearStringToDouble(sDayChangeA);
-                    sDayChangeB = StringUtils.clearStringToDouble(sDayChangeB);
+                    sDayChangeA = sDayChangeB.replace(",", "");
+                    sDayChangeB = sDayChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sDayChangeA), Double.valueOf(sDayChangeB));
                 }
             }
@@ -162,8 +162,8 @@ public final class ComparatorUtils {
                 } else if (sWeekChangeA == null) {
                     return 0;
                 } else {
-                    sWeekChangeA = StringUtils.clearStringToDouble(sWeekChangeA);
-                    sWeekChangeB = StringUtils.clearStringToDouble(sWeekChangeB);
+                    sWeekChangeA = sWeekChangeA.replace(",", "");
+                    sWeekChangeB = sWeekChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sWeekChangeB), Double.valueOf(sWeekChangeA));
                 }
             }
@@ -184,8 +184,8 @@ public final class ComparatorUtils {
                 } else if (sWeekChangeA == null) {
                     return 0;
                 } else {
-                    sWeekChangeA = StringUtils.clearStringToDouble(sWeekChangeA);
-                    sWeekChangeB = StringUtils.clearStringToDouble(sWeekChangeB);
+                    sWeekChangeA = sWeekChangeA.replace(",", "");
+                    sWeekChangeB = sWeekChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sWeekChangeA), Double.valueOf(sWeekChangeB));
                 }
             }

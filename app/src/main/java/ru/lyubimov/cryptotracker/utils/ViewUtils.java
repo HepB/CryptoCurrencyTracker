@@ -1,8 +1,10 @@
 package ru.lyubimov.cryptotracker.utils;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,25 +34,25 @@ public final class ViewUtils {
         textView.setText(sb.toString().toUpperCase());
     }
 
-    public static void setupChangeView(Resources resources, TextView textView, String param) {
+    public static void setupChangeView(Context context, TextView textView, String param) {
         if(param != null) {
             String textToView;
             if(param.charAt(0) == '-') {
-                textView.setTextColor(resources.getColor(R.color.colorRed));
+                textView.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 textToView = param + "%";
                 textView.setText(textToView);
             } else {
-                textView.setTextColor(resources.getColor(R.color.colorGreen));
+                textView.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
                 textToView = "+" + param + "%";
                 textView.setText(textToView);
             }
         } else {
-            textView.setTextColor(resources.getColor(R.color.colorBlack));
+            textView.setTextColor(ContextCompat.getColor(context, R.color.colorBlack));
             textView.setText("-");
         }
     }
 
-    public static void setupCurCostView(Resources resources, TextView textView, String param) {
+    public static void setupCurCostView(Context context, TextView textView, String param) {
         if(param != null) {
             Double numParam = Double.valueOf(param);
             String format;
@@ -59,11 +61,11 @@ public final class ViewUtils {
             } else {
                 format = "%.4f";
             }
-            String textToView = resources.getString(R.string.price_usd, String.format(Locale.getDefault(), format, numParam), "$");
+            String textToView = context.getString(R.string.price_usd, String.format(Locale.getDefault(), format, numParam), "$");
             textView.setText(textToView);
-            textView.setTextColor(resources.getColor(R.color.colorBlack));
+            textView.setTextColor(ContextCompat.getColor(context, R.color.colorBlack));
         } else {
-            String text = resources.getString(R.string.price_usd, "-", null);
+            String text = context.getString(R.string.price_usd, "-", null);
             textView.setText(text);
         }
     }
@@ -79,15 +81,15 @@ public final class ViewUtils {
         }
     }
 
-    public static void setupVolumeView(Resources resources, int stringId, TextView textView, String param) {
+    public static void setupVolumeView(Context context, int stringId, TextView textView, String param) {
         if (param != null) {
             Double numParam = Double.valueOf(param);
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            String textToView = resources.getString(stringId, numberFormat.format(numParam), "$");
+            String textToView = context.getString(stringId, numberFormat.format(numParam), "$");
             textView.setText(textToView);
-            textView.setTextColor(resources.getColor(R.color.colorBlack));
+            textView.setTextColor(ContextCompat.getColor(context, R.color.colorBlack));
         } else {
-            String text = resources.getString(stringId, "-", null);
+            String text = context.getString(stringId, "-", null);
             textView.setText(text);
         }
     }

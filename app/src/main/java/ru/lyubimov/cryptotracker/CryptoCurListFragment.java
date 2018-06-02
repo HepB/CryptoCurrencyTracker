@@ -163,12 +163,12 @@ public class CryptoCurListFragment extends Fragment {
 
             ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(),null, position + 1);
             ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
-            ViewUtils.setupCurCostView(getResources(), mCurCost, mCryptoCurrency.getPriceUsd());
+            ViewUtils.setupCurCostView(getContext(), mCurCost, mCryptoCurrency.getPriceUsd());
             ViewUtils.setToBtcChangeView(getResources(), changeToBtc, mCryptoCurrency.getPercentChangeBtc24h());
             ViewUtils.setupVolumeView(getResources(), R.string.day_volume_usd, mDayVolume, mCryptoCurrency.getVolumeUsd24h());
-            ViewUtils.setupChangeView(getResources(), mOneHourChange, mCryptoCurrency.getPercentChange1h());
-            ViewUtils.setupChangeView(getResources(), mOneDayChange, mCryptoCurrency.getPercentChange24h());
-            ViewUtils.setupChangeView(getResources(), mOneWeekChange, mCryptoCurrency.getPercentChange7d());
+            ViewUtils.setupChangeView(getContext(), mOneHourChange, mCryptoCurrency.getPercentChange1h());
+            ViewUtils.setupChangeView(getContext(), mOneDayChange, mCryptoCurrency.getPercentChange24h());
+            ViewUtils.setupChangeView(getContext(), mOneWeekChange, mCryptoCurrency.getPercentChange7d());
         }
 
         @Override

@@ -5,9 +5,9 @@
     <string name="options_title">Настройки</string>
 
 
-    <string name="price_usd">Цена: %1s %2s</string>
+    <string name="price_usd">Цена: %1s%2s</string>
     <string name="price_btc">Изм. BTC 24ч: %1s</string>
-    <string name="day_volume_usd">Объем 24ч: %1s %2s</string>
+    <string name="day_volume_usd">Объем 24ч: %1s%2s</string>
 
     <string name="one_hour_title">"1 ч: "</string>
     <string name="one_day_title">"1 д: "</string>
