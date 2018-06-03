@@ -115,7 +115,7 @@ public class CryptoCurFragment extends Fragment {
             if (mCurrTypeSpinner.getSelectedItemPosition() == 0) {
                 ViewUtils.setupCurCostView(getContext(), marketCost, market.getPrice());
             } else {
-                ViewUtils.setToBtcChangeView(getResources(), marketCost, market.getPrice());
+                ViewUtils.setToBtcChangeView(getContext(), marketCost, market.getPrice());
             }
 
             String volume = getString(R.string.volume) + " " + market.getVolume();
@@ -199,7 +199,7 @@ public class CryptoCurFragment extends Fragment {
         ViewUtils.setCurViewIcon(getResources(), mCurIco, mAssetFetcher, mCryptoCurrency.getSymbol());
         ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(), mCryptoCurrency.getSymbol(), null);
         ViewUtils.setupCurCostView(getContext(), mCurCostView, mCryptoCurrency.getPriceUsd());
-        ViewUtils.setToBtcChangeView(getResources(), mBtcCostView, mCryptoCurrency.getPercentChangeBtc24h());
+        ViewUtils.setToBtcChangeView(getContext(), mBtcCostView, mCryptoCurrency.getPercentChangeBtc24h());
         ViewUtils.setupVolumeView(getContext(), R.string.day_volume_usd, mDayVolView, mCryptoCurrency.getVolumeUsd24h());
         ViewUtils.setupVolumeView(getContext(), R.string.market_cap_usd, mMarketCapView, mCryptoCurrency.getMarketCapUsd());
         ViewUtils.setupVolumeView(getContext(), R.string.available_supply, mAvailableSupVolume, mCryptoCurrency.getAvailableSupply());

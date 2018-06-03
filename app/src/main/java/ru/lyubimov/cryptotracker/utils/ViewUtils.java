@@ -70,13 +70,13 @@ public final class ViewUtils {
         }
     }
 
-    public static void setToBtcChangeView(Resources resources, TextView textView, String param) {
+    public static void setToBtcChangeView(Context context, TextView textView, String param) {
         if (param != null) {
-            String textToView = resources.getString(R.string.price_btc, param + "%");
+            String textToView = context.getString(R.string.price_btc, param + "%");
             textView.setText(textToView);
-            textView.setTextColor(resources.getColor(R.color.colorBlack));
+            textView.setTextColor(ContextCompat.getColor(context, R.color.colorBlack));
         } else {
-            String text = resources.getString(R.string.price_btc, "-");
+            String text = context.getString(R.string.price_btc, "-");
             textView.setText(text);
         }
     }

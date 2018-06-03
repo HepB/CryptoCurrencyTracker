@@ -12,8 +12,6 @@ public final class ComparatorUtils {
 
     private ComparatorUtils() {}
 
-    private static final String TAG = "CryptoCurrencyComp";
-
     public static Comparator<CCurrency> compareByRank(){
         return new Comparator<CCurrency>() {
             @Override
