@@ -3,7 +3,7 @@
     <string name="search">Search</string>
 
     <string name="price_usd">Price: %1s%2s</string>
-    <string name="price_btc">Change to BTC 24h: %1s</string>
+    <string name="price_btc">Cng BTC 24h: %1s</string>
     <string name="day_volume_usd">24h vol: %1s%2s</string>
 
     <string name="market_cap_usd">Market cap: %1s</string>

@@ -53,7 +53,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/cur_cost"
-            tools:text="Change to BTC 24h: 1,234%" />
+            tools:text="Chg to BTC 24h: 1,234%" />
 
         <TextView
             android:id="@+id/usd_day_vol"
