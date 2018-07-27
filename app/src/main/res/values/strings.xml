@@ -20,7 +20,6 @@
     <string name="currency_title">Currency:</string>
     <string name="volume">Volume:</string>
 
-    <string name="parse_markets_exception">Can not get exchange data. Please try again later.</string>
     <string name="parse_crypto_cur_exception">Can not get crypto currencies data. Please try again later.</string>
 
     <string-array name="sort_types">
@@ -33,11 +32,6 @@
         <item>day falling down</item>
         <item>week rise</item>
         <item>week falling down</item>
-    </string-array>
-
-    <string-array name="cur_types">
-        <item>USD</item>
-        <item>BTC</item>
     </string-array>
 
 </resources>

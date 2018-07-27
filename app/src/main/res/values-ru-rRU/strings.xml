@@ -22,13 +22,7 @@
     <string name="currency_title">Валюта: </string>
     <string name="volume">Объем: </string>
 
-    <string name="parse_markets_exception">Невозможно получить данные о биржах. Пожалуйста, попробуйте позже.</string>
     <string name="parse_crypto_cur_exception">Невозможно получить данные о криптовалютах. Пожалуйста, попробуйте позже.</string>
-
-    <string-array name="cur_types">
-        <item>USD</item>
-        <item>BTC</item>
-    </string-array>
 
     <string-array name="sort_types">
         <item>по рангу</item>

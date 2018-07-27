@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import ru.lyubimov.cryptotracker.utils.gson.QuesToNullAdapter;
 
-public class CCurrency implements Serializable{
+public class CryptoCurrency implements Serializable{
     @Expose
     @SerializedName("last_updated")
     @JsonAdapter(QuesToNullAdapter.class)

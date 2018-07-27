@@ -1,7 +1,6 @@
 package ru.lyubimov.cryptotracker;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.lyubimov.cryptotracker.di.activity.DaggerActivityComponent;
-import ru.lyubimov.cryptotracker.model.nine.CCurrency;
+import ru.lyubimov.cryptotracker.model.nine.CryptoCurrency;
 import ru.lyubimov.cryptotracker.model.nine.NintyNineCoinsData;
 import ru.lyubimov.cryptotracker.utils.ComparatorUtils;
 import ru.lyubimov.cryptotracker.utils.StoredPreferencesUtils;
@@ -57,7 +56,7 @@ public class CryptoCurListFragment extends Fragment {
 
     private CryptoCurrencyAdapter mCryptoCurrencyAdapter;
     private SearchView mSearchView;
-    private List<CCurrency> mCryptoCurrencies;
+    private List<CryptoCurrency> mCryptoCurrencies;
 
     private AssetFetcher mAssetFetcher;
 
@@ -139,8 +138,8 @@ public class CryptoCurListFragment extends Fragment {
         unbinder.unbind();
     }
 
-    class CryptoCurrencyHolder extends RecyclerView.ViewHolder implements ViewGroup.OnClickListener {
-        CCurrency mCryptoCurrency;
+    class CryptoCurrencyHolder extends RecyclerView.ViewHolder{
+        CryptoCurrency mCryptoCurrency;
 
         @BindView(R.id.cur_icon) TextView mCurIco;
         @BindView(R.id.cur_name) TextView mCurName;
@@ -154,11 +153,10 @@ public class CryptoCurListFragment extends Fragment {
         CryptoCurrencyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_ccurrency, parent, false));
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
         }
 
         @SuppressLint("SetTextI18n")
-        void bind(CCurrency cryptoCurrency, int position) {
+        void bind(CryptoCurrency cryptoCurrency, int position) {
             mCryptoCurrency = cryptoCurrency;
 
             ViewUtils.setupTitleView(mCurName, mCryptoCurrency.getName(),null, position + 1);
@@ -170,19 +168,13 @@ public class CryptoCurListFragment extends Fragment {
             ViewUtils.setupChangeView(getContext(), mOneDayChange, mCryptoCurrency.getPercentChange24h());
             ViewUtils.setupChangeView(getContext(), mOneWeekChange, mCryptoCurrency.getPercentChange7d());
         }
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = CryptoCurItemActivity.newIntent(getContext(), mCryptoCurrency);
-            startActivity(intent);
-        }
     }
 
     private class CryptoCurrencyAdapter extends RecyclerView.Adapter<CryptoCurrencyHolder> {
-        private List<CCurrency> mCryptoCurrencies;
-        private List<CCurrency> mCryptoCurrenciesCopy;
+        private List<CryptoCurrency> mCryptoCurrencies;
+        private List<CryptoCurrency> mCryptoCurrenciesCopy;
 
-        CryptoCurrencyAdapter(List<CCurrency> cryptoCurrencies) {
+        CryptoCurrencyAdapter(List<CryptoCurrency> cryptoCurrencies) {
             mCryptoCurrencies = cryptoCurrencies;
             mCryptoCurrenciesCopy = new ArrayList<>();
             mCryptoCurrenciesCopy.addAll(cryptoCurrencies);
@@ -211,15 +203,16 @@ public class CryptoCurListFragment extends Fragment {
             filter(StoredPreferencesUtils.getStoredQuery(getActivity()));
         }
 
+        @NonNull
         @Override
-        public CryptoCurrencyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CryptoCurrencyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             return new CryptoCurrencyHolder(inflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(CryptoCurrencyHolder holder, int position) {
-            CCurrency cryptoCurrency = mCryptoCurrencies.get(position);
+        public void onBindViewHolder(@NonNull CryptoCurrencyHolder holder, int position) {
+            CryptoCurrency cryptoCurrency = mCryptoCurrencies.get(position);
             holder.bind(cryptoCurrency, position);
         }
 
@@ -233,7 +226,7 @@ public class CryptoCurListFragment extends Fragment {
             if (text == null || text.isEmpty()) {
                 mCryptoCurrencies.addAll(mCryptoCurrenciesCopy);
             } else {
-                for (CCurrency item : mCryptoCurrenciesCopy) {
+                for (CryptoCurrency item : mCryptoCurrenciesCopy) {
                     if (item.getName().toLowerCase().contains(text.toLowerCase()) || item.getSymbol().toLowerCase().contains(text.toLowerCase())) {
                         mCryptoCurrencies.add(item);
                     }
@@ -242,7 +235,7 @@ public class CryptoCurListFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        void sortItems(Comparator<CCurrency> comparator) {
+        void sortItems(Comparator<CryptoCurrency> comparator) {
             Collections.sort(mCryptoCurrencies, comparator);
             Collections.sort(mCryptoCurrenciesCopy, comparator);
             notifyDataSetChanged();

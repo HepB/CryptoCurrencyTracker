@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.NumberFormat;
-import java.util.Locale;
 
 import ru.lyubimov.cryptotracker.AssetFetcher;
 import ru.lyubimov.cryptotracker.R;
@@ -54,18 +53,11 @@ public final class ViewUtils {
 
     public static void setupCurCostView(Context context, TextView textView, String param) {
         if(param != null) {
-            Double numParam = Double.valueOf(param);
-            String format;
-            if(numParam > 0.01) {
-                format = "%.2f";
-            } else {
-                format = "%.4f";
-            }
-            String textToView = context.getString(R.string.price_usd, String.format(Locale.getDefault(), format, numParam), "$");
+            String textToView = context.getString(R.string.price_usd, param, "$");
             textView.setText(textToView);
             textView.setTextColor(ContextCompat.getColor(context, R.color.colorBlack));
         } else {
-            String text = context.getString(R.string.price_usd, "-", null);
+            String text = context.getString(R.string.price_usd, " - ", null);
             textView.setText(text);
         }
     }

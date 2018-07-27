@@ -2,7 +2,7 @@ package ru.lyubimov.cryptotracker.utils;
 
 import java.util.Comparator;
 
-import ru.lyubimov.cryptotracker.model.nine.CCurrency;
+import ru.lyubimov.cryptotracker.model.nine.CryptoCurrency;
 
 /**
  * Created by Alex on 23.01.2018.
@@ -12,10 +12,10 @@ public final class ComparatorUtils {
 
     private ComparatorUtils() {}
 
-    public static Comparator<CCurrency> compareByRank(){
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByRank(){
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sRangA = a.getRankingMarketCap();
                 String sRangB = b.getRankingMarketCap();
                 return Integer.compare(Integer.valueOf(sRangA), Integer.valueOf(sRangB));
@@ -23,10 +23,10 @@ public final class ComparatorUtils {
         };
     }
 
-    public static Comparator<CCurrency> compareByVolume() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByVolume() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sVolumeA = a.getRankingVolume();
                 String sVolumeB = b.getRankingVolume();
                 return Integer.compare(Integer.valueOf(sVolumeA), Integer.valueOf(sVolumeB));
@@ -34,10 +34,10 @@ public final class ComparatorUtils {
         };
     }
 
-    public static Comparator<CCurrency> compareByCost() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByCost() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sCostA = a.getPriceUsd();
                 String sCostB = b.getPriceUsd();
 
@@ -57,10 +57,10 @@ public final class ComparatorUtils {
         };
     }
 
-    public static Comparator<CCurrency> compareByHourRise() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByHourRise() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sHourChangeA = a.getPercentChange1h();
                 String sHourChangeB = b.getPercentChange1h();
 
@@ -79,10 +79,10 @@ public final class ComparatorUtils {
         };
     }
 
-    public static Comparator<CCurrency> compareByHourFallingDown() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByHourFallingDown() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sHourChangeA = a.getPercentChange1h();
                 String sHourChangeB = b.getPercentChange1h();
 
@@ -102,10 +102,10 @@ public final class ComparatorUtils {
     }
 
 
-    public static Comparator<CCurrency> compareByDayRise() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByDayRise() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sDayChangeA = a.getPercentChange24h();
                 String sDayChangeB = b.getPercentChange24h();
 
@@ -116,7 +116,7 @@ public final class ComparatorUtils {
                 } else if (sDayChangeA == null) {
                     return 0;
                 } else {
-                    sDayChangeA = sDayChangeB.replace(",", "");
+                    sDayChangeA = sDayChangeA.replace(",", "");
                     sDayChangeB = sDayChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sDayChangeB), Double.valueOf(sDayChangeA));
                 }
@@ -124,10 +124,10 @@ public final class ComparatorUtils {
         };
     }
 
-    public static Comparator<CCurrency> compareByDayFallingDown() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByDayFallingDown() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sDayChangeA = a.getPercentChange24h();
                 String sDayChangeB = b.getPercentChange24h();
 
@@ -138,7 +138,7 @@ public final class ComparatorUtils {
                 } else if (sDayChangeA == null) {
                     return 0;
                 } else {
-                    sDayChangeA = sDayChangeB.replace(",", "");
+                    sDayChangeA = sDayChangeA.replace(",", "");
                     sDayChangeB = sDayChangeB.replace(",", "");
                     return Double.compare(Double.valueOf(sDayChangeA), Double.valueOf(sDayChangeB));
                 }
@@ -146,10 +146,10 @@ public final class ComparatorUtils {
         };
     }
 
-    public static Comparator<CCurrency> compareByWeekRise() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByWeekRise() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sWeekChangeA = a.getPercentChange7d();
                 String sWeekChangeB = b.getPercentChange7d();
 
@@ -168,10 +168,10 @@ public final class ComparatorUtils {
         };
     }
 
-    public static Comparator<CCurrency> compareByWeekFallingDown() {
-        return new Comparator<CCurrency>() {
+    public static Comparator<CryptoCurrency> compareByWeekFallingDown() {
+        return new Comparator<CryptoCurrency>() {
             @Override
-            public int compare(CCurrency a, CCurrency b) {
+            public int compare(CryptoCurrency a, CryptoCurrency b) {
                 String sWeekChangeA = a.getPercentChange7d();
                 String sWeekChangeB = b.getPercentChange7d();
 

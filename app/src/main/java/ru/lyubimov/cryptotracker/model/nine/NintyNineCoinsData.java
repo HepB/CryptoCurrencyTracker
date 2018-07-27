@@ -9,12 +9,12 @@ public class NintyNineCoinsData {
 
     @Expose
     @SerializedName("result")
-    private List<CCurrency> result;
+    private List<CryptoCurrency> result;
     @Expose
     @SerializedName("status")
     private String status;
 
-    public List<CCurrency> getResult() {
+    public List<CryptoCurrency> getResult() {
         return result;
     }
 
